@@ -106,21 +106,17 @@ export default function Hero() {
       <AnimatedGradient className="-z-10 opacity-70" />
       <CourtLines className="absolute -right-[10%] top-1/2 -z-10 hidden h-auto w-[58%] -translate-y-1/2 text-fuchsia-vcm md:block" />
 
-      {/* Hero volleyball on the right — the loader ball hands off to this spot. */}
-      <motion.div
+      {/* Hero volleyball on the right — FIXED position (no float/spin) so the
+          loader ball can hand off to this exact spot, measured at runtime via
+          its id for a pixel-perfect landing. */}
+      <div
+        id="vcm-hero-ball"
         aria-hidden
         className="absolute right-[6%] top-[36%] -z-10 hidden w-[20vmin] max-w-[260px] lg:block"
         style={{ filter: "drop-shadow(0 24px 60px rgba(168,85,247,0.5))" }}
-        animate={reduce ? {} : { y: [0, -16, 0] }}
-        transition={reduce ? {} : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
-        <motion.div
-          animate={reduce ? {} : { rotate: 360 }}
-          transition={reduce ? {} : { duration: 26, repeat: Infinity, ease: "linear" }}
-        >
-          <Volleyball className="w-full" />
-        </motion.div>
-      </motion.div>
+        <Volleyball className="w-full" />
+      </div>
 
       {/* ── Layer 4: foreground content ─────────────────────────────────── */}
       <div className="relative z-10 mx-auto flex w-full max-w-[88rem] flex-1 flex-col justify-center px-5 pb-28 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pb-36">

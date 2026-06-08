@@ -1,29 +1,82 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Volleyball from "@/components/motion/Volleyball";
+
+type ExitTarget = { dx: number; dy: number; scale: number } | "fade" | null;
 
 export default function Loader() {
   const reduce = useReducedMotion();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [exitTarget, setExitTarget] = useState<ExitTarget>(null);
+  const ballRef = useRef<HTMLDivElement>(null);
 
-  // Show on EVERY load/reload (no session gate).
+  // Show on every load. After a hold, measure the hero ball and compute the
+  // exact landing transform so the loader ball flies onto it pixel-perfectly.
   useEffect(() => {
     setMounted(true);
     setVisible(true);
     document.body.style.overflow = "hidden";
 
-    const duration = reduce ? 300 : 2500;
-    const timer = setTimeout(() => setVisible(false), duration);
-    return () => clearTimeout(timer);
+    const HOLD = reduce ? 250 : 1900;
+    const t = setTimeout(() => {
+      if (reduce) {
+        setExitTarget("fade");
+        return;
+      }
+      const hero = document.getElementById("vcm-hero-ball");
+      const ball = ballRef.current;
+      if (hero && ball) {
+        const h = hero.getBoundingClientRect();
+        const b = ball.getBoundingClientRect();
+        if (h.width > 0 && b.width > 0) {
+          setExitTarget({
+            dx: h.left + h.width / 2 - (b.left + b.width / 2),
+            dy: h.top + h.height / 2 - (b.top + b.height / 2),
+            scale: h.width / b.width,
+          });
+          return;
+        }
+      }
+      setExitTarget("fade");
+    }, HOLD);
+
+    return () => clearTimeout(t);
   }, [reduce]);
+
+  // Once the exit target is known (committed in a render where the loader is
+  // still visible), trigger the unmount on the next frame so AnimatePresence
+  // reads the up-to-date exit prop.
+  useEffect(() => {
+    if (exitTarget !== null && visible) {
+      const id = requestAnimationFrame(() => setVisible(false));
+      return () => cancelAnimationFrame(id);
+    }
+  }, [exitTarget, visible]);
 
   useEffect(() => {
     if (!visible && mounted) document.body.style.overflow = "";
   }, [visible, mounted]);
 
   if (!mounted) return null;
+
+  const ballExit =
+    reduce || exitTarget === "fade" || exitTarget === null
+      ? { opacity: 0, scale: 0.6, transition: { duration: 0.4 } }
+      : {
+          // SMASH onto the hero ball: small wind-up, fast spike, full spin so
+          // the seams realign with the (static) hero ball. Lands exactly on it.
+          x: [0, -26, exitTarget.dx],
+          y: [0, 16, exitTarget.dy],
+          scale: [1, 1.12, exitTarget.scale],
+          rotate: [0, -18, 360],
+          transition: {
+            duration: 0.8,
+            times: [0, 0.2, 1],
+            ease: [0.5, 0, 0.18, 1] as [number, number, number, number],
+          },
+        };
 
   return (
     <AnimatePresence>
@@ -34,14 +87,10 @@ export default function Loader() {
           aria-label="Chargement Volley Club Marseillanais"
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
           initial={{ opacity: 1 }}
-          exit={
-            reduce
-              ? { opacity: 0, transition: { duration: 0.2 } }
-              : { transition: { duration: 0.95 } }
-          }
+          exit={reduce ? { opacity: 0, transition: { duration: 0.2 } } : { transition: { duration: 0.9 } }}
         >
-          {/* Dark backdrop (bg + glow + grain) — fades out EARLY so the home page
-              is already visible while the ball flies onto it: no visible cut. */}
+          {/* Dark backdrop — fades out EARLY so the home page is already visible
+              while the ball flies onto it: no visible cut. */}
           <motion.div
             aria-hidden
             className="absolute inset-0"
@@ -53,7 +102,6 @@ export default function Loader() {
                 : { opacity: 0, transition: { duration: 0.5, ease: "easeInOut" } }
             }
           >
-            {/* Ambient gradient glow */}
             <motion.div
               className="pointer-events-none absolute left-1/2 top-1/2 size-[130vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
               style={{
@@ -64,7 +112,6 @@ export default function Loader() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             />
-            {/* Noise grain */}
             <div
               className="pointer-events-none absolute inset-0 opacity-40"
               style={{
@@ -76,82 +123,42 @@ export default function Loader() {
             />
           </motion.div>
 
-          {/* Impact flash at the moment the ball settles */}
+          {/* Impact flash when the ball settles */}
           {!reduce && (
             <motion.div
               aria-hidden
               className="pointer-events-none absolute left-1/2 top-1/2 size-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
               style={{ background: "radial-gradient(circle, rgba(255,255,255,0.5), transparent 60%)" }}
               initial={{ opacity: 0, scale: 0.6 }}
-              animate={{ opacity: [0, 0, 0.8, 0], scale: [0.6, 0.6, 1.3, 1.6] }}
-              transition={{ duration: 1.3, times: [0, 0.46, 0.6, 1], ease: "easeOut" }}
+              animate={{ opacity: [0, 0, 0.7, 0], scale: [0.6, 0.6, 1.2, 1.5] }}
+              transition={{ duration: 1.1, times: [0, 0.5, 0.66, 1], ease: "easeOut" }}
             />
           )}
 
-          {/* ── The ball: enters full-screen then recedes (smash) to land at center ── */}
+          {/* The ball: smash-in, then fly onto the hero ball */}
           <motion.div
+            ref={ballRef}
             className="relative size-[46vmin] max-w-[460px]"
             style={{ filter: "drop-shadow(0 24px 60px rgba(168,85,247,0.5))" }}
-            initial={
-              reduce
-                ? { scale: 1, opacity: 1 }
-                : { scale: 3.4, opacity: 0, x: "8vw", y: "-6vh", rotate: -70 }
-            }
+            initial={reduce ? { scale: 1, opacity: 1 } : { scale: 3.4, opacity: 0, x: "8vw", y: "-6vh", rotate: -70 }}
             animate={
               reduce
                 ? { scale: 1, opacity: 1 }
-                : {
-                    scale: [3.4, 0.9, 1.06, 1],
-                    opacity: [0, 1, 1, 1],
-                    x: ["8vw", "0vw", "0vw", "0vw"],
-                    y: ["-6vh", "0vh", "0vh", "0vh"],
-                    rotate: [-70, 8, -3, 0],
-                  }
+                : { scale: [3.4, 0.92, 1.05, 1], opacity: [0, 1, 1, 1], x: ["8vw", "0vw", "0vw", "0vw"], y: ["-6vh", "0vh", "0vh", "0vh"], rotate: [-70, 6, -2, 0] }
             }
-            transition={
-              reduce
-                ? { duration: 0 }
-                : { duration: 1.5, times: [0, 0.5, 0.78, 1], ease: [0.22, 1, 0.36, 1] }
-            }
-            exit={
-              reduce
-                ? { opacity: 0, transition: { duration: 0.2 } }
-                : {
-                    // SMASH: tiny wind-up, then a fast spike to the hero ball
-                    // position on the right of the home page. The ball stays
-                    // fully opaque while flying (over the already-revealed page)
-                    // and only fades at the very end, landing on the hero ball.
-                    x: ["0vw", "-3vw", "34vw"],
-                    y: ["0vh", "3vh", "-4vh"],
-                    scale: [1, 1.14, 0.43],
-                    rotate: [0, -22, 64],
-                    opacity: 0,
-                    transition: {
-                      duration: 0.85,
-                      times: [0, 0.2, 1],
-                      ease: [0.5, 0, 0.18, 1],
-                      opacity: { delay: 0.72, duration: 0.16, ease: "easeIn" },
-                    },
-                  }
-            }
+            transition={reduce ? { duration: 0 } : { duration: 1.0, times: [0, 0.5, 0.8, 1], ease: [0.22, 1, 0.36, 1] }}
+            exit={ballExit}
           >
-            {/* gentle idle spin layered on top of the entrance */}
-            <motion.div
-              className="size-full"
-              animate={reduce ? {} : { rotate: 360 }}
-              transition={reduce ? {} : { duration: 6, ease: "linear", repeat: Infinity }}
-            >
-              <Volleyball className="size-full" />
-            </motion.div>
+            <Volleyball className="size-full" />
           </motion.div>
 
-          {/* ── Wordmark, appears as the ball settles ── */}
+          {/* Wordmark — shown promptly */}
           <motion.h1
             className="text-gradient mt-[5vmin] font-display text-[clamp(2.6rem,9vw,6rem)] leading-none tracking-[0.12em]"
-            initial={reduce ? {} : { opacity: 0, y: 22 }}
+            initial={reduce ? {} : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 14, transition: { duration: 0.25 } }}
-            transition={reduce ? {} : { duration: 0.55, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, transition: { duration: 0.22 } }}
+            transition={reduce ? {} : { duration: 0.45, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
           >
             VCM
           </motion.h1>
@@ -161,8 +168,8 @@ export default function Loader() {
             style={{ color: "rgba(236,228,255,0.5)" }}
             initial={reduce ? {} : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            transition={reduce ? {} : { duration: 0.55, delay: 1.45, ease: "easeOut" }}
+            exit={{ opacity: 0, transition: { duration: 0.18 } }}
+            transition={reduce ? {} : { duration: 0.45, delay: 0.8, ease: "easeOut" }}
           >
             Volley Club Marseillanais
           </motion.p>

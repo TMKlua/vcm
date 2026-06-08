@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Phone, Mail, Globe, Volleyball } from "lucide-react";
+import { MapPin, Phone, Mail, Globe } from "lucide-react";
+import BrandLogo from "./BrandLogo";
 import { navLinks } from "@/data/nav";
 import CourtLines from "@/components/motion/CourtLines";
 import { useContent } from "@/content/ContentContext";
@@ -60,10 +61,7 @@ export default function Footer() {
               aria-label={`${club.name} — accueil`}
               className="group inline-flex items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
             >
-              <span className="relative grid size-10 place-items-center overflow-hidden rounded-full bg-gradient-to-br from-violet-700 via-magenta to-fuchsia-vcm shadow-lg shadow-magenta/30">
-                <span aria-hidden className="absolute -right-2 -top-2 size-6 rounded-full bg-white/25 blur-md" />
-                <Volleyball className="relative size-5 text-white" aria-hidden />
-              </span>
+              <BrandLogo className="size-11" />
               <span className="font-display text-2xl uppercase leading-none tracking-tight text-white">
                 VCM
               </span>

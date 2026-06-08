@@ -2,6 +2,7 @@
 
 import { useAdminDraft } from "../useAdminDraft";
 import { Card, Field, SectionTitle, TextInput, TextArea } from "../ui";
+import ImageInput from "../ImageInput";
 
 /** Editor for `draft.club` — identity, address, contact, socials. */
 export default function ClubEditor() {
@@ -55,6 +56,18 @@ export default function ClubEditor() {
             onChange={(e) => update("club.schedule", e.target.value)}
           />
         </Field>
+      </Card>
+
+      <Card className="space-y-4">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-white/50">
+          Logo du club
+        </h3>
+        <ImageInput
+          label="Logo (apparaît dans la navbar, le pied de page et le menu mobile)"
+          value={club.logo ?? ""}
+          onChange={(val) => update("club.logo", val)}
+          help="PNG/JPEG/WebP. De préférence carré, fond transparent. Si vide, un badge dégradé est utilisé."
+        />
       </Card>
 
       <Card className="space-y-4">

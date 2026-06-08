@@ -6,6 +6,7 @@ export interface ClubInfo {
   address: { venue: string; street: string; city: string; postalCode: string };
   contact: { person: string; phone: string; email: string };
   schedule: string;
+  logo?: string;
   socials: { facebook?: string; instagram?: string; website?: string; clubeo?: string };
 }
 

@@ -10,10 +10,11 @@ import {
   useReducedMotion,
   useScroll,
 } from "framer-motion";
-import { ChevronDown, Menu, Volleyball } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { navLinks } from "@/data/nav";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
+import BrandLogo from "./BrandLogo";
 import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 import type { NavLink as NavLinkType } from "@/types";
@@ -33,10 +34,7 @@ function Logo({ onClick, clubName }: { onClick?: () => void; clubName: string })
       aria-label={`${clubName} — accueil`}
       className="group flex shrink-0 items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
     >
-      <span className="relative grid size-9 place-items-center overflow-hidden rounded-full bg-gradient-to-br from-violet-700 via-magenta to-fuchsia-vcm shadow-lg shadow-magenta/30 transition-transform duration-300 group-hover:scale-105">
-        <span aria-hidden className="absolute -right-2 -top-2 size-6 rounded-full bg-white/25 blur-md" />
-        <Volleyball className="relative size-5 text-white" aria-hidden />
-      </span>
+      <BrandLogo className="size-10 transition-transform duration-300 group-hover:scale-105" />
       <span className="font-display text-xl uppercase leading-none tracking-tight text-white">
         VCM
       </span>

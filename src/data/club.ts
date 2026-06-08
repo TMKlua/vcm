@@ -18,6 +18,7 @@ export const club: ClubInfo = {
     email: "volleymarseillan@gmail.com",
   },
   schedule: "Entraînements les lundis et mercredis",
+  logo: "/logo-vcm.png",
   socials: {
     facebook: "https://www.facebook.com/volleyclub.marseillanais/",
     instagram: "https://www.instagram.com/volleyclubmarseillanais/", // [À CONFIRMER]

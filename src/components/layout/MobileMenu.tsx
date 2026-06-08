@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { X, Globe, ArrowUpRight } from "lucide-react";
 import { navLinks } from "@/data/nav";
 import { useContent } from "@/content/ContentContext";
+import BrandLogo from "./BrandLogo";
 
 /** Inline Facebook glyph (lucide v1 dropped brand icons). */
 function FacebookGlyph({ className }: { className?: string }) {
@@ -107,8 +108,11 @@ export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
 
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 py-4">
-        <span className="font-display text-xl uppercase tracking-tight text-white">
-          {club.shortName}
+        <span className="flex items-center gap-2.5">
+          <BrandLogo className="size-9" />
+          <span className="font-display text-xl uppercase tracking-tight text-white">
+            {club.shortName}
+          </span>
         </span>
         <button
           type="button"

@@ -21,7 +21,7 @@ import { teams } from "@/data/teams";
 import { club } from "@/data/club";
 
 export const metadata: Metadata = {
-  title: "Sport Santé & Soft Volley — Volley Club Marseillanais",
+  title: "Sport Santé & Soft Volley",
   description:
     "Le programme Sport Santé et Soft Volley du VCM : une pratique ludique, conviviale et accessible à tous, particulièrement adaptée aux personnes non sportives, en reprise d'activité ou souhaitant prendre soin de leur santé dans un cadre bienveillant à Marseillan.",
 };

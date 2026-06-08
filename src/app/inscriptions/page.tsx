@@ -21,7 +21,7 @@ import { club } from "@/data/club";
 import { faq } from "@/data/faq";
 
 export const metadata: Metadata = {
-  title: "Inscriptions — Volley Club Marseillanais",
+  title: "Inscriptions",
   description:
     "Comment rejoindre le Volley Club Marseillanais : étapes d'inscription, documents nécessaires (certificat médical, licence FFVolley), tarifs et FAQ. Contactez-nous pour une séance d'essai gratuite à Marseillan.",
 };

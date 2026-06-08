@@ -8,7 +8,7 @@ import ContactForm from "@/components/sections/ContactForm";
 import { club } from "@/data/club";
 
 export const metadata: Metadata = {
-  title: "Contact — Volley Club Marseillanais",
+  title: "Contact",
   description:
     "Contactez le Volley Club Marseillanais à Marseillan (Hérault). Retrouvez nos coordonnées, l'adresse du Gymnase Louis Boudou, nos horaires d'entraînement et écrivez-nous directement depuis cette page.",
 };

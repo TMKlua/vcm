@@ -6,7 +6,7 @@ import Reveal from "@/components/motion/Reveal";
 import GalleryMasonry from "@/components/sections/GalleryMasonry";
 
 export const metadata: Metadata = {
-  title: "Galerie — Volley Club Marseillanais",
+  title: "Galerie",
   description:
     "Plongez dans la vie du Volley Club Marseillanais en images : matchs, entraînements, beach volley, jeunes et événements du club à Marseillan, au bord de l'étang de Thau.",
 };

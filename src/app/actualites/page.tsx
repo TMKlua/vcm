@@ -8,7 +8,7 @@ import { news } from "@/data/news";
 import { sortByDateDesc } from "@/lib/date";
 
 export const metadata: Metadata = {
-  title: "Actualités — Volley Club Marseillanais",
+  title: "Actualités",
   description:
     "Retrouvez toutes les dernières actualités du Volley Club Marseillanais : résultats, événements, vie du club, beach volley, sport santé et bien plus.",
 };

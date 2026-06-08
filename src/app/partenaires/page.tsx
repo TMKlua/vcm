@@ -23,7 +23,7 @@ import { club } from "@/data/club";
 // ── Metadata ──────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "Nos Partenaires — Volley Club Marseillanais",
+  title: "Nos Partenaires",
   description:
     "Découvrez les partenaires et sponsors qui soutiennent le Volley Club Marseillanais à Marseillan. Rejoignez notre communauté de partenaires engagés pour le sport, la jeunesse et les valeurs du volley-ball.",
 };

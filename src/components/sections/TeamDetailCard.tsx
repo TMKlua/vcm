@@ -16,6 +16,7 @@ import {
 import TiltCard from "@/components/ui/TiltCard";
 import Reveal from "@/components/motion/Reveal";
 import type { Team } from "@/types";
+import type { Player, TeamContent } from "@/content/types";
 
 const categoryIcon: Record<Team["category"], LucideIcon> = {
   baby: Baby,
@@ -38,8 +39,51 @@ const categoryLabel: Record<Team["category"], string> = {
 };
 
 interface TeamDetailCardProps {
-  team: Team;
+  team: TeamContent;
   index: number;
+}
+
+/** Initials for the avatar placeholder when a player has no photo. */
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+/** A single player card within the roster grid. */
+function PlayerCard({ player }: { player: Player }) {
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center transition-colors duration-300 hover:border-violet-500/40 hover:bg-violet-700/10">
+      <div className="relative">
+        {player.image ? (
+          // Plain <img>: srcs may be data URLs from the CMS; avoids next/image config.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={player.image}
+            alt={player.name}
+            className="size-16 rounded-full object-cover ring-2 ring-magenta/30"
+          />
+        ) : (
+          <span
+            aria-hidden
+            className="grid size-16 place-items-center rounded-full bg-gradient-to-br from-violet-700 to-magenta text-base font-semibold text-white ring-2 ring-magenta/30"
+          >
+            {initials(player.name)}
+          </span>
+        )}
+        {player.number && (
+          <span className="absolute -bottom-1 -right-1 grid size-6 place-items-center rounded-full bg-ink text-[0.7rem] font-bold text-fuchsia-vcm ring-1 ring-white/15">
+            {player.number}
+          </span>
+        )}
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-sm font-semibold text-white">{player.name}</p>
+        <p className="mt-0.5 truncate text-xs text-white/55">{player.role}</p>
+      </div>
+    </div>
+  );
 }
 
 export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
@@ -147,6 +191,22 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
               <span className="mt-1 block text-sm text-white/80">{team.schedule}</span>
             </div>
           </div>
+
+          {/* Roster / Effectif */}
+          {team.players && team.players.length > 0 && (
+            <div className="mt-7">
+              <h3 className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
+                Effectif
+              </h3>
+              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {team.players.map((player) => (
+                  <li key={player.id}>
+                    <PlayerCard player={player} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </article>
     </Reveal>

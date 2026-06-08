@@ -25,6 +25,14 @@ import { adminLogout } from "@/admin/AdminAuth";
 import { Button, Card, SectionTitle, Toast } from "@/admin/ui";
 import TextEditor from "@/admin/editors/TextEditor";
 import ClubEditor from "@/admin/editors/ClubEditor";
+import StatsEditor from "@/admin/editors/StatsEditor";
+import TeamsEditor from "@/admin/editors/TeamsEditor";
+import NewsEditor from "@/admin/editors/NewsEditor";
+import EventsEditor from "@/admin/editors/EventsEditor";
+import PartnersEditor from "@/admin/editors/PartnersEditor";
+import GalleryEditor from "@/admin/editors/GalleryEditor";
+import FaqEditor from "@/admin/editors/FaqEditor";
+import TimelineEditor from "@/admin/editors/TimelineEditor";
 import ImportExport from "@/admin/editors/ImportExport";
 
 /* ── Section registry ───────────────────────────────────────────────────── */
@@ -62,17 +70,6 @@ const SECTIONS: {
   { id: "io", label: "Import / Export", icon: Download },
 ];
 
-const TODO_SECTIONS = new Set<SectionId>([
-  "stats",
-  "teams",
-  "news",
-  "events",
-  "partners",
-  "gallery",
-  "faq",
-  "timeline",
-]);
-
 /* ── Page (wraps the dashboard in the draft provider) ───────────────────── */
 
 export default function AdminPage() {
@@ -101,11 +98,16 @@ function Dashboard() {
   }
 
   function handleSave() {
-    save();
-    pushToast("Modifications enregistrées.");
+    const ok = save();
+    if (ok) {
+      pushToast("Modifications enregistrées.");
+    } else {
+      pushToast(
+        "Trop d'images volumineuses pour le stockage local — exportez plutôt le contenu.",
+        "error",
+      );
+    }
   }
-
-  const active = SECTIONS.find((s) => s.id === section);
 
   return (
     <div className="flex min-h-screen">
@@ -236,10 +238,24 @@ function Dashboard() {
               <TextEditor />
             ) : section === "club" ? (
               <ClubEditor />
+            ) : section === "stats" ? (
+              <StatsEditor />
+            ) : section === "teams" ? (
+              <TeamsEditor />
+            ) : section === "news" ? (
+              <NewsEditor />
+            ) : section === "events" ? (
+              <EventsEditor />
+            ) : section === "partners" ? (
+              <PartnersEditor />
+            ) : section === "gallery" ? (
+              <GalleryEditor />
+            ) : section === "faq" ? (
+              <FaqEditor />
+            ) : section === "timeline" ? (
+              <TimelineEditor />
             ) : section === "io" ? (
               <ImportExport onToast={pushToast} />
-            ) : TODO_SECTIONS.has(section) ? (
-              <ComingSoon title={active?.label ?? ""} />
             ) : null}
           </div>
         </main>
@@ -282,18 +298,3 @@ function DashboardHome({ onNavigate }: { onNavigate: (id: SectionId) => void }) 
   );
 }
 
-function ComingSoon({ title }: { title: string }) {
-  return (
-    <div>
-      <SectionTitle title={title} />
-      <Card className="flex flex-col items-center justify-center gap-2 py-16 text-center">
-        <p className="font-display text-lg uppercase tracking-wide text-white/70">
-          À venir
-        </p>
-        <p className="max-w-sm text-sm text-white/50">
-          L&apos;éditeur de cette section sera disponible prochainement.
-        </p>
-      </Card>
-    </div>
-  );
-}

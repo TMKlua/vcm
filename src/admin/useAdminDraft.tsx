@@ -39,8 +39,8 @@ interface AdminDraftValue {
   ) => void;
   /** True when the draft differs from the last saved snapshot. */
   dirty: boolean;
-  /** Persist the draft (setOverrides) and mark clean. */
-  save: () => void;
+  /** Persist the draft (setOverrides) and mark clean. Returns true on success. */
+  save: () => boolean;
   /** Reset the draft back to the current live content. */
   discard: () => void;
   /** Wipe all overrides → factory defaults, and reset the draft to those. */
@@ -107,11 +107,18 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
     [],
   );
 
-  const save = useCallback(() => {
-    if (!draft) return;
-    setOverrides(draft);
+  const save = useCallback((): boolean => {
+    if (!draft) return false;
+    try {
+      setOverrides(draft);
+    } catch {
+      // Persistence failed (most likely localStorage quota exceeded due to
+      // large embedded images). Leave the draft dirty so nothing is lost.
+      return false;
+    }
     // Updating the snapshot recomputes `dirty` (now false).
     setSavedSnapshot(JSON.stringify(draft));
+    return true;
   }, [draft, setOverrides]);
 
   const discard = useCallback(() => {

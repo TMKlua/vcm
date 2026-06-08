@@ -79,6 +79,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       window.localStorage.setItem(CONTENT_STORAGE_KEY, JSON.stringify(next));
     } catch (err) {
       console.warn("[content] failed to persist overrides to localStorage", err);
+      // Surface quota/persistence failures to callers (e.g. the admin save flow)
+      // so they can warn the user — the in-memory state is still updated.
+      throw err;
     }
   }, []);
 

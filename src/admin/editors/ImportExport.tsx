@@ -72,8 +72,15 @@ export default function ImportExport({
           );
         }
         loadDraft(parsed);
-        save();
-        onToast("Contenu importé et enregistré.");
+        const ok = save();
+        if (ok) {
+          onToast("Contenu importé et enregistré.");
+        } else {
+          onToast(
+            "Importé, mais trop volumineux pour le stockage local — exportez plutôt le contenu.",
+            "error",
+          );
+        }
       } catch (err) {
         const msg =
           err instanceof Error ? err.message : "Fichier JSON invalide.";

@@ -223,3 +223,75 @@ Vérification TypeScript sans compilation (tsc --noEmit).
 - **Tél.** : 06 81 82 26 60
 - **Gymnase Louis Boudou**, Avenue de Florensac, 34340 Marseillan
 - **Facebook** : [Volley Club Marseillanais](https://www.facebook.com/volleyclub.marseillanais/)
+
+---
+
+## Administration (/admin)
+
+Le site embarque un mini-CMS **100 % côté client, sans base de données**. Il
+permet à l'équipe du club de modifier l'intégralité du contenu depuis le
+navigateur.
+
+### Accès
+
+- URL : **`/admin`** — page **cachée** (non listée dans la navigation) et en
+  **`noindex`** (jamais indexée par les moteurs de recherche).
+- Connexion par mot de passe. Mot de passe par défaut : **`vcm-admin-2026`**.
+- Pour le changer : éditer `ADMIN_PASSWORD` dans **`src/admin/config.ts`** puis
+  redéployer.
+- ⚠️ **Protection légère côté client** : le mot de passe est embarqué dans le
+  bundle JavaScript. Le but est uniquement de garder l'interface hors de portée
+  du public — ce **n'est pas** une sécurité forte. La session reste active dans
+  l'onglet courant (`sessionStorage`) jusqu'à la déconnexion ou la fermeture de
+  l'onglet.
+
+### Ce qu'on peut éditer
+
+- **Tous les textes** : page d'accueil (hero, intro, chiffres, aperçus, bandeaux,
+  contact rapide, pied de page) et toutes les pages internes (Histoire, Équipes,
+  Sport Santé, Inscriptions, Partenaires, Galerie, Actualités, Contact).
+- **Infos club** : identité, adresse, contact, réseaux sociaux.
+- **Chiffres clés** (statistiques de l'accueil).
+- **Équipes & joueurs** : chaque équipe + son effectif (photos, rôles, numéros).
+- **Actualités**, **événements**, **partenaires** (logos), **galerie**, **FAQ**,
+  **timeline** (historique).
+
+### Images
+
+- Formats acceptés : tout ce que le navigateur sait décoder (PNG, JPEG, WebP,
+  GIF, AVIF, BMP…).
+- Les images sont **redimensionnées automatiquement** (largeur max **1600 px**,
+  ré-encodées en **WebP**, repli JPEG/PNG) puis **stockées directement dans le
+  contenu** (data URL). Une alerte s'affiche si une image dépasse ~500 Ko.
+
+### Persistance des modifications
+
+- Les modifications sont enregistrées dans le **`localStorage` du navigateur**.
+- Elles sont **visibles immédiatement sur CE navigateur** et **synchronisées
+  entre les onglets ouverts** (événement `storage`).
+- Elles ne sont **pas** visibles par les autres visiteurs tant qu'elles n'ont
+  pas été publiées (voir ci-dessous).
+- ⚠️ Le `localStorage` est **limité en taille** (~5 Mo selon le navigateur).
+  Beaucoup d'images volumineuses peuvent saturer ce quota : dans ce cas
+  l'enregistrement échoue et il faut **privilégier l'export**.
+
+### Publier pour tout le monde
+
+Comme il n'y a pas de base de données, la publication globale se fait via un
+fichier JSON committé :
+
+1. Dans **Import / Export**, cliquer sur **« Exporter »** → un fichier
+   `vcm-contenu-AAAA-MM-JJ.json` est téléchargé.
+2. Remplacer le contenu de **`src/content/imported.json`** par celui de ce
+   fichier exporté.
+3. **Commit + redéploiement** du site.
+4. Tout le monde voit alors les changements.
+
+Ordre de priorité du contenu effectif :
+**`localStorage` (ce navigateur) > `src/content/imported.json` (committé, global)
+> valeurs par défaut**. Un `imported.json` vide (`{}`) ne change rien.
+
+### Réinitialiser
+
+Le bouton **« Réinitialiser »** (Import / Export) efface les modifications
+locales de ce navigateur et restaure le **contenu par défaut**.

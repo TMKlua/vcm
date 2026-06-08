@@ -10,11 +10,26 @@ import {
 } from "react";
 
 import { defaultContent } from "./defaults";
+import importedRaw from "./imported.json";
 import { deepMerge } from "./merge";
 import type { DeepPartial, SiteContent } from "./types";
 
 /** localStorage key for the persisted overrides layer. */
 export const CONTENT_STORAGE_KEY = "vcm_content_v1";
+
+/**
+ * Committed, global override layer. Edited in /admin then exported and pasted
+ * into `imported.json` + redeployed so ALL visitors see the changes (no DB).
+ *
+ * Precedence (highest first): localStorage (this browser) > imported.json
+ * (committed, global) > defaults. `imported.json` is available at build time on
+ * both the server and the client, so merging it into the very first render is
+ * safe and produces no hydration mismatch.
+ */
+const imported = importedRaw as DeepPartial<SiteContent>;
+
+/** Base content everyone sees by default = defaults + the committed import layer. */
+const baseContent: SiteContent = deepMerge(defaultContent, imported);
 
 interface ContentContextValue {
   /** Default content deep-merged with the current overrides. */
@@ -94,8 +109,11 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Effective content = defaults + imported.json + localStorage overrides.
+  // `baseContent` (defaults + imported) is the same on server + initial client
+  // render; localStorage `overrides` start empty and are applied after mount.
   const content = useMemo(
-    () => deepMerge(defaultContent, overrides),
+    () => deepMerge(baseContent, overrides),
     [overrides],
   );
 

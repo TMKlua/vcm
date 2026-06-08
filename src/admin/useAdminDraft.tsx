@@ -41,6 +41,13 @@ interface AdminDraftValue {
   dirty: boolean;
   /** Persist the draft (setOverrides) and mark clean. Returns true on success. */
   save: () => boolean;
+  /**
+   * Atomically replace the draft with `next` AND persist it (used by Import).
+   * Avoids the stale-closure trap of `loadDraft(obj)` + `save()`: this both sets
+   * the draft state and writes `next` straight to the content store in one go.
+   * Returns true on success, false if persistence failed (draft still updated).
+   */
+  saveObject: (next: SiteContent) => boolean;
   /** Reset the draft back to the current live content. */
   discard: () => void;
   /** Wipe all overrides → factory defaults, and reset the draft to those. */
@@ -121,6 +128,26 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
     return true;
   }, [draft, setOverrides]);
 
+  const saveObject = useCallback(
+    (next: SiteContent): boolean => {
+      const cloned = clone(next);
+      // Set the draft from the passed object (not via stale closure state).
+      setDraft(cloned);
+      const snapshot = JSON.stringify(cloned);
+      try {
+        setOverrides(cloned);
+      } catch {
+        // Persistence failed (e.g. localStorage quota). The draft is updated
+        // in memory but stays dirty so the user can export instead.
+        return false;
+      }
+      // Mark clean: the snapshot now matches the just-persisted draft.
+      setSavedSnapshot(snapshot);
+      return true;
+    },
+    [setOverrides],
+  );
+
   const discard = useCallback(() => {
     const fresh = clone(content);
     setDraft(fresh);
@@ -158,11 +185,12 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
       setSection,
       dirty,
       save,
+      saveObject,
       discard,
       resetAll,
       loadDraft,
     }),
-    [draft, update, setSection, dirty, save, discard, resetAll, loadDraft],
+    [draft, update, setSection, dirty, save, saveObject, discard, resetAll, loadDraft],
   );
 
   return (

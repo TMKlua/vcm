@@ -31,7 +31,7 @@ export default function ImportExport({
 }: {
   onToast: (message: string, type?: "success" | "error") => void;
 }) {
-  const { draft, save, loadDraft, resetAll } = useAdminDraft();
+  const { draft, saveObject, resetAll } = useAdminDraft();
   const fileRef = useRef<HTMLInputElement>(null);
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -71,8 +71,9 @@ export default function ImportExport({
             "Le fichier ne contient pas toutes les sections attendues.",
           );
         }
-        loadDraft(parsed);
-        const ok = save();
+        // Atomically load the imported object into the draft AND persist it,
+        // so we never save a stale closure copy of the previous draft.
+        const ok = saveObject(parsed);
         if (ok) {
           onToast("Contenu importé et enregistré.");
         } else {

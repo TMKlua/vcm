@@ -109,7 +109,7 @@ export default function Hero() {
       {/* Hero volleyball on the right — the loader ball hands off to this spot. */}
       <motion.div
         aria-hidden
-        className="absolute right-[5%] top-[12%] -z-10 hidden w-[26vmin] max-w-[320px] lg:block"
+        className="absolute right-[6%] top-[36%] -z-10 hidden w-[20vmin] max-w-[260px] lg:block"
         style={{ filter: "drop-shadow(0 24px 60px rgba(168,85,247,0.5))" }}
         animate={reduce ? {} : { y: [0, -16, 0] }}
         transition={reduce ? {} : { duration: 6, repeat: Infinity, ease: "easeInOut" }}

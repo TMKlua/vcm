@@ -109,9 +109,9 @@ export default function Loader() {
                 : {
                     // Fly to the upper-right, shrinking to the size of the hero
                     // ball so it visually "places itself" on the home page.
-                    x: "32vw",
-                    y: "-25vh",
-                    scale: 0.55,
+                    x: "34vw",
+                    y: "-4vh",
+                    scale: 0.43,
                     opacity: [1, 1, 0],
                     transition: { duration: 0.8, ease: [0.5, 0, 0.2, 1], times: [0, 0.75, 1] },
                   }

@@ -55,7 +55,7 @@ const steps = [
     icon: CreditCard,
     title: "Régler la cotisation",
     description:
-      "Les tarifs varient selon la catégorie et la saison. Contactez le club pour connaître les montants en vigueur. {/* [À CONFIRMER] */} Le règlement peut se faire en plusieurs fois selon les modalités du club.",
+      "Les tarifs varient selon la catégorie et la saison. Contactez le club pour connaître les montants en vigueur. Le règlement peut se faire en plusieurs fois selon les modalités du club.",
   },
 ];
 
@@ -63,12 +63,12 @@ const documents = [
   {
     icon: FileText,
     label: "Certificat médical de non contre-indication à la pratique du volley-ball",
-    note: "Ou questionnaire de santé selon votre catégorie {/* [À CONFIRMER] */}",
+    note: "Ou questionnaire de santé selon votre catégorie",
   },
   {
     icon: FileText,
     label: "Formulaire de demande de licence FFVolley",
-    note: "Disponible auprès du club ou sur ffvolley.org {/* [À CONFIRMER] */}",
+    note: "Disponible auprès du club ou sur ffvolley.org",
   },
   {
     icon: FileText,
@@ -78,7 +78,7 @@ const documents = [
   {
     icon: CreditCard,
     label: "Règlement de la cotisation",
-    note: "Tarifs à confirmer auprès du club pour la saison en cours {/* [À CONFIRMER] */}",
+    note: "Tarifs à confirmer auprès du club pour la saison en cours",
   },
   {
     icon: FileText,

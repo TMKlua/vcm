@@ -69,25 +69,25 @@ const contreparties = [
     icon: Eye,
     title: "Visibilité locale",
     description:
-      "Logo sur le site officiel du club, les réseaux sociaux et les supports de communication diffusés à Marseillan et autour de l'étang de Thau. {/* [À CONFIRMER] */}",
+      "Logo sur le site officiel du club, les réseaux sociaux et les supports de communication diffusés à Marseillan et autour de l'étang de Thau.",
   },
   {
     icon: Megaphone,
     title: "Présence événementielle",
     description:
-      "Mise en avant lors des tournois Beach Volley, des remises de prix et des événements communautaires organisés par le VCM. {/* [À CONFIRMER] */}",
+      "Mise en avant lors des tournois Beach Volley, des remises de prix et des événements communautaires organisés par le VCM.",
   },
   {
     icon: Users,
     title: "Audience qualifiée",
     description:
-      "Accès à une communauté de licenciés, familles et supporters — un public local, familial et engagé, fidèle à son club. {/* [À CONFIRMER] */}",
+      "Accès à une communauté de licenciés, familles et supporters — un public local, familial et engagé, fidèle à son club.",
   },
   {
     icon: Award,
     title: "Logo sur les équipements",
     description:
-      "Association de votre marque aux maillots et équipements du club, visibles lors de tous les matchs et entraînements. {/* [À CONFIRMER] */}",
+      "Association de votre marque aux maillots et équipements du club, visibles lors de tous les matchs et entraînements.",
   },
   {
     icon: MapPin,
@@ -99,7 +99,7 @@ const contreparties = [
     icon: HeartHandshake,
     title: "Partenariat sur-mesure",
     description:
-      "Formules adaptées à votre budget et à vos objectifs. Contactez-nous pour construire ensemble un partenariat qui vous ressemble. {/* [À CONFIRMER] */}",
+      "Formules adaptées à votre budget et à vos objectifs. Contactez-nous pour construire ensemble un partenariat qui vous ressemble.",
   },
 ];
 

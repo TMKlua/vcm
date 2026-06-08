@@ -219,7 +219,7 @@ export default function HistoirePage() {
             <Reveal delay={0.18}>
               <div className="mt-6 space-y-5 text-[0.95rem] leading-relaxed text-white/70">
                 <p>
-                  Après plus de vingt-cinq ans d&apos;existence, le{" "}
+                  Depuis près de trente ans, le{" "}
                   <strong className="text-white/80">Volley Club Marseillanais</strong> aborde
                   une nouvelle ère avec ambition et sérénité. La refonte de son identité
                   digitale et le renforcement de toutes ses sections témoignent d&apos;un club

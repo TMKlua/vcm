@@ -51,7 +51,6 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
     <Reveal delay={0.05}>
       <article
         id={team.slug}
-        scroll-mt-32=""
         className={[
           "scroll-mt-32 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16",
           "items-center",

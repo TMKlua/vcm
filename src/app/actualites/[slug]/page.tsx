@@ -9,6 +9,7 @@ import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import NewsCard from "@/components/ui/NewsCard";
 import { news } from "@/data/news";
 import { formatFrDate, sortByDateDesc } from "@/lib/date";
+import { SITE_URL } from "@/lib/seo";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Static params — prerenders all 5 article slugs at build time
@@ -78,8 +79,26 @@ export default async function ArticlePage({
     .filter((n) => n.slug !== slug)
     .slice(0, 2);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: article.title,
+    datePublished: article.date,
+    image: [`${SITE_URL}${article.image}`],
+    articleSection: article.category,
+    author: article.author
+      ? { "@type": "Person", name: article.author }
+      : { "@type": "Organization", name: "Volley Club Marseillanais" },
+    publisher: { "@type": "Organization", name: "Volley Club Marseillanais" },
+    description: article.excerpt,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* ── Article header ─────────────────────────────────────────────── */}
       <header
         className="relative isolate overflow-hidden bg-ink pt-32 pb-16 sm:pt-40 sm:pb-20"

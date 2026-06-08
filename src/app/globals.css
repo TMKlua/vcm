@@ -15,7 +15,7 @@
 }
 
 :root { color-scheme: dark; }
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; scroll-padding-top: 6rem; }
 body {
   background: var(--color-ink);
   color: #ece4ff;

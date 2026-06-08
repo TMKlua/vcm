@@ -216,7 +216,6 @@ export default function InscriptionsPage() {
             <Reveal delay={0.22}>
               <ul className="space-y-4">
                 {documents.map((doc, i) => {
-                  const Icon = doc.icon;
                   return (
                     <li
                       key={i}

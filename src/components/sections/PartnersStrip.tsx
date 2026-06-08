@@ -106,7 +106,7 @@ export default function PartnersStrip() {
               <div key={tier}>
                 {/* Tier label */}
                 <Reveal delay={0.05}>
-                  <p className="mb-6 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/30">
+                  <p className="mb-6 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/55">
                     {TIER_LABELS[tier]}
                   </p>
                 </Reveal>
@@ -139,7 +139,7 @@ export default function PartnersStrip() {
                             group relative flex items-center justify-center
                             rounded-xl border border-white/8 bg-white/4
                             px-6 py-4 transition-all duration-400
-                            grayscale opacity-50
+                            grayscale opacity-70
                             hover:grayscale-0 hover:opacity-100 hover:border-white/15 hover:bg-white/8
                             focus-within:grayscale-0 focus-within:opacity-100
                           "

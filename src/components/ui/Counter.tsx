@@ -18,5 +18,10 @@ export default function Counter({ to, suffix = "", duration = 1600 }: { to: numb
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [inView, to, duration]);
-  return <span ref={ref}>{val}{suffix}</span>;
+  return (
+    <>
+      <span ref={ref} aria-hidden="true">{val}{suffix}</span>
+      <span className="sr-only">{to}{suffix}</span>
+    </>
+  );
 }

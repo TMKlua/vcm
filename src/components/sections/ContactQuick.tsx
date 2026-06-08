@@ -235,10 +235,10 @@ export default function ContactQuick() {
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8 text-center">
                 <span className="font-display text-4xl text-white/10 select-none">VCM</span>
                 <div className="h-px w-20 bg-gradient-to-r from-transparent via-fuchsia-vcm/40 to-transparent" aria-hidden />
-                <p className="text-sm font-medium text-white/50">
+                <p className="text-sm font-medium text-white/65">
                   Gymnase Louis Boudou
                 </p>
-                <p className="text-xs text-white/35">
+                <p className="text-xs text-white/60">
                   {club.address.postalCode} Marseillan · Hérault
                 </p>
                 <div className="mt-4 h-px w-20 bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" aria-hidden />

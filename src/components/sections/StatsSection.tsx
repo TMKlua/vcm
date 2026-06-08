@@ -61,7 +61,6 @@ export default function StatsSection() {
                 {/* The big animated number */}
                 <div
                   className="font-display text-gradient text-[clamp(3rem,7vw,5.5rem)] leading-none tracking-tight [-webkit-text-fill-color:transparent]"
-                  aria-label={`${stat.value}${stat.suffix ?? ""}`}
                 >
                   <Counter
                     to={stat.value}
@@ -71,7 +70,7 @@ export default function StatsSection() {
                 </div>
 
                 {/* Label */}
-                <p className="max-w-[10rem] text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/50 transition-colors duration-300 group-hover:text-white/75">
+                <p className="max-w-[10rem] text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-white/70 transition-colors duration-300 group-hover:text-white/75">
                   {stat.label}
                 </p>
 

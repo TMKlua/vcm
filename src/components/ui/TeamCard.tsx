@@ -62,15 +62,12 @@ export default function TeamCard({ team, className }: TeamCardProps) {
         )}
 
         {/* Hover: ArrowUpRight affordance badge */}
-        <motion.span
+        <span
           aria-hidden
-          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-violet-700 to-fuchsia-vcm shadow-lg shadow-magenta/40"
-          initial={{ opacity: 0, scale: 0.7, rotate: -15 }}
-          whileHover={{ opacity: 1, scale: 1, rotate: 0 }}
-          // Controlled via group hover via CSS, use initial/animate trick below
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-violet-700 to-fuchsia-vcm shadow-lg shadow-magenta/40 opacity-0 scale-75 -rotate-12 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-0"
         >
           <ArrowUpRight className="size-4 text-white" />
-        </motion.span>
+        </span>
       </div>
 
       {/* Card body */}
@@ -90,14 +87,11 @@ export default function TeamCard({ team, className }: TeamCardProps) {
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-violet-500 transition-colors duration-300 group-hover:text-fuchsia-vcm">
             Découvrir
           </span>
-          <motion.span
-            className="text-violet-500 transition-colors duration-300 group-hover:text-fuchsia-vcm"
-            initial={{ x: 0, y: 0 }}
-            whileHover={{ x: 2, y: -2 }}
-            transition={{ duration: 0.25 }}
+          <span
+            className="text-violet-500 transition-all duration-300 group-hover:text-fuchsia-vcm group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
           >
             <ArrowUpRight className="size-3.5" aria-hidden />
-          </motion.span>
+          </span>
         </div>
       </div>
 

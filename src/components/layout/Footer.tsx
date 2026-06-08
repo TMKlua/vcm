@@ -61,7 +61,7 @@ export default function Footer() {
               aria-label={`${club.name} — accueil`}
               className="group inline-flex items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
             >
-              <BrandLogo className="size-11" />
+              <BrandLogo className="size-14" />
               <span className="font-display text-2xl uppercase leading-none tracking-tight text-white">
                 VCM
               </span>

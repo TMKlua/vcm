@@ -87,7 +87,7 @@ export default function Loader() {
           exit={
             reduce
               ? { opacity: 0, transition: { duration: 0.2 } }
-              : { opacity: 0, scale: 1.04, transition: { duration: 0.6, ease: [0.65, 0, 0.35, 1] } }
+              : { opacity: 0, transition: { duration: 0.55, delay: 0.35, ease: [0.65, 0, 0.35, 1] } }
           }
         >
           {/* Ambient gradient glow */}
@@ -152,6 +152,16 @@ export default function Loader() {
                 ? { duration: 0 }
                 : { duration: 1.5, times: [0, 0.5, 0.78, 1], ease: [0.22, 1, 0.36, 1] }
             }
+            exit={
+              reduce
+                ? { opacity: 0, transition: { duration: 0.2 } }
+                : {
+                    scale: 0.12,
+                    y: "-14vh",
+                    opacity: 0,
+                    transition: { duration: 0.65, ease: [0.5, 0, 0.75, 0] },
+                  }
+            }
           >
             {/* gentle idle spin layered on top of the entrance */}
             <motion.div
@@ -168,6 +178,7 @@ export default function Loader() {
             className="text-gradient mt-[5vmin] font-display text-[clamp(2.6rem,9vw,6rem)] leading-none tracking-[0.12em]"
             initial={reduce ? {} : { opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 14, transition: { duration: 0.35 } }}
             transition={reduce ? {} : { duration: 0.55, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
           >
             VCM
@@ -178,6 +189,7 @@ export default function Loader() {
             style={{ color: "rgba(236,228,255,0.5)" }}
             initial={reduce ? {} : { opacity: 0 }}
             animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.3 } }}
             transition={reduce ? {} : { duration: 0.55, delay: 1.45, ease: "easeOut" }}
           >
             Volley Club Marseillanais

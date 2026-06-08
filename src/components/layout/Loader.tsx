@@ -33,26 +33,48 @@ export default function Loader() {
           role="status"
           aria-label="Chargement Volley Club Marseillanais"
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
-          style={{ background: "#0a0418" }}
           initial={{ opacity: 1 }}
           exit={
             reduce
               ? { opacity: 0, transition: { duration: 0.2 } }
-              : { opacity: 0, transition: { duration: 0.55, delay: 0.35, ease: [0.65, 0, 0.35, 1] } }
+              : { transition: { duration: 0.95 } }
           }
         >
-          {/* Ambient gradient glow */}
+          {/* Dark backdrop (bg + glow + grain) — fades out EARLY so the home page
+              is already visible while the ball flies onto it: no visible cut. */}
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 size-[130vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(168,85,247,0.22) 0%, rgba(192,38,211,0.12) 42%, transparent 70%)",
-            }}
-            initial={reduce ? {} : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
+            className="absolute inset-0"
+            style={{ background: "#0a0418" }}
+            initial={{ opacity: 1 }}
+            exit={
+              reduce
+                ? { opacity: 0, transition: { duration: 0.2 } }
+                : { opacity: 0, transition: { duration: 0.5, ease: "easeInOut" } }
+            }
+          >
+            {/* Ambient gradient glow */}
+            <motion.div
+              className="pointer-events-none absolute left-1/2 top-1/2 size-[130vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(168,85,247,0.22) 0%, rgba(192,38,211,0.12) 42%, transparent 70%)",
+              }}
+              initial={reduce ? {} : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            />
+            {/* Noise grain */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-40"
+              style={{
+                backgroundImage:
+                  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
+                backgroundRepeat: "repeat",
+                backgroundSize: "128px",
+              }}
+            />
+          </motion.div>
 
           {/* Impact flash at the moment the ball settles */}
           {!reduce && (
@@ -65,18 +87,6 @@ export default function Loader() {
               transition={{ duration: 1.3, times: [0, 0.46, 0.6, 1], ease: "easeOut" }}
             />
           )}
-
-          {/* Noise grain */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-40"
-            style={{
-              backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
-              backgroundRepeat: "repeat",
-              backgroundSize: "128px",
-            }}
-          />
 
           {/* ── The ball: enters full-screen then recedes (smash) to land at center ── */}
           <motion.div
@@ -107,13 +117,21 @@ export default function Loader() {
               reduce
                 ? { opacity: 0, transition: { duration: 0.2 } }
                 : {
-                    // Fly to the upper-right, shrinking to the size of the hero
-                    // ball so it visually "places itself" on the home page.
-                    x: "34vw",
-                    y: "-4vh",
-                    scale: 0.43,
-                    opacity: [1, 1, 0],
-                    transition: { duration: 0.8, ease: [0.5, 0, 0.2, 1], times: [0, 0.75, 1] },
+                    // SMASH: tiny wind-up, then a fast spike to the hero ball
+                    // position on the right of the home page. The ball stays
+                    // fully opaque while flying (over the already-revealed page)
+                    // and only fades at the very end, landing on the hero ball.
+                    x: ["0vw", "-3vw", "34vw"],
+                    y: ["0vh", "3vh", "-4vh"],
+                    scale: [1, 1.14, 0.43],
+                    rotate: [0, -22, 64],
+                    opacity: 0,
+                    transition: {
+                      duration: 0.85,
+                      times: [0, 0.2, 1],
+                      ease: [0.5, 0, 0.18, 1],
+                      opacity: { delay: 0.72, duration: 0.16, ease: "easeIn" },
+                    },
                   }
             }
           >
@@ -132,7 +150,7 @@ export default function Loader() {
             className="text-gradient mt-[5vmin] font-display text-[clamp(2.6rem,9vw,6rem)] leading-none tracking-[0.12em]"
             initial={reduce ? {} : { opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 14, transition: { duration: 0.35 } }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 14, transition: { duration: 0.25 } }}
             transition={reduce ? {} : { duration: 0.55, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
           >
             VCM
@@ -143,7 +161,7 @@ export default function Loader() {
             style={{ color: "rgba(236,228,255,0.5)" }}
             initial={reduce ? {} : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.3 } }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
             transition={reduce ? {} : { duration: 0.55, delay: 1.45, ease: "easeOut" }}
           >
             Volley Club Marseillanais

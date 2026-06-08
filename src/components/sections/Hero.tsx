@@ -7,8 +7,8 @@ import { ArrowRight, ChevronDown, MapPin, Sparkles } from "lucide-react";
 
 import TextReveal from "@/components/motion/TextReveal";
 import AnimatedGradient from "@/components/motion/AnimatedGradient";
-import BallTrajectory from "@/components/motion/BallTrajectory";
 import CourtLines from "@/components/motion/CourtLines";
+import Volleyball from "@/components/motion/Volleyball";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
 
@@ -105,7 +105,22 @@ export default function Hero() {
       {/* ── Layer 3: decorative motion ──────────────────────────────────── */}
       <AnimatedGradient className="-z-10 opacity-70" />
       <CourtLines className="absolute -right-[10%] top-1/2 -z-10 hidden h-auto w-[58%] -translate-y-1/2 text-fuchsia-vcm md:block" />
-      <BallTrajectory className="absolute right-[6%] top-[16%] -z-10 hidden h-auto w-[34%] max-w-[520px] lg:block" />
+
+      {/* Hero volleyball on the right — the loader ball hands off to this spot. */}
+      <motion.div
+        aria-hidden
+        className="absolute right-[5%] top-[12%] -z-10 hidden w-[26vmin] max-w-[320px] lg:block"
+        style={{ filter: "drop-shadow(0 24px 60px rgba(168,85,247,0.5))" }}
+        animate={reduce ? {} : { y: [0, -16, 0] }}
+        transition={reduce ? {} : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <motion.div
+          animate={reduce ? {} : { rotate: 360 }}
+          transition={reduce ? {} : { duration: 26, repeat: Infinity, ease: "linear" }}
+        >
+          <Volleyball className="w-full" />
+        </motion.div>
+      </motion.div>
 
       {/* ── Layer 4: foreground content ─────────────────────────────────── */}
       <div className="relative z-10 mx-auto flex w-full max-w-[88rem] flex-1 flex-col justify-center px-5 pb-28 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pb-36">

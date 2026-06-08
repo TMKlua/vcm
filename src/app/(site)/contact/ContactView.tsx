@@ -5,6 +5,7 @@ import PageHero from "@/components/layout/PageHero";
 import Section from "@/components/layout/Section";
 import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
+import CourtLines from "@/components/motion/CourtLines";
 import ContactForm from "@/components/sections/ContactForm";
 import { useContent } from "@/content/ContentContext";
 
@@ -83,7 +84,10 @@ export default function ContactView() {
       />
 
       {/* ── Main section: info + form ─────────────────────────────────────── */}
-      <Section tone="dark" id="contact">
+      <Section tone="dark" id="contact" className="relative isolate overflow-hidden">
+        {/* Faint court-lines blueprint — right side, clipped by the section */}
+        <CourtLines className="pointer-events-none absolute -right-[8%] top-1/2 -z-10 hidden w-[44%] -translate-y-1/2 text-violet-500 opacity-50 lg:block" />
+
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20 lg:items-start">
 
           {/* ── LEFT: contact info card ──────────────────────────────────── */}

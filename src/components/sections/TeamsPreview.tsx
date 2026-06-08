@@ -5,6 +5,8 @@ import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import TextReveal from "@/components/motion/TextReveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
+import CourtLines from "@/components/motion/CourtLines";
+import ScrollBall from "@/components/motion/ScrollBall";
 import MagneticButton from "@/components/ui/MagneticButton";
 import TeamCard from "@/components/ui/TeamCard";
 import { useContent } from "@/content/ContentContext";
@@ -34,6 +36,12 @@ export default function TeamsPreview() {
             "radial-gradient(circle, rgba(124,58,237,0.8) 0%, transparent 65%)",
         }}
       />
+
+      {/* Faint court-lines blueprint — right side */}
+      <CourtLines className="pointer-events-none absolute -right-[6%] top-1/2 -z-10 hidden w-[40%] -translate-y-1/2 text-violet-500 opacity-50 lg:block" />
+
+      {/* Scroll-driven volleyball — lower-left margin */}
+      <ScrollBall className="absolute -left-8 bottom-16 -z-10 hidden h-24 w-24 opacity-[0.15] lg:block" from={360} to={0} />
 
       <div className="relative z-10 mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
 

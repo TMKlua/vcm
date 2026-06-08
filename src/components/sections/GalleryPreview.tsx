@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 import Reveal from "@/components/motion/Reveal";
 import TextReveal from "@/components/motion/TextReveal";
+import ParallaxImage from "@/components/motion/ParallaxImage";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
 
@@ -165,20 +166,32 @@ export default function GalleryPreview() {
             >
               {/* Inner wrapper gives the aspect ratio */}
               <div className={["relative w-full overflow-hidden", ASPECT_CLASSES[idx]].join(" ")}>
-                {/* Image */}
-                <motion.div
-                  className="absolute inset-0"
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.6, ease: [0.25, 0, 0, 1] }}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    className="object-cover object-center"
-                  />
-                </motion.div>
+                {/* Image — the featured tile (idx 0) gets a subtle scroll parallax */}
+                {idx === 0 ? (
+                  <ParallaxImage className="absolute inset-0" amount={26}>
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover object-center"
+                    />
+                  </ParallaxImage>
+                ) : (
+                  <motion.div
+                    className="absolute inset-0"
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.6, ease: [0.25, 0, 0, 1] }}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover object-center"
+                    />
+                  </motion.div>
+                )}
 
                 {/* Violet overlay on hover — shows category */}
                 <motion.div

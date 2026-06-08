@@ -203,9 +203,6 @@ export default function Footer() {
             >
               Mentions légales
             </Link>
-            <span className="text-white/60">
-              Conçu avec passion au bord de l&rsquo;étang de Thau.
-            </span>
           </div>
         </div>
       </div>

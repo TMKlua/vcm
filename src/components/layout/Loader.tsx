@@ -79,7 +79,15 @@ export default function Loader() {
         };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence
+      onExitComplete={() => {
+        try {
+          window.dispatchEvent(new Event("vcm:loader-landed"));
+        } catch {
+          /* no-op */
+        }
+      }}
+    >
       {visible && (
         <motion.div
           key="vcm-loader"
@@ -155,10 +163,9 @@ export default function Loader() {
           {/* Wordmark — shown promptly */}
           <motion.h1
             className="text-gradient mt-[5vmin] font-display text-[clamp(2.6rem,9vw,6rem)] leading-none tracking-[0.12em]"
-            initial={reduce ? {} : { opacity: 0, y: 18 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, transition: { duration: 0.22 } }}
-            transition={reduce ? {} : { duration: 0.45, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
           >
             VCM
           </motion.h1>
@@ -166,10 +173,9 @@ export default function Loader() {
           <motion.p
             className="mt-2 font-sans text-[0.7rem] uppercase tracking-[0.3em]"
             style={{ color: "rgba(236,228,255,0.5)" }}
-            initial={reduce ? {} : { opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.18 } }}
-            transition={reduce ? {} : { duration: 0.45, delay: 0.8, ease: "easeOut" }}
           >
             Volley Club Marseillanais
           </motion.p>

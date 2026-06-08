@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ChevronDown, MapPin, Sparkles } from "lucide-react";
@@ -33,6 +33,20 @@ export default function Hero() {
   const { club, text } = content;
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+
+  // The hero ball stays invisible (but measurable) until the loader's ball has
+  // flown onto it — so there's never two balls on screen at once.
+  const [ballRevealed, setBallRevealed] = useState(false);
+  useEffect(() => {
+    const reveal = () => setBallRevealed(true);
+    window.addEventListener("vcm:loader-landed", reveal);
+    // Safety: if the loader event is missed, reveal anyway.
+    const fb = setTimeout(reveal, 4500);
+    return () => {
+      window.removeEventListener("vcm:loader-landed", reveal);
+      clearTimeout(fb);
+    };
+  }, []);
 
   // Scroll-linked parallax for the background image.
   const { scrollYProgress } = useScroll({
@@ -113,7 +127,10 @@ export default function Hero() {
         id="vcm-hero-ball"
         aria-hidden
         className="absolute right-[6%] top-[36%] -z-10 hidden w-[20vmin] max-w-[260px] lg:block"
-        style={{ filter: "drop-shadow(0 24px 60px rgba(168,85,247,0.5))" }}
+        style={{
+          filter: "drop-shadow(0 24px 60px rgba(168,85,247,0.5))",
+          visibility: ballRevealed ? "visible" : "hidden",
+        }}
       >
         <Volleyball className="w-full" />
       </div>

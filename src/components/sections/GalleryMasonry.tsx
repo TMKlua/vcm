@@ -3,23 +3,28 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { gallery } from "@/data/gallery";
+import { gallery as defaultGallery } from "@/data/gallery";
 import { fadeUp, staggerParent } from "@/lib/motion";
 import Lightbox from "@/components/ui/Lightbox";
+import type { GalleryImage } from "@/types";
 
 const ALL = "Tout";
 
-export default function GalleryMasonry() {
+interface GalleryMasonryProps {
+  images?: GalleryImage[];
+}
+
+export default function GalleryMasonry({ images = defaultGallery }: GalleryMasonryProps) {
   const reduce = useReducedMotion();
 
   // Unique categories, in order of first appearance.
   const categories = useMemo(() => {
     const seen: string[] = [];
-    for (const img of gallery) {
+    for (const img of images) {
       if (!seen.includes(img.category)) seen.push(img.category);
     }
     return [ALL, ...seen];
-  }, []);
+  }, [images]);
 
   const [activeFilter, setActiveFilter] = useState<string>(ALL);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -29,9 +34,9 @@ export default function GalleryMasonry() {
   const filtered = useMemo(
     () =>
       activeFilter === ALL
-        ? gallery
-        : gallery.filter((img) => img.category === activeFilter),
-    [activeFilter],
+        ? images
+        : images.filter((img) => img.category === activeFilter),
+    [activeFilter, images],
   );
 
   const handleFilter = (cat: string) => {

@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
-import { timeline } from "@/data/timeline";
+import { timeline as defaultTimeline } from "@/data/timeline";
 import type { TimelineEntry } from "@/types";
 
 // ─── Individual entry card ────────────────────────────────────────────────────
@@ -118,7 +118,11 @@ function CardContent({ entry, align }: CardContentProps) {
 
 // ─── Main Timeline component ──────────────────────────────────────────────────
 
-export default function Timeline() {
+interface TimelineProps {
+  entries?: TimelineEntry[];
+}
+
+export default function Timeline({ entries = defaultTimeline }: TimelineProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -272,7 +276,7 @@ export default function Timeline() {
 
       {/* ── Entries ─────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-14 sm:gap-20" role="presentation">
-        {timeline.map((entry, i) => (
+        {entries.map((entry, i) => (
           <div key={entry.year} role="listitem">
             <EntryCard entry={entry} index={i} isRight={i % 2 !== 0} />
           </div>

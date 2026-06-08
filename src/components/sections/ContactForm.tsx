@@ -3,11 +3,12 @@
 import { useRef, useState } from "react";
 import { CheckCircle, Send } from "lucide-react";
 import { validateContact, buildMailto, type ContactValues, type ContactErrors } from "@/lib/validation";
-import { club } from "@/data/club";
+import { useContent } from "@/content/ContentContext";
 
 const INITIAL_VALUES: ContactValues = { name: "", email: "", message: "" };
 
 export default function ContactForm() {
+  const { content } = useContent();
   const [values, setValues] = useState<ContactValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -37,7 +38,7 @@ export default function ContactForm() {
       return;
     }
     // Valid — open mail client
-    window.location.href = buildMailto(club.contact.email, values);
+    window.location.href = buildMailto(content.club.contact.email, values);
     setSubmitted(true);
   }
 

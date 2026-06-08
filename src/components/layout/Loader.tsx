@@ -146,7 +146,7 @@ export default function Loader() {
           {/* The ball: smash-in, then fly onto the hero ball */}
           <motion.div
             ref={ballRef}
-            className="relative size-[46vmin] max-w-[460px]"
+            className="relative z-10 size-[46vmin] max-w-[460px]"
             style={{ filter: "drop-shadow(0 24px 60px rgba(168,85,247,0.5))" }}
             initial={reduce ? { scale: 1, opacity: 1 } : { scale: 3.4, opacity: 0, x: "8vw", y: "-6vh", rotate: -70 }}
             animate={
@@ -162,7 +162,8 @@ export default function Loader() {
 
           {/* Wordmark — shown promptly */}
           <motion.h1
-            className="text-gradient mt-[5vmin] font-display text-[clamp(2.6rem,9vw,6rem)] leading-none tracking-[0.12em]"
+            className="text-gradient relative z-30 mt-[5vmin] font-display text-[clamp(2.6rem,9vw,6rem)] leading-none tracking-[0.12em]"
+            style={{ filter: "drop-shadow(0 4px 24px rgba(10,4,24,0.55))" }}
             initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, transition: { duration: 0.22 } }}
@@ -171,8 +172,8 @@ export default function Loader() {
           </motion.h1>
 
           <motion.p
-            className="mt-2 font-sans text-[0.7rem] uppercase tracking-[0.3em]"
-            style={{ color: "rgba(236,228,255,0.5)" }}
+            className="relative z-30 mt-2 font-sans text-[0.72rem] font-medium uppercase tracking-[0.3em] text-white"
+            style={{ textShadow: "0 2px 16px rgba(10,4,24,0.7)" }}
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.18 } }}

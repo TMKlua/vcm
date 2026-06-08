@@ -16,6 +16,17 @@ function FacebookGlyph({ className }: { className?: string }) {
   );
 }
 
+/** Inline Instagram glyph (lucide v1 dropped brand icons). */
+function InstagramGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden className={className}>
+      <rect x="2" y="2" width="20" height="20" rx="5.5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 type MobileMenuProps = {
   onClose: () => void;
   isActive: (href: string) => boolean;
@@ -193,6 +204,17 @@ export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
               className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white/80 outline-none transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
             >
               <FacebookGlyph className="size-5" />
+            </a>
+          )}
+          {club.socials.instagram && (
+            <a
+              href={club.socials.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram du VCM"
+              className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white/80 outline-none transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
+            >
+              <InstagramGlyph className="size-5" />
             </a>
           )}
           {club.socials.website && (

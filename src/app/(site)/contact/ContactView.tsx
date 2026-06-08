@@ -18,6 +18,18 @@ function toTelHref(phone: string): string {
   return digits;
 }
 
+// ── Instagram SVG icon (lucide has no Instagram) ──────────────────────────────
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <rect x="2" y="2" width="20" height="20" rx="5.5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 // ── Facebook SVG icon (lucide has no Facebook) ────────────────────────────────
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -204,6 +216,20 @@ export default function ContactView() {
                     <FacebookIcon className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" />
                     Facebook
                   </a>
+
+                  {/* Instagram */}
+                  {socials.instagram && (
+                    <a
+                      href={socials.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Page Instagram du Volley Club Marseillanais"
+                      className="group flex items-center gap-2 rounded-xl border border-white/10 bg-night/60 px-4 py-2.5 text-xs font-medium text-white/60 transition-all duration-200 hover:border-violet-500/40 hover:bg-violet-700/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60"
+                    >
+                      <InstagramIcon className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" />
+                      Instagram
+                    </a>
+                  )}
 
                   {/* Website */}
                   <a

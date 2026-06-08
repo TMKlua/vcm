@@ -21,6 +21,17 @@ import { useContent } from "@/content/ContentContext";
  * Layout: two-column on md+ (contact info left, decorative gradient panel right)
  */
 
+// Minimal Instagram icon as inline SVG — avoids non-existent lucide Instagram import
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}>
+      <rect x="2" y="2" width="20" height="20" rx="5.5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 // Minimal Facebook "f" icon as inline SVG — avoids non-existent lucide Facebook import
 function FacebookIcon({ className }: { className?: string }) {
   return (
@@ -176,6 +187,19 @@ export default function ContactQuick() {
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all duration-200 hover:border-blue-400/50 hover:bg-blue-400/10 hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
                     <FacebookIcon className="size-4" />
+                  </a>
+                )}
+
+                {/* Instagram — inline SVG icon */}
+                {club.socials.instagram && (
+                  <a
+                    href={club.socials.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram du VCM (nouvel onglet)"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all duration-200 hover:border-fuchsia-vcm/50 hover:bg-fuchsia-vcm/10 hover:text-fuchsia-vcm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                  >
+                    <InstagramIcon className="size-4" />
                   </a>
                 )}
 

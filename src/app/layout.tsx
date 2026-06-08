@@ -91,7 +91,7 @@ const jsonLd = {
     postalCode: club.address.postalCode,
     addressCountry: "FR",
   },
-  sameAs: [club.socials.facebook, club.socials.website].filter(Boolean),
+  sameAs: [club.socials.facebook, club.socials.instagram, club.socials.website].filter(Boolean),
 };
 
 /* ── Root layout ────────────────────────────────────────────────────────────── */

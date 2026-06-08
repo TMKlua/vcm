@@ -1,6 +1,5 @@
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import Loader from "@/components/layout/Loader";
-import Cursor from "@/components/layout/Cursor";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -24,7 +23,6 @@ export default function SiteLayout({
     <>
       <SkipLink />
       <Loader />
-      <Cursor />
       <ScrollProgress />
       <SmoothScroll>
         <Navbar />

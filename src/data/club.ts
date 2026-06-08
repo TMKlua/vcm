@@ -20,6 +20,7 @@ export const club: ClubInfo = {
   schedule: "Entraînements les lundis et mercredis",
   socials: {
     facebook: "https://www.facebook.com/volleyclub.marseillanais/",
+    instagram: "https://www.instagram.com/volleyclubmarseillanais/", // [À CONFIRMER]
     website: "https://www.volleymarseillan.com/",
     clubeo: "https://vcm-volley-club-marseillanais.clubeo.com/",
   },

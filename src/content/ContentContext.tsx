@@ -52,6 +52,27 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Cross-tab live update: when the admin saves in another tab the `storage`
+  // event fires here, so the public site reloads overrides without a refresh.
+  // (The `storage` event only fires in *other* tabs, never the one that wrote.)
+  useEffect(() => {
+    function onStorage(event: StorageEvent) {
+      if (event.key !== CONTENT_STORAGE_KEY) return;
+      try {
+        if (event.newValue) {
+          setOverridesState(JSON.parse(event.newValue) as DeepPartial<SiteContent>);
+        } else {
+          // Key removed (reset to factory defaults in another tab).
+          setOverridesState({});
+        }
+      } catch (err) {
+        console.warn("[content] failed to sync overrides from storage event", err);
+      }
+    }
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   const setOverrides = useCallback((next: DeepPartial<SiteContent>) => {
     setOverridesState(next);
     try {

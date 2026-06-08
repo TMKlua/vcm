@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { X, Globe, ArrowUpRight } from "lucide-react";
 import { navLinks } from "@/data/nav";
-import { club } from "@/data/club";
+import { useContent } from "@/content/ContentContext";
 
 /** Inline Facebook glyph (lucide v1 dropped brand icons). */
 function FacebookGlyph({ className }: { className?: string }) {
@@ -22,6 +22,8 @@ type MobileMenuProps = {
 };
 
 export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
+  const { content } = useContent();
+  const { club } = content;
   const reduce = useReducedMotion();
   const dialogRef = useRef<HTMLDivElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);

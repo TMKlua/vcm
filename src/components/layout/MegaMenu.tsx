@@ -14,7 +14,6 @@ import {
   ArrowUpRight,
   type LucideIcon,
 } from "lucide-react";
-import { teams } from "@/data/teams";
 import type { NavLink, Team } from "@/types";
 
 /**
@@ -48,6 +47,7 @@ type MegaMenuProps = {
   onClose: () => void;
   variant: "teams" | "club";
   links?: NavLink[];
+  teams?: Team[];
   triggerRef?: React.RefObject<HTMLElement | null>;
   align?: "left" | "center" | "right";
 };
@@ -57,6 +57,7 @@ export default function MegaMenu({
   onClose,
   variant,
   links = [],
+  teams = [],
   triggerRef,
   align = "left",
 }: MegaMenuProps) {

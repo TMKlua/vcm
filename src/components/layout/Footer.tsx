@@ -1,9 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { MapPin, Phone, Mail, Globe, Volleyball } from "lucide-react";
 import { navLinks } from "@/data/nav";
-import { teams } from "@/data/teams";
-import { club } from "@/data/club";
 import CourtLines from "@/components/motion/CourtLines";
+import { useContent } from "@/content/ContentContext";
 
 /** Inline Facebook glyph (lucide v1 dropped brand icons). */
 function FacebookGlyph({ className }: { className?: string }) {
@@ -14,13 +15,17 @@ function FacebookGlyph({ className }: { className?: string }) {
   );
 }
 
-const footerTeams = ["baby-volley", "jeunes", "loisir", "competition", "beach-volley"]
-  .map((slug) => teams.find((t) => t.slug === slug))
-  .filter((t): t is (typeof teams)[number] => Boolean(t));
+const FOOTER_TEAM_SLUGS = ["baby-volley", "jeunes", "loisir", "competition", "beach-volley"];
 
 export default function Footer() {
+  const { content } = useContent();
+  const { club, teams, text } = content;
   const year = new Date().getFullYear();
   const { address, contact, socials } = club;
+
+  const footerTeams = FOOTER_TEAM_SLUGS
+    .map((slug) => teams.find((t) => t.slug === slug))
+    .filter((t): t is typeof teams[number] => Boolean(t));
 
   return (
     <footer className="relative isolate overflow-hidden border-t border-white/10 bg-night text-white/70">
@@ -54,7 +59,7 @@ export default function Footer() {
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">
               <span className="font-display text-lg uppercase tracking-wide text-gradient">
-                {club.tagline}
+                {text.footer.tagline}
               </span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">
@@ -168,7 +173,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
-          <p>© {year} Volley Club Marseillanais. Tous droits réservés.</p>
+          <p>© {year} {text.footer.copyright ?? "Volley Club Marseillanais. Tous droits réservés."}</p>
           <div className="flex items-center gap-5">
             <Link
               href="/contact"

@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import TextReveal from "@/components/motion/TextReveal";
 import MagneticButton from "@/components/ui/MagneticButton";
-import { gallery } from "@/data/gallery";
+import { useContent } from "@/content/ContentContext";
 
 /**
  * GalleryPreview — immersive bento-mosaic gallery teaser.
@@ -58,9 +58,11 @@ const ASPECT_CLASSES = [
   "aspect-square",  // 7
 ];
 
-const pickedImages = PREVIEW_INDICES.map((i) => gallery[i]);
-
 export default function GalleryPreview() {
+  const { content } = useContent();
+  const { gallery, text } = content;
+  const pickedImages = PREVIEW_INDICES.map((i) => gallery[i]).filter(Boolean);
+
   return (
     <section
       aria-labelledby="gallery-preview-heading"
@@ -90,7 +92,7 @@ export default function GalleryPreview() {
               <div className="mb-5 flex items-center gap-3">
                 <span className="h-px w-8 bg-gradient-to-r from-violet-500 to-fuchsia-vcm" aria-hidden />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Galerie
+                  {text.gallery.kicker}
                 </span>
               </div>
             </Reveal>
@@ -99,15 +101,28 @@ export default function GalleryPreview() {
               id="gallery-preview-heading"
               className="font-display text-[clamp(1.9rem,4.5vw,3.5rem)] leading-[0.95] tracking-tight text-white"
             >
-              <TextReveal text="En" className="block" />
-              <span className="mt-0.5 block text-gradient [-webkit-text-fill-color:transparent]">
-                <TextReveal text="images" className="block" />
-              </span>
+              {(() => {
+                const title = text.gallery.title;
+                const words = title.split(" ");
+                const mid = Math.ceil(words.length / 2);
+                const titleMain = words.slice(0, mid).join(" ");
+                const titleAccent = words.slice(mid).join(" ");
+                return (
+                  <>
+                    <TextReveal text={titleMain} className="block" />
+                    {titleAccent && (
+                      <span className="mt-0.5 block text-gradient [-webkit-text-fill-color:transparent]">
+                        <TextReveal text={titleAccent} className="block" />
+                      </span>
+                    )}
+                  </>
+                );
+              })()}
             </h2>
 
             <Reveal delay={0.3}>
               <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-[0.95rem]">
-                Matchs, entraînements, beach, événements — la vie du VCM en photos.
+                {text.gallery.subtitle}
               </p>
             </Reveal>
           </div>
@@ -118,7 +133,7 @@ export default function GalleryPreview() {
               href="/galerie"
               className="group hidden sm:inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors duration-300 hover:border-white/35 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Voir la galerie
+              {text.gallery.cta}
               <ArrowRight
                 className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden
@@ -191,7 +206,7 @@ export default function GalleryPreview() {
               href="/galerie"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white shadow-xl shadow-magenta/25 transition-shadow duration-300 hover:shadow-magenta/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Voir la galerie
+              {text.gallery.cta}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

@@ -10,7 +10,7 @@ import AnimatedGradient from "@/components/motion/AnimatedGradient";
 import BallTrajectory from "@/components/motion/BallTrajectory";
 import CourtLines from "@/components/motion/CourtLines";
 import MagneticButton from "@/components/ui/MagneticButton";
-import { club } from "@/data/club";
+import { useContent } from "@/content/ContentContext";
 
 /* Choreographed mount easing — coordinated with the global Loader (~1.4s). */
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -29,6 +29,8 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * gentle opacity fade, looping indicator held static.
  */
 export default function Hero() {
+  const { content } = useContent();
+  const { club, text } = content;
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -117,11 +119,11 @@ export default function Hero() {
           >
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white/90 backdrop-blur-md">
               <Sparkles className="size-3.5 text-fuchsia-vcm" aria-hidden />
-              {club.name}
+              {text.hero.kicker}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-fuchsia-vcm/30 bg-fuchsia-vcm/10 px-3.5 py-1.5 text-xs font-medium text-white/85 backdrop-blur-md">
               <MapPin className="size-3.5 text-fuchsia-vcm" aria-hidden />
-              {club.address.city} · Étang de Thau
+              {text.hero.locationChip}
             </span>
           </motion.div>
 
@@ -134,11 +136,11 @@ export default function Hero() {
           >
             <span aria-hidden className="block">
               <TextReveal
-                text="Joue. Smash."
+                text={text.hero.titleLine1}
                 className="block text-[clamp(3.25rem,11vw,9rem)]"
               />
               <span className="mt-1 block text-gradient text-[clamp(3.25rem,11vw,9rem)] [-webkit-text-fill-color:transparent]">
-                <TextReveal text="Gagne." className="block" />
+                <TextReveal text={text.hero.titleLine2} className="block" />
               </span>
             </span>
           </h1>
@@ -150,8 +152,7 @@ export default function Hero() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.95 }}
             className="mt-7 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg"
           >
-            Le volley pour tous, au bord de l&apos;étang de Thau — du Baby Volley
-            dès 3 ans à la compétition.
+            {text.hero.subtitle}
           </motion.p>
 
           {/* CTAs */}
@@ -165,7 +166,7 @@ export default function Hero() {
               href="/inscriptions"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white shadow-xl shadow-magenta/30 transition-shadow duration-300 hover:shadow-magenta/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Rejoindre le club
+              {text.hero.ctaPrimary}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden
@@ -176,7 +177,7 @@ export default function Hero() {
               href="/histoire"
               className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white backdrop-blur-md transition-colors duration-300 hover:border-white/45 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Découvrir le club
+              {text.hero.ctaSecondary}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

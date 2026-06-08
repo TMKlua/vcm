@@ -10,9 +10,11 @@ import AnimatedGradient from "@/components/motion/AnimatedGradient";
 import CourtLines from "@/components/motion/CourtLines";
 import TiltCard from "@/components/ui/TiltCard";
 import MagneticButton from "@/components/ui/MagneticButton";
-import { club } from "@/data/club";
+import { useContent } from "@/content/ContentContext";
 
 export default function Intro() {
+  const { content } = useContent();
+  const { club, text } = content;
   const reduce = useReducedMotion();
 
   return (
@@ -49,7 +51,7 @@ export default function Intro() {
             <div className="mb-6 flex items-center gap-3">
               <span className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm" aria-hidden />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Le Club
+                {text.intro.kicker}
               </span>
             </div>
           </Reveal>
@@ -60,21 +62,23 @@ export default function Intro() {
             className="font-display text-[clamp(2rem,5vw,3.75rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]"
           >
             <TextReveal
-              text="Le volley, au bord"
+              text={text.intro.title}
               className="block"
             />
-            <span className="mt-1 block text-gradient [-webkit-text-fill-color:transparent]">
-              <TextReveal
-                text="de l'étang de Thau"
-                className="block"
-              />
-            </span>
+            {text.intro.titleAccent && (
+              <span className="mt-1 block text-gradient [-webkit-text-fill-color:transparent]">
+                <TextReveal
+                  text={text.intro.titleAccent}
+                  className="block"
+                />
+              </span>
+            )}
           </h2>
 
           {/* Body copy */}
           <Reveal delay={0.25}>
             <p className="mt-7 max-w-lg text-base leading-relaxed text-white/75 sm:text-[1.05rem]">
-              {club.description}
+              {text.intro.body}
             </p>
           </Reveal>
 
@@ -95,7 +99,7 @@ export default function Intro() {
                 href="/histoire"
                 className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white shadow-xl shadow-magenta/25 transition-shadow duration-300 hover:shadow-magenta/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
-                Notre histoire
+                {text.intro.cta}
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                   aria-hidden

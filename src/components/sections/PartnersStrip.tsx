@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 import Reveal from "@/components/motion/Reveal";
 import MagneticButton from "@/components/ui/MagneticButton";
-import { partners } from "@/data/partners";
+import { useContent } from "@/content/ContentContext";
 
 /**
  * PartnersStrip — partners/sponsors section.
@@ -34,6 +34,8 @@ const tierOrder: Array<"institutionnel" | "principal" | "officiel"> = [
 ];
 
 export default function PartnersStrip() {
+  const { content } = useContent();
+  const { partners, text } = content;
   const reduce = useReducedMotion();
 
   return (
@@ -64,7 +66,7 @@ export default function PartnersStrip() {
               <div className="mb-5 flex items-center gap-3">
                 <span className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm" aria-hidden />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Partenaires
+                  {text.partners.kicker}
                 </span>
               </div>
             </Reveal>
@@ -74,10 +76,22 @@ export default function PartnersStrip() {
                 id="partners-heading"
                 className="font-display text-[clamp(1.9rem,4.5vw,3.5rem)] leading-[0.95] tracking-tight text-white"
               >
-                Ils nous{" "}
-                <span className="text-gradient [-webkit-text-fill-color:transparent]">
-                  soutiennent
-                </span>
+                {(() => {
+                  const title = text.partners.title;
+                  const lastSpace = title.lastIndexOf(" ");
+                  const titleMain = lastSpace > 0 ? title.slice(0, lastSpace) : title;
+                  const titleAccent = lastSpace > 0 ? title.slice(lastSpace + 1) : "";
+                  return (
+                    <>
+                      {titleMain}{" "}
+                      {titleAccent && (
+                        <span className="text-gradient [-webkit-text-fill-color:transparent]">
+                          {titleAccent}
+                        </span>
+                      )}
+                    </>
+                  );
+                })()}
               </h2>
             </Reveal>
           </div>
@@ -87,7 +101,7 @@ export default function PartnersStrip() {
               href="/partenaires"
               className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors duration-300 hover:border-white/35 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Devenir partenaire
+              {text.partners.cta}
               <ArrowRight
                 className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

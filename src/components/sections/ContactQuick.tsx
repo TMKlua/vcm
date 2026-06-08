@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 import Reveal from "@/components/motion/Reveal";
 import MagneticButton from "@/components/ui/MagneticButton";
-import { club } from "@/data/club";
+import { useContent } from "@/content/ContentContext";
 
 /**
  * ContactQuick — condensed contact block (dark, bg-ink).
@@ -36,6 +36,9 @@ function FacebookIcon({ className }: { className?: string }) {
 }
 
 export default function ContactQuick() {
+  const { content } = useContent();
+  const { club, text } = content;
+
   return (
     <section
       aria-labelledby="contact-quick-heading"
@@ -61,7 +64,7 @@ export default function ContactQuick() {
           <div className="mb-12 flex items-center gap-3">
             <span className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm" aria-hidden />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-              Contact
+              {text.contactQuick.kicker}
             </span>
           </div>
         </Reveal>
@@ -76,10 +79,22 @@ export default function ContactQuick() {
                 id="contact-quick-heading"
                 className="mb-8 font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-tight text-white"
               >
-                Venez nous{" "}
-                <span className="text-gradient [-webkit-text-fill-color:transparent]">
-                  rejoindre
-                </span>
+                {(() => {
+                  const title = text.contactQuick.title;
+                  const lastSpace = title.lastIndexOf(" ");
+                  const titleMain = lastSpace > 0 ? title.slice(0, lastSpace) : title;
+                  const titleAccent = lastSpace > 0 ? title.slice(lastSpace + 1) : "";
+                  return (
+                    <>
+                      {titleMain}{" "}
+                      {titleAccent && (
+                        <span className="text-gradient [-webkit-text-fill-color:transparent]">
+                          {titleAccent}
+                        </span>
+                      )}
+                    </>
+                  );
+                })()}
               </h2>
             </Reveal>
 
@@ -186,7 +201,7 @@ export default function ContactQuick() {
                   href="/contact"
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white shadow-xl shadow-magenta/25 transition-shadow duration-300 hover:shadow-magenta/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                 >
-                  Nous contacter
+                  {text.contactQuick.cta}
                   <Mail className="size-4" aria-hidden />
                 </MagneticButton>
               </div>

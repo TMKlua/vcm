@@ -12,8 +12,8 @@ import {
 } from "framer-motion";
 import { ChevronDown, Menu, Volleyball } from "lucide-react";
 import { navLinks } from "@/data/nav";
-import { club } from "@/data/club";
 import MagneticButton from "@/components/ui/MagneticButton";
+import { useContent } from "@/content/ContentContext";
 import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 import type { NavLink as NavLinkType } from "@/types";
@@ -25,12 +25,12 @@ const MEGA: Record<string, "club" | "teams"> = {
 };
 
 /** Logo lockup — gradient disc + volleyball glyph + VCM wordmark. */
-function Logo({ onClick }: { onClick?: () => void }) {
+function Logo({ onClick, clubName }: { onClick?: () => void; clubName: string }) {
   return (
     <Link
       href="/"
       onClick={onClick}
-      aria-label={`${club.name} — accueil`}
+      aria-label={`${clubName} — accueil`}
       className="group flex shrink-0 items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
     >
       <span className="relative grid size-9 place-items-center overflow-hidden rounded-full bg-gradient-to-br from-violet-700 via-magenta to-fuchsia-vcm shadow-lg shadow-magenta/30 transition-transform duration-300 group-hover:scale-105">
@@ -45,6 +45,8 @@ function Logo({ onClick }: { onClick?: () => void }) {
 }
 
 export default function Navbar() {
+  const { content } = useContent();
+  const { club, teams } = content;
   const pathname = usePathname();
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
@@ -119,7 +121,7 @@ export default function Navbar() {
             scrolled ? "backdrop-blur-xl" : "backdrop-blur-0"
           }`}
         >
-          <Logo />
+          <Logo clubName={club.name} />
 
           {/* Desktop nav */}
           <nav
@@ -182,6 +184,7 @@ export default function Navbar() {
                         onClose={() => setOpenMenu(null)}
                         variant={variant}
                         links={link.children}
+                        teams={teams}
                         align={variant === "teams" ? "center" : "left"}
                         triggerRef={{
                           get current() {

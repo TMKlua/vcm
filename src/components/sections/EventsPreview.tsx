@@ -7,7 +7,7 @@ import TextReveal from "@/components/motion/TextReveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import MagneticButton from "@/components/ui/MagneticButton";
 import EventCard from "@/components/ui/EventCard";
-import { events } from "@/data/events";
+import { useContent } from "@/content/ContentContext";
 
 /**
  * EventsPreview — homepage agenda section.
@@ -16,6 +16,9 @@ import { events } from "@/data/events";
  * Shows all 4 events in a responsive grid: 1-col mobile, 2-col md+.
  */
 export default function EventsPreview() {
+  const { content } = useContent();
+  const { events, text } = content;
+
   return (
     <section
       aria-labelledby="events-preview-heading"
@@ -45,7 +48,7 @@ export default function EventsPreview() {
               <div className="mb-5 flex items-center gap-3">
                 <span className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm" aria-hidden />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Agenda
+                  {text.events.kicker}
                 </span>
               </div>
             </Reveal>
@@ -54,15 +57,28 @@ export default function EventsPreview() {
               id="events-preview-heading"
               className="font-display text-[clamp(1.9rem,4.5vw,3.5rem)] leading-[0.95] tracking-tight text-white"
             >
-              <TextReveal text="Les prochains" className="block" />
-              <span className="mt-0.5 block text-gradient [-webkit-text-fill-color:transparent]">
-                <TextReveal text="rendez-vous" className="block" />
-              </span>
+              {(() => {
+                const title = text.events.title;
+                const words = title.split(" ");
+                const mid = Math.ceil(words.length / 2);
+                const titleMain = words.slice(0, mid).join(" ");
+                const titleAccent = words.slice(mid).join(" ");
+                return (
+                  <>
+                    <TextReveal text={titleMain} className="block" />
+                    {titleAccent && (
+                      <span className="mt-0.5 block text-gradient [-webkit-text-fill-color:transparent]">
+                        <TextReveal text={titleAccent} className="block" />
+                      </span>
+                    )}
+                  </>
+                );
+              })()}
             </h2>
 
             <Reveal delay={0.3}>
               <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-[0.95rem]">
-                Tournois, événements, journées portes ouvertes — ne manquez rien de la saison VCM.
+                {text.events.subtitle}
               </p>
             </Reveal>
           </div>
@@ -73,7 +89,7 @@ export default function EventsPreview() {
               href="/actualites"
               className="group hidden sm:inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors duration-300 hover:border-white/35 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Toutes les actualités
+              {text.events.cta}
               <ArrowRight
                 className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden
@@ -98,7 +114,7 @@ export default function EventsPreview() {
               href="/actualites"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white shadow-xl shadow-magenta/25 transition-shadow duration-300 hover:shadow-magenta/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Toutes les actualités
+              {text.events.cta}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

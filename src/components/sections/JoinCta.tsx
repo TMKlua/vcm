@@ -7,6 +7,7 @@ import Reveal from "@/components/motion/Reveal";
 import BallTrajectory from "@/components/motion/BallTrajectory";
 import CourtLines from "@/components/motion/CourtLines";
 import MagneticButton from "@/components/ui/MagneticButton";
+import { useContent } from "@/content/ContentContext";
 
 /**
  * JoinCta — bold, full-width CTA band.
@@ -22,6 +23,9 @@ import MagneticButton from "@/components/ui/MagneticButton";
  * Decorative: BallTrajectory + CourtLines drawn with low opacity over gradient.
  */
 export default function JoinCta() {
+  const { content } = useContent();
+  const { text } = content;
+
   return (
     <section
       aria-labelledby="join-cta-heading"
@@ -78,21 +82,25 @@ export default function JoinCta() {
           id="join-cta-heading"
           className="font-display text-[clamp(2.2rem,6vw,5rem)] leading-[0.92] tracking-tight text-white [text-wrap:balance]"
         >
-          <TextReveal
-            text="Prêt à entrer"
-            className="block"
-          />
-          <TextReveal
-            text="sur le terrain ?"
-            className="block"
-          />
+          {(() => {
+            const title = text.join.title;
+            const words = title.split(" ");
+            const mid = Math.ceil(words.length / 2);
+            const line1 = words.slice(0, mid).join(" ");
+            const line2 = words.slice(mid).join(" ");
+            return (
+              <>
+                <TextReveal text={line1} className="block" />
+                {line2 && <TextReveal text={line2} className="block" />}
+              </>
+            );
+          })()}
         </h2>
 
         {/* Supporting line */}
         <Reveal delay={0.35}>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-white/85 sm:text-lg">
-            Rejoignez le Volley Club Marseillanais — du Baby Volley dès 3 ans à la
-            compétition, pour tous les niveaux, toute l&apos;année.
+            {text.join.subtitle}
           </p>
         </Reveal>
 
@@ -104,7 +112,7 @@ export default function JoinCta() {
               href="/inscriptions"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-bold uppercase tracking-wider text-encre shadow-2xl shadow-black/30 transition-all duration-300 hover:bg-lilac hover:shadow-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-magenta"
             >
-              Rejoindre le club
+              {text.join.cta}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

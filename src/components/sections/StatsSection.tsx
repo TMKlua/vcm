@@ -3,9 +3,12 @@
 import CourtLines from "@/components/motion/CourtLines";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import Counter from "@/components/ui/Counter";
-import { stats } from "@/data/stats";
+import { useContent } from "@/content/ContentContext";
 
 export default function StatsSection() {
+  const { content } = useContent();
+  const { stats, text } = content;
+
   return (
     <section
       aria-label="Chiffres clés du club"
@@ -40,7 +43,7 @@ export default function StatsSection() {
       <div className="relative z-10 mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
         <div className="mb-12 text-center">
           <span className="text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-fuchsia-vcm">
-            En chiffres
+            {text.stats.kicker}
           </span>
         </div>
 

@@ -5,6 +5,8 @@ import SmoothScroll from "@/components/motion/SmoothScroll";
 import Loader from "@/components/layout/Loader";
 import Cursor from "@/components/layout/Cursor";
 import ScrollProgress from "@/components/layout/ScrollProgress";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Volley Club Marseillanais",
@@ -22,7 +24,11 @@ export default function RootLayout({
         <Loader />
         <Cursor />
         <ScrollProgress />
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <Navbar />
+          <main id="contenu">{children}</main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { MapPin, Phone, Mail, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 
 import Reveal from "@/components/motion/Reveal";
+import ScrollBall from "@/components/motion/ScrollBall";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
 
@@ -67,6 +68,9 @@ export default function ContactQuick() {
         className="pointer-events-none absolute bottom-0 left-1/2 -z-10 h-[360px] w-[640px] -translate-x-1/2 rounded-full opacity-15 blur-3xl"
         style={{ background: "radial-gradient(ellipse, rgba(124,58,237,0.8) 0%, transparent 70%)" }}
       />
+
+      {/* Scroll-driven volleyball — top-left margin */}
+      <ScrollBall className="absolute -left-6 top-10 -z-10 hidden h-24 w-24 opacity-[0.14] lg:block" />
 
       <div className="relative z-10 mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
 

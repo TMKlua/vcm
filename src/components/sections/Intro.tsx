@@ -8,6 +8,8 @@ import Reveal from "@/components/motion/Reveal";
 import TextReveal from "@/components/motion/TextReveal";
 import AnimatedGradient from "@/components/motion/AnimatedGradient";
 import CourtLines from "@/components/motion/CourtLines";
+import ParallaxImage from "@/components/motion/ParallaxImage";
+import ScrollBall from "@/components/motion/ScrollBall";
 import TiltCard from "@/components/ui/TiltCard";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
@@ -29,6 +31,9 @@ export default function Intro() {
       <CourtLines
         className="absolute -left-[8%] top-1/2 -z-10 hidden w-[42%] -translate-y-1/2 text-violet-700 opacity-50 lg:block"
       />
+
+      {/* Scroll-driven volleyball — drifts in the top-right margin */}
+      <ScrollBall className="absolute -right-10 top-12 -z-10 hidden h-28 w-28 opacity-20 lg:block xl:h-36 xl:w-36" />
 
       {/* Noise grain layer */}
       <div
@@ -152,7 +157,7 @@ export default function Intro() {
                 className="absolute inset-x-0 bottom-0 z-10 h-1/3 bg-gradient-to-t from-night/70 to-transparent"
               />
 
-              <div className="relative aspect-[4/3] w-full">
+              <ParallaxImage className="aspect-[4/3] w-full" amount={24}>
                 <Image
                   src="/images/gallery/1.jpg"
                   alt="Le Volley Club Marseillanais à l'entraînement"
@@ -160,7 +165,7 @@ export default function Intro() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover object-center"
                 />
-              </div>
+              </ParallaxImage>
 
               {/* Floating caption badge */}
               <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-4 py-2 backdrop-blur-md">

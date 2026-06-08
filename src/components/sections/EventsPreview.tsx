@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import TextReveal from "@/components/motion/TextReveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
+import BallTrajectory from "@/components/motion/BallTrajectory";
 import MagneticButton from "@/components/ui/MagneticButton";
 import EventCard from "@/components/ui/EventCard";
 import { useContent } from "@/content/ContentContext";
@@ -36,6 +37,9 @@ export default function EventsPreview() {
         className="pointer-events-none absolute -right-24 -top-24 -z-10 h-[480px] w-[480px] rounded-full opacity-15 blur-3xl"
         style={{ background: "radial-gradient(circle, rgba(192,38,211,0.8) 0%, transparent 65%)" }}
       />
+
+      {/* Decorative serve trajectory — traces above the header on desktop */}
+      <BallTrajectory className="pointer-events-none absolute right-[6%] top-10 -z-10 hidden w-[28%] opacity-70 lg:block" />
 
       <div className="relative z-10 mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
 

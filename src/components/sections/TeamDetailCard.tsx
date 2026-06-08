@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import TiltCard from "@/components/ui/TiltCard";
 import Reveal from "@/components/motion/Reveal";
+import ParallaxImage from "@/components/motion/ParallaxImage";
 import type { Team } from "@/types";
 import type { Player, TeamContent } from "@/content/types";
 
@@ -120,17 +121,19 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
             {/* Image wrapper */}
             <div className="relative overflow-hidden rounded-3xl">
               <div className="group relative aspect-[4/3] w-full overflow-hidden">
-                <Image
-                  src={team.image}
-                  alt={team.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:scale-105"
-                />
+                <ParallaxImage className="absolute inset-0" amount={22}>
+                  <Image
+                    src={team.image}
+                    alt={team.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.25,0,0,1)] group-hover:scale-105"
+                  />
+                </ParallaxImage>
                 {/* Subtle dark vignette at bottom for continuity */}
                 <div
                   aria-hidden
-                  className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent"
+                  className="absolute inset-0 z-10 bg-gradient-to-t from-ink/40 via-transparent to-transparent"
                 />
               </div>
             </div>

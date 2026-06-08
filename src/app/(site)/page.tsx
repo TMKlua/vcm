@@ -9,6 +9,7 @@ import GalleryPreview from "@/components/sections/GalleryPreview";
 import PartnersStrip from "@/components/sections/PartnersStrip";
 import JoinCta from "@/components/sections/JoinCta";
 import ContactQuick from "@/components/sections/ContactQuick";
+import Marquee from "@/components/motion/Marquee";
 
 export const metadata: Metadata = {
   title: "Volley Club Marseillanais — Club de volley à Marseillan",
@@ -26,6 +27,9 @@ export default function Home() {
       <EventsPreview />
       <GalleryPreview />
       <PartnersStrip />
+      <div className="border-y border-white/[0.06] bg-night">
+        <Marquee />
+      </div>
       <JoinCta />
       <ContactQuick />
     </>

@@ -133,12 +133,12 @@ export default async function ArticlePage({
                 >
                   {article.category}
                 </span>
-                <div className="flex items-center gap-1.5 text-xs text-white/40">
+                <div className="flex items-center gap-1.5 text-xs text-white/60">
                   <Calendar className="size-3.5 shrink-0 text-fuchsia-vcm/60" aria-hidden />
                   <time dateTime={article.date}>{formatFrDate(article.date)}</time>
                 </div>
                 {article.author && (
-                  <div className="flex items-center gap-1.5 text-xs text-white/40">
+                  <div className="flex items-center gap-1.5 text-xs text-white/60">
                     <User className="size-3.5 shrink-0 text-violet-500/60" aria-hidden />
                     <span>{article.author}</span>
                   </div>
@@ -155,7 +155,7 @@ export default async function ArticlePage({
 
             {/* Excerpt lead */}
             <Reveal delay={0.18}>
-              <p className="mt-6 text-[1.05rem] leading-relaxed text-white/60 [text-wrap:balance] max-w-2xl">
+              <p className="mt-6 text-[1.05rem] leading-relaxed text-white/70 [text-wrap:balance] max-w-2xl">
                 {article.excerpt}
               </p>
             </Reveal>

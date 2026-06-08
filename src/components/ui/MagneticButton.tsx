@@ -14,7 +14,7 @@ export default function MagneticButton({ href, children, className }: { href: st
   function reset() { x.set(0); y.set(0); }
   const external = !href.startsWith("/");
   return (
-    <motion.a ref={ref} onMouseMove={onMove} onMouseLeave={reset} style={{ x: sx, y: sy }} className={className} href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+    <motion.a ref={ref} onMouseMove={onMove} onMouseLeave={reset} style={{ x: sx, y: sy }} className={`focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink ${className ?? ""}`} href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
       {children}
     </motion.a>
   );

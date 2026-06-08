@@ -94,11 +94,11 @@ export default function ContactQuick() {
                   </span>
                   <div>
                     <p className="text-sm font-semibold text-white">{club.address.venue}</p>
-                    <p className="mt-0.5 text-sm text-white/55">
+                    <p className="mt-0.5 text-sm text-white/70">
                       {club.address.street}
                     </p>
-                    <p className="text-sm text-white/55">
-                      {club.address.postalCode} {club.address.city}
+                    <p className="text-sm text-white/70">
+ {club.address.city}
                     </p>
                   </div>
                 </div>
@@ -145,7 +145,7 @@ export default function ContactQuick() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Site officiel du VCM (nouvel onglet)"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/55 transition-all duration-200 hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all duration-200 hover:border-violet-500/50 hover:bg-violet-500/10 hover:text-violet-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
                     <Globe className="size-4" aria-hidden />
                   </a>
@@ -158,7 +158,7 @@ export default function ContactQuick() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Page Facebook du VCM (nouvel onglet)"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/55 transition-all duration-200 hover:border-blue-400/50 hover:bg-blue-400/10 hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all duration-200 hover:border-blue-400/50 hover:bg-blue-400/10 hover:text-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
                     <FacebookIcon className="size-4" />
                   </a>
@@ -171,7 +171,7 @@ export default function ContactQuick() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="VCM sur Clubeo (nouvel onglet)"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/55 transition-all duration-200 hover:border-fuchsia-vcm/40 hover:bg-fuchsia-vcm/10 hover:text-fuchsia-vcm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/70 transition-all duration-200 hover:border-fuchsia-vcm/40 hover:bg-fuchsia-vcm/10 hover:text-fuchsia-vcm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
                     Clubeo
                   </a>
@@ -235,11 +235,11 @@ export default function ContactQuick() {
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8 text-center">
                 <span className="font-display text-4xl text-white/10 select-none">VCM</span>
                 <div className="h-px w-20 bg-gradient-to-r from-transparent via-fuchsia-vcm/40 to-transparent" aria-hidden />
-                <p className="text-sm font-medium text-white/65">
+                <p className="text-sm font-medium text-white/75">
                   Gymnase Louis Boudou
                 </p>
                 <p className="text-xs text-white/60">
-                  {club.address.postalCode} Marseillan · Hérault
+                      {club.address.postalCode} Marseillan · Hérault
                 </p>
                 <div className="mt-4 h-px w-20 bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" aria-hidden />
                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-fuchsia-vcm/70">

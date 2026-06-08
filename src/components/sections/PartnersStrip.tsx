@@ -106,7 +106,7 @@ export default function PartnersStrip() {
               <div key={tier}>
                 {/* Tier label */}
                 <Reveal delay={0.05}>
-                  <p className="mb-6 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/55">
+                  <p className="mb-6 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/70">
                     {TIER_LABELS[tier]}
                   </p>
                 </Reveal>

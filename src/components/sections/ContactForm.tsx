@@ -53,7 +53,7 @@ export default function ContactForm() {
         </span>
         <div>
           <h3 className="font-display text-2xl text-white">Message prêt !</h3>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">
             Votre client de messagerie s&rsquo;est ouvert avec le message pré-rempli.
             Envoyez-le pour contacter le VCM.
           </p>
@@ -87,7 +87,7 @@ export default function ContactForm() {
         <h2 className="font-display text-[clamp(1.6rem,3.5vw,2.4rem)] leading-[0.95] tracking-tight text-white">
           Écrivez-nous
         </h2>
-        <p className="mt-3 text-sm leading-relaxed text-white/50">
+        <p className="mt-3 text-sm leading-relaxed text-white/70">
           Ce formulaire ouvrira votre client de messagerie avec le message pré-rempli.
           Aucune donnée n&rsquo;est envoyée directement par ce site.
         </p>
@@ -107,7 +107,7 @@ export default function ContactForm() {
       <form onSubmit={handleSubmit} noValidate className="space-y-6">
         {/* Name field */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="contact-name" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+          <label htmlFor="contact-name" className="text-xs font-semibold uppercase tracking-wider text-white/70">
             Nom complet <span aria-hidden className="text-fuchsia-vcm">*</span>
           </label>
           <input
@@ -146,7 +146,7 @@ export default function ContactForm() {
 
         {/* Email field */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="contact-email" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+          <label htmlFor="contact-email" className="text-xs font-semibold uppercase tracking-wider text-white/70">
             Email <span aria-hidden className="text-fuchsia-vcm">*</span>
           </label>
           <input
@@ -184,7 +184,7 @@ export default function ContactForm() {
 
         {/* Message field */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="contact-message" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+          <label htmlFor="contact-message" className="text-xs font-semibold uppercase tracking-wider text-white/70">
             Message <span aria-hidden className="text-fuchsia-vcm">*</span>
           </label>
           <textarea

@@ -15,7 +15,7 @@ const TIER_BADGE: Record<Partner["tier"], string> = {
 const TIER_COLOR: Record<Partner["tier"], string> = {
   principal: "text-fuchsia-vcm",
   officiel: "text-violet-500",
-  institutionnel: "text-white/50",
+  institutionnel: "text-white/70",
 };
 
 interface PartnerLogoProps {

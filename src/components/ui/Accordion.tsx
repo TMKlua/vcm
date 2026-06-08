@@ -11,9 +11,9 @@ export default function Accordion({ items }: { items: FaqItem[] }) {
         const isOpen = open === i;
         return (
           <div key={i}>
-            <button className="flex w-full items-center justify-between gap-4 py-5 text-left" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : i)}>
+            <button className="flex w-full items-center justify-between gap-4 rounded-lg py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : i)}>
               <span className="text-lg font-medium">{it.question}</span>
-              <Plus className={`size-5 shrink-0 transition-transform ${isOpen ? "rotate-45" : ""}`} />
+              <Plus className={`size-5 shrink-0 transition-transform ${isOpen ? "rotate-45" : ""}`} aria-hidden />
             </button>
             <AnimatePresence initial={false}>
               {isOpen && (

@@ -109,7 +109,7 @@ function CardContent({ entry, align }: CardContentProps) {
       </h3>
 
       {/* Description */}
-      <p className="mt-3 text-sm leading-relaxed text-white/55 sm:text-[0.9rem]">
+      <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-[0.9rem]">
         {entry.description}
       </p>
     </div>

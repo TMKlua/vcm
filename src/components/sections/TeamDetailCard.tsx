@@ -117,7 +117,7 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
           </h2>
 
           {/* Description */}
-          <p className="mt-5 text-[0.95rem] leading-relaxed text-white/60">
+          <p className="mt-5 text-[0.95rem] leading-relaxed text-white/70">
             {team.description}
           </p>
 
@@ -142,7 +142,7 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
           <div className="mt-7 flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 backdrop-blur-sm">
             <Clock className="mt-0.5 size-4 shrink-0 text-fuchsia-vcm" aria-hidden />
             <div>
-              <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-white/40">
+              <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-white/70">
                 Créneaux
               </span>
               <span className="mt-1 block text-sm text-white/80">{team.schedule}</span>

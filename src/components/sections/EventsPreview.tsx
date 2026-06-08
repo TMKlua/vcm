@@ -61,7 +61,7 @@ export default function EventsPreview() {
             </h2>
 
             <Reveal delay={0.3}>
-              <p className="mt-4 text-sm leading-relaxed text-white/55 sm:text-[0.95rem]">
+              <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-[0.95rem]">
                 Tournois, événements, journées portes ouvertes — ne manquez rien de la saison VCM.
               </p>
             </Reveal>

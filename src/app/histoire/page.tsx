@@ -57,7 +57,7 @@ export default function HistoirePage() {
 
             {/* Body text */}
             <Reveal delay={0.15}>
-              <div className="space-y-5 text-[0.95rem] leading-relaxed text-white/65">
+              <div className="space-y-5 text-[0.95rem] leading-relaxed text-white/75">
                 <p>
                   Tout a commencé avec quelques passionnés déterminés à faire vivre le
                   volley-ball dans ce coin de l&apos;Hérault baigné par l&apos;étang de Thau.{" "}
@@ -153,7 +153,7 @@ export default function HistoirePage() {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               De la fondation du club à aujourd&apos;hui, retour sur les moments clés
               qui ont forgé l&apos;identité du VCM.
             </p>
@@ -217,7 +217,7 @@ export default function HistoirePage() {
 
             {/* Body */}
             <Reveal delay={0.18}>
-              <div className="mt-6 space-y-5 text-[0.95rem] leading-relaxed text-white/60">
+              <div className="mt-6 space-y-5 text-[0.95rem] leading-relaxed text-white/70">
                 <p>
                   Après plus de vingt-cinq ans d&apos;existence, le{" "}
                   <strong className="text-white/80">Volley Club Marseillanais</strong> aborde

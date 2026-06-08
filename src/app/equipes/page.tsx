@@ -83,7 +83,7 @@ export default function EquipesPage() {
             <h2 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]">
               Prêt à jouer ?
             </h2>
-            <p className="max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               Quelle que soit votre discipline de prédilection, nos équipes vous
               accueillent à bras ouverts. Remplissez le formulaire d&rsquo;inscription
               et nous vous recontacterons rapidement.

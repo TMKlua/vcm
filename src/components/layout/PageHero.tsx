@@ -57,7 +57,7 @@ export default function PageHero({ title, subtitle, kicker, breadcrumb }: PageHe
         {breadcrumb && breadcrumb.length > 0 && (
           <Reveal delay={0}>
             <nav aria-label="Fil d'Ariane" className="mb-8">
-              <ol className="flex flex-wrap items-center gap-1 text-xs font-medium text-white/40">
+              <ol className="flex flex-wrap items-center gap-1 text-xs font-medium text-white/60">
                 {breadcrumb.map((item, i) => {
                   const isLast = i === breadcrumb.length - 1;
                   return (
@@ -113,7 +113,7 @@ export default function PageHero({ title, subtitle, kicker, breadcrumb }: PageHe
         {/* Subtitle */}
         {subtitle && (
           <Reveal delay={0.3}>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/60 sm:text-lg">
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
               {subtitle}
             </p>
           </Reveal>

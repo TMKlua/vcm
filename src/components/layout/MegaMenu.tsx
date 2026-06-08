@@ -140,7 +140,7 @@ export default function MegaMenu({
                             aria-hidden
                           />
                         </span>
-                        <span className="mt-0.5 block text-xs leading-snug text-white/55">
+                        <span className="mt-0.5 block text-xs leading-snug text-white/70">
                           {team.shortDescription}
                         </span>
                       </span>

@@ -63,7 +63,7 @@ export default function TeamsPreview() {
 
             {/* Subtitle */}
             <Reveal delay={0.3}>
-              <p className="mt-4 text-sm leading-relaxed text-white/55 sm:text-[0.95rem]">
+              <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-[0.95rem]">
                 Du baby volley dès 3 ans au sport santé en passant par la
                 compétition et le beach — il y a une place pour vous au VCM.
               </p>

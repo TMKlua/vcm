@@ -52,12 +52,12 @@ export default function Footer() {
                 VCM
               </span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">
               <span className="font-display text-lg uppercase tracking-wide text-gradient">
                 {club.tagline}
               </span>
             </p>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/55">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">
               {club.name}, au bord de l&rsquo;étang de Thau.
             </p>
 
@@ -159,7 +159,7 @@ export default function Footer() {
                   {contact.email}
                 </a>
               </p>
-              <p className="pt-1 text-xs text-white/45">
+              <p className="pt-1 text-xs text-white/60">
                 Contact&nbsp;: {contact.person}
               </p>
             </address>
@@ -167,7 +167,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/45 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row">
           <p>© {year} Volley Club Marseillanais. Tous droits réservés.</p>
           <div className="flex items-center gap-5">
             <Link
@@ -176,7 +176,7 @@ export default function Footer() {
             >
               Mentions légales
             </Link>
-            <span className="text-white/40">
+            <span className="text-white/60">
               Conçu avec passion au bord de l&rsquo;étang de Thau.
             </span>
           </div>

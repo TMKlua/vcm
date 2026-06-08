@@ -73,7 +73,7 @@ export default function Intro() {
 
           {/* Body copy */}
           <Reveal delay={0.25}>
-            <p className="mt-7 max-w-lg text-base leading-relaxed text-white/65 sm:text-[1.05rem]">
+            <p className="mt-7 max-w-lg text-base leading-relaxed text-white/75 sm:text-[1.05rem]">
               {club.description}
             </p>
           </Reveal>
@@ -82,7 +82,7 @@ export default function Intro() {
           <Reveal delay={0.35}>
             <div className="mt-5 flex items-center gap-2">
               <MapPin className="size-4 text-fuchsia-vcm" aria-hidden />
-              <span className="text-sm text-white/55">
+              <span className="text-sm text-white/70">
                 {club.address.venue} · {club.address.city}
               </span>
             </div>

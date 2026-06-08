@@ -45,7 +45,7 @@ export default function GaleriePage() {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               Filtrez par catégorie et cliquez sur une photo pour l&rsquo;agrandir.
               Toute l&rsquo;énergie du club, du gymnase à la plage.
             </p>

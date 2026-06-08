@@ -7,6 +7,7 @@ import Cursor from "@/components/layout/Cursor";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SkipLink from "@/components/ui/SkipLink";
 import { club } from "@/data/club";
 import { SITE_URL } from "@/lib/seo";
 
@@ -113,12 +114,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <SkipLink />
         <Loader />
         <Cursor />
         <ScrollProgress />
         <SmoothScroll>
           <Navbar />
-          <main id="contenu">{children}</main>
+          <main id="contenu" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
           <Footer />
         </SmoothScroll>
       </body>

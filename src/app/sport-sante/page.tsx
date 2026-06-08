@@ -110,7 +110,7 @@ export default function SportSantePage() {
 
             {/* Body */}
             <Reveal delay={0.15}>
-              <div className="space-y-5 text-[0.95rem] leading-relaxed text-white/65">
+              <div className="space-y-5 text-[0.95rem] leading-relaxed text-white/75">
                 <p>
                   Le <strong className="text-white/85">Soft Volley</strong> est une
                   version adaptée du volley-ball, jouée avec un ballon plus léger
@@ -140,7 +140,7 @@ export default function SportSantePage() {
             <Reveal delay={0.22}>
               <ul className="space-y-3">
                 {sporSante.objectives.map((obj, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-white/60">
+                  <li key={i} className="flex items-start gap-3 text-sm text-white/70">
                     <Stethoscope
                       className="mt-0.5 size-4 shrink-0 text-fuchsia-vcm"
                       aria-hidden
@@ -217,7 +217,7 @@ export default function SportSantePage() {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               Sport Santé et Soft Volley ne se contentent pas d&rsquo;entretenir
               le corps — ils nourrissent aussi l&rsquo;esprit et le lien humain.
             </p>
@@ -242,7 +242,7 @@ export default function SportSantePage() {
                   </h3>
 
                   {/* Text */}
-                  <p className="text-sm leading-relaxed text-white/55">
+                  <p className="text-sm leading-relaxed text-white/70">
                     {benefit.text}
                   </p>
 
@@ -412,7 +412,7 @@ export default function SportSantePage() {
 
             {/* Body */}
             <Reveal delay={0.18}>
-              <p className="mt-6 text-[0.95rem] leading-relaxed text-white/60">
+              <p className="mt-6 text-[0.95rem] leading-relaxed text-white/70">
                 Une séance d&rsquo;essai gratuite vous attend. Pas besoin d&rsquo;équipement
                 particulier — juste l&rsquo;envie de vous faire du bien. Contactez-nous
                 pour planifier votre première visite au Gymnase Louis Boudou de Marseillan.
@@ -448,7 +448,7 @@ export default function SportSantePage() {
 
             {/* Contact details */}
             <Reveal delay={0.35}>
-              <p className="mt-8 text-sm text-white/35">
+              <p className="mt-8 text-sm text-white/70">
                 {club.contact.person} · {club.contact.phone} ·{" "}
                 <a
                   href={`mailto:${club.contact.email}`}

@@ -140,7 +140,7 @@ export default function PartenairesPage() {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               De la commune à nos sponsors locaux, chaque partenaire contribue à
               faire vivre le volleyball à Marseillan. Merci à eux.
             </p>
@@ -162,12 +162,12 @@ export default function PartenairesPage() {
                       <h3 className="font-display text-lg leading-tight text-white">
                         {label}
                       </h3>
-                      <span className="mb-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/35">
+                      <span className="mb-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/60">
                         {tierPartners.length}{" "}
                         {tierPartners.length > 1 ? "membres" : "membre"}
                       </span>
                     </div>
-                    <p className="mt-2 text-sm text-white/45">{description}</p>
+                    <p className="mt-2 text-sm text-white/70">{description}</p>
                   </div>
                 </Reveal>
 
@@ -249,7 +249,7 @@ export default function PartenairesPage() {
             </Reveal>
 
             <Reveal delay={0.16}>
-              <p className="mt-6 text-[0.95rem] leading-relaxed text-white/60 max-w-2xl mx-auto">
+              <p className="mt-6 text-[0.95rem] leading-relaxed text-white/70 max-w-2xl mx-auto">
                 Le Volley Club Marseillanais, c&rsquo;est plus de cent licenciés,
                 des familles, des événements sportifs ouverts à tous et une
                 communauté ancrée dans le territoire de l&rsquo;étang de Thau.
@@ -275,7 +275,7 @@ export default function PartenairesPage() {
                       {item.title}
                     </h3>
 
-                    <p className="text-sm leading-relaxed text-white/55 flex-1">
+                    <p className="text-sm leading-relaxed text-white/70 flex-1">
                       {item.description}
                     </p>
 
@@ -311,7 +311,7 @@ export default function PartenairesPage() {
                 Construisons votre partenariat ensemble
               </h3>
 
-              <p className="text-sm leading-relaxed text-white/55 mb-8 max-w-lg mx-auto">
+              <p className="text-sm leading-relaxed text-white/70 mb-8 max-w-lg mx-auto">
                 Nos formules sont adaptables selon votre structure et vos
                 objectifs. Discutons ensemble de la meilleure façon de vous
                 associer au Volley Club Marseillanais.{" "}

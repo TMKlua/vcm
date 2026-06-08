@@ -58,7 +58,7 @@ const InfoRow = ({
       <Icon className="size-4 text-violet-400" />
     </span>
     <div>
-      <p className="mb-0.5 text-[0.7rem] font-semibold uppercase tracking-wider text-white/40">
+      <p className="mb-0.5 text-[0.7rem] font-semibold uppercase tracking-wider text-white/70">
         {label}
       </p>
       {children}
@@ -134,7 +134,7 @@ export default function ContactPage() {
                   <StaggerItem>
                     <InfoRow icon={Phone} label="Téléphone">
                       <p className="text-sm text-white/75">
-                        <span className="text-white/50">Contact : </span>
+                        <span className="text-white/70">Contact : </span>
                         <strong className="text-white">{contact.person}</strong>
                       </p>
                       <a
@@ -174,13 +174,13 @@ export default function ContactPage() {
                         </svg>
                       </span>
                       <div>
-                        <p className="mb-0.5 text-[0.7rem] font-semibold uppercase tracking-wider text-white/40">
+                        <p className="mb-0.5 text-[0.7rem] font-semibold uppercase tracking-wider text-white/70">
                           Entraînements
                         </p>
                         <p className="text-sm text-white/75">
                           <strong className="text-white">Lundi &amp; Mercredi</strong>
                         </p>
-                        <p className="mt-0.5 text-xs text-white/45">Au Gymnase Louis Boudou</p>
+                        <p className="mt-0.5 text-xs text-white/70">Au Gymnase Louis Boudou</p>
                       </div>
                     </div>
                   </StaggerItem>
@@ -192,7 +192,7 @@ export default function ContactPage() {
             {/* Social links */}
             <Reveal delay={0.2}>
               <div>
-                <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-white/40">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-white/70">
                   Suivez-nous
                 </p>
                 <div className="flex flex-wrap gap-3">
@@ -287,7 +287,7 @@ export default function ContactPage() {
         {/* Map footer: address + external link */}
         <Reveal delay={0.22}>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-white/50">
+            <p className="text-sm text-white/70">
               <MapPin className="mr-1.5 inline size-3.5 text-violet-400" aria-hidden />
               {address.venue} · {address.street}, {address.postalCode} {address.city}
             </p>

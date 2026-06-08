@@ -78,7 +78,7 @@ export default function TeamCard({ team, className }: TeamCardProps) {
         </h3>
 
         {/* Short description */}
-        <p className="flex-1 text-sm leading-relaxed text-white/60">
+        <p className="flex-1 text-sm leading-relaxed text-white/70">
           {team.shortDescription}
         </p>
 

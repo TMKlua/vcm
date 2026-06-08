@@ -221,7 +221,7 @@ export default function Navbar() {
             <div className="hidden lg:block">
               <MagneticButton
                 href="/inscriptions"
-                className="inline-flex items-center rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-magenta/30 transition-shadow hover:shadow-magenta/50"
+                className="inline-flex items-center rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-magenta/30 transition-shadow hover:shadow-magenta/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
               >
                 Rejoindre
               </MagneticButton>

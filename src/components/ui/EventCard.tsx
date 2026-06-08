@@ -74,7 +74,7 @@ export default function EventCard({ event, className }: EventCardProps) {
           <span className="mt-0.5 block text-[0.6rem] font-bold uppercase tracking-[0.18em] text-fuchsia-vcm">
             {month}
           </span>
-          <span className="block text-[0.58rem] font-medium tracking-wide text-white/55">
+          <span className="block text-[0.58rem] font-medium tracking-wide text-white/70">
             {year}
           </span>
         </div>
@@ -96,13 +96,13 @@ export default function EventCard({ event, className }: EventCardProps) {
         </h3>
 
         {/* Location */}
-        <p className="flex items-start gap-1.5 text-sm text-white/55">
+        <p className="flex items-start gap-1.5 text-sm text-white/70">
           <MapPin className="mt-0.5 size-3.5 shrink-0 text-fuchsia-vcm" aria-hidden />
           <span className="line-clamp-1">{event.location}</span>
         </p>
 
         {/* Description */}
-        <p className="flex-1 text-sm leading-relaxed text-white/55 line-clamp-3">
+        <p className="flex-1 text-sm leading-relaxed text-white/70 line-clamp-3">
           {event.description}
         </p>
       </div>

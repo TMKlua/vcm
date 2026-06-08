@@ -125,7 +125,7 @@ export default function InscriptionsPage() {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               En quatre étapes simples, devenez membre du Volley Club Marseillanais
               et intégrez une communauté sportive accueillante à Marseillan.
             </p>
@@ -162,7 +162,7 @@ export default function InscriptionsPage() {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm leading-relaxed text-white/55">
+                  <p className="text-sm leading-relaxed text-white/70">
                     {step.description}
                   </p>
 
@@ -333,7 +333,7 @@ export default function InscriptionsPage() {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               Toutes les ressources pour préparer votre inscription et rester
               connecté à la vie du club.
             </p>
@@ -353,7 +353,7 @@ export default function InscriptionsPage() {
                 <h3 className="font-display text-base leading-tight text-white">
                   Espace club (Clubeo)
                 </h3>
-                <p className="text-sm leading-relaxed text-white/50">
+                <p className="text-sm leading-relaxed text-white/70">
                   Inscriptions en ligne, actualités et documents sur la plateforme
                   officielle du VCM.
                 </p>
@@ -383,7 +383,7 @@ export default function InscriptionsPage() {
                   Licence FFVolley
                   {/* [À CONFIRMER] */}
                 </h3>
-                <p className="text-sm leading-relaxed text-white/50">
+                <p className="text-sm leading-relaxed text-white/70">
                   Renseignements sur la licence fédérale, les catégories et les
                   formulaires officiels.
                 </p>
@@ -412,7 +412,7 @@ export default function InscriptionsPage() {
                 <h3 className="font-display text-base leading-tight text-white">
                   Contacter le club
                 </h3>
-                <p className="text-sm leading-relaxed text-white/50">
+                <p className="text-sm leading-relaxed text-white/70">
                   Une question sur votre inscription ? Envoyez-nous un email, nous
                   vous répondrons rapidement.
                 </p>
@@ -457,7 +457,7 @@ export default function InscriptionsPage() {
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55">
+            <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               Vous ne trouvez pas la réponse à votre question ? Contactez-nous
               directement à{" "}
               <a
@@ -532,7 +532,7 @@ export default function InscriptionsPage() {
 
             {/* Body */}
             <Reveal delay={0.18}>
-              <p className="mt-6 text-[0.95rem] leading-relaxed text-white/60">
+              <p className="mt-6 text-[0.95rem] leading-relaxed text-white/70">
                 Quelle que soit votre section, le Volley Club Marseillanais vous
                 accueille à bras ouverts. Commencez par une séance d&rsquo;essai
                 gratuite et rejoignez une communauté sportive unique au bord de

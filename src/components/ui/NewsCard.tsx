@@ -94,7 +94,7 @@ function StandardCard({ article }: { article: NewsArticle }) {
       {/* Card body */}
       <div className="relative z-10 flex flex-1 flex-col gap-3 p-5 pb-6">
         {/* Date */}
-        <div className="flex items-center gap-1.5 text-xs text-white/40">
+        <div className="flex items-center gap-1.5 text-xs text-white/60">
           <Calendar className="size-3.5 shrink-0 text-fuchsia-vcm/60" aria-hidden />
           <time dateTime={article.date}>{formatFrDate(article.date)}</time>
         </div>
@@ -105,7 +105,7 @@ function StandardCard({ article }: { article: NewsArticle }) {
         </h3>
 
         {/* Excerpt */}
-        <p className="flex-1 text-sm leading-relaxed text-white/50 line-clamp-3">
+        <p className="flex-1 text-sm leading-relaxed text-white/70 line-clamp-3">
           {article.excerpt}
         </p>
 
@@ -205,7 +205,7 @@ function FeaturedCard({ article }: { article: NewsArticle }) {
         </div>
 
         {/* Date */}
-        <div className="flex items-center gap-1.5 text-xs text-white/40">
+        <div className="flex items-center gap-1.5 text-xs text-white/60">
           <Calendar className="size-3.5 shrink-0 text-fuchsia-vcm/60" aria-hidden />
           <time dateTime={article.date}>{formatFrDate(article.date)}</time>
         </div>
@@ -216,7 +216,7 @@ function FeaturedCard({ article }: { article: NewsArticle }) {
         </h3>
 
         {/* Excerpt — 3 lines */}
-        <p className="text-[0.95rem] leading-relaxed text-white/55 line-clamp-3">
+        <p className="text-[0.95rem] leading-relaxed text-white/70 line-clamp-3">
           {article.excerpt}
         </p>
 

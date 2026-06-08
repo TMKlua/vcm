@@ -106,7 +106,7 @@ export default function GalleryPreview() {
             </h2>
 
             <Reveal delay={0.3}>
-              <p className="mt-4 text-sm leading-relaxed text-white/55 sm:text-[0.95rem]">
+              <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-[0.95rem]">
                 Matchs, entraînements, beach, événements — la vie du VCM en photos.
               </p>
             </Reveal>

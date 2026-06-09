@@ -34,7 +34,7 @@ function Logo({ onClick, clubName }: { onClick?: () => void; clubName: string })
       aria-label={`${clubName} — accueil`}
       className="group flex shrink-0 items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
     >
-      <BrandLogo className="size-14 transition-transform duration-300 group-hover:scale-105" />
+      <BrandLogo className="size-16 transition-transform duration-300 group-hover:scale-105" />
       <span className="font-display text-xl uppercase leading-none tracking-tight text-white">
         VCM
       </span>

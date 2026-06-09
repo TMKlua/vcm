@@ -109,7 +109,7 @@ export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 py-4">
         <span className="flex items-center gap-2.5">
-          <BrandLogo className="size-11" />
+          <BrandLogo className="size-12" />
           <span className="font-display text-xl uppercase tracking-tight text-white">
             {club.shortName}
           </span>

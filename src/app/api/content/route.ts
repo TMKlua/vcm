@@ -2,9 +2,23 @@ import { NextResponse } from "next/server";
 
 import { isAuthorized } from "@/admin/apiAuth";
 import { collectDataUrls, parseDataUrl, replaceDataUrls } from "@/content/images";
-import { isImageStoreConfigured, uploadImage, writeContent } from "@/content/store";
+import { isImageStoreConfigured, readContent, uploadImage, writeContent } from "@/content/store";
 import { validateContent } from "@/content/validate";
 import type { SiteContent } from "@/content/types";
+
+/**
+ * Current content and its ETag.
+ *
+ * Lets the admin re-sync after a conflict without a full page reload — and
+ * without the user having to guess whether reloading actually worked.
+ */
+export async function GET(request: Request) {
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
+  }
+  const { content, etag, updatedAt } = await readContent();
+  return NextResponse.json({ ok: true, content, etag, updatedAt });
+}
 
 /**
  * Save the site content.

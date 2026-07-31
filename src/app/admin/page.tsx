@@ -18,6 +18,7 @@ import {
   Save,
   LogOut,
   Menu,
+  RefreshCw,
 } from "lucide-react";
 
 import { AdminDraftProvider, useAdminDraft } from "@/admin/useAdminDraft";
@@ -88,7 +89,7 @@ interface ToastState {
 }
 
 function Dashboard() {
-  const { ready, dirty, saving, save, discard } = useAdminDraft();
+  const { ready, dirty, saving, conflict, reload, save, discard } = useAdminDraft();
   const [section, setSection] = useState<SectionId>("dashboard");
   const [navOpen, setNavOpen] = useState(false);
   const [toast, setToast] = useState<ToastState | null>(null);
@@ -104,6 +105,22 @@ function Dashboard() {
     } else {
       pushToast(result.error, "error");
     }
+  }
+
+  async function handleReload() {
+    if (
+      dirty &&
+      !window.confirm(
+        "Récupérer la version en ligne ? Vos modifications non publiées seront perdues.",
+      )
+    ) {
+      return;
+    }
+    const result = await reload();
+    pushToast(
+      result.ok ? "Version en ligne récupérée." : result.error,
+      result.ok ? "success" : "error",
+    );
   }
 
   return (
@@ -180,6 +197,11 @@ function Dashboard() {
                   <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
                   Publication en cours…
                 </span>
+              ) : conflict ? (
+                <span className="inline-flex items-center gap-1.5 text-rose-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                  Modifié depuis un autre appareil
+                </span>
               ) : dirty ? (
                 <span className="inline-flex items-center gap-1.5 text-amber-300">
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
@@ -204,7 +226,13 @@ function Dashboard() {
               <ExternalLink className="h-4 w-4" />
               <span className="hidden sm:inline">Voir le site</span>
             </a>
-            {dirty && !saving && (
+            {conflict && !saving && (
+              <Button variant="secondary" onClick={handleReload}>
+                <RefreshCw className="h-4 w-4" />
+                <span className="hidden sm:inline">Récupérer la version en ligne</span>
+              </Button>
+            )}
+            {dirty && !saving && !conflict && (
               <Button variant="ghost" onClick={discard}>
                 Annuler
               </Button>

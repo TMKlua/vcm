@@ -49,6 +49,13 @@ interface AdminDraftValue {
   dirty: boolean;
   /** True while a save request is in flight. */
   saving: boolean;
+  /** Set when the last save was refused because someone else published first. */
+  conflict: boolean;
+  /**
+   * Pull the published content back into the draft and clear the conflict.
+   * Discards unsaved edits — the caller confirms first.
+   */
+  reload: () => Promise<SaveOutcome>;
   /** Publish the draft for everyone. */
   save: () => Promise<SaveOutcome>;
   /** Atomically replace the draft with `next` AND publish it (used by Import). */
@@ -98,6 +105,7 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
   );
   const [etag, setEtag] = useState<string | null>(serverEtag);
   const [saving, setSaving] = useState(false);
+  const [conflict, setConflict] = useState(false);
 
   const update = useCallback((path: Path, value: unknown) => {
     setDraft((prev) => setByPath(prev, path, value));
@@ -134,12 +142,14 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
           | null;
 
         if (!response.ok || !payload?.ok) {
+          if (response.status === 409) setConflict(true);
           return {
             ok: false,
             error: payload?.error ?? "Échec de l'enregistrement.",
           };
         }
 
+        setConflict(false);
         setEtag(payload.etag ?? null);
         setSavedSnapshot(JSON.stringify(next));
         // Re-render server components so the public site picks up the change.
@@ -167,6 +177,35 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
     },
     [publish],
   );
+
+  const reload = useCallback(async (): Promise<SaveOutcome> => {
+    setSaving(true);
+    try {
+      const response = await fetch("/api/content", {
+        headers: { [ADMIN_HEADER]: ADMIN_PASSWORD },
+        cache: "no-store",
+      });
+      const payload = (await response.json().catch(() => null)) as
+        | { ok?: boolean; content?: SiteContent; etag?: string | null; error?: string }
+        | null;
+
+      if (!response.ok || !payload?.ok || !payload.content) {
+        return { ok: false, error: payload?.error ?? "Rechargement impossible." };
+      }
+
+      const fresh = clone(payload.content);
+      setDraft(fresh);
+      setSavedSnapshot(JSON.stringify(fresh));
+      setEtag(payload.etag ?? null);
+      setConflict(false);
+      router.refresh();
+      return { ok: true };
+    } catch {
+      return { ok: false, error: "Connexion impossible. Réessayez." };
+    } finally {
+      setSaving(false);
+    }
+  }, [router]);
 
   const discard = useCallback(() => {
     const fresh = clone(content);
@@ -203,13 +242,15 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
       setSection,
       dirty,
       saving,
+      conflict,
+      reload,
       save,
       saveObject,
       discard,
       resetAll,
       loadDraft,
     }),
-    [draft, update, setSection, dirty, saving, save, saveObject, discard, resetAll, loadDraft],
+    [draft, update, setSection, dirty, saving, conflict, reload, save, saveObject, discard, resetAll, loadDraft],
   );
 
   return (

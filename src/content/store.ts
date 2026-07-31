@@ -96,7 +96,9 @@ export async function readContent(): Promise<ContentSnapshot> {
 }
 
 export type WriteResult =
-  | { ok: true; etag: string; updatedAt: string }
+  // `etag` is null if the blob could not be re-read right after writing; the
+  // next save then simply skips the conflict check rather than failing.
+  | { ok: true; etag: string | null; updatedAt: string }
   | { ok: false; reason: "conflict" }
   | { ok: false; reason: "unconfigured" };
 
@@ -112,22 +114,39 @@ export async function writeContent(
 ): Promise<WriteResult> {
   if (!isConfigured()) return { ok: false, reason: "unconfigured" };
 
+  // Conflict detection compares the caller's ETag against a freshly read one
+  // from `get()` — the same source the caller obtained theirs from.
+  //
+  // The earlier version handed the caller's ETag to `put({ ifMatch })` instead.
+  // That made the check depend on `get()` and `put()` agreeing on ETag format;
+  // when they don't, every save from the admin fails with a conflict that no
+  // amount of reloading can clear, because reloading just serves the same
+  // unusable value again. Comparing like with like cannot fail that way.
+  if (expectedEtag !== null) {
+    const current = await readContent();
+    if (current.etag !== null && current.etag !== expectedEtag) {
+      return { ok: false, reason: "conflict" };
+    }
+  }
+
   const envelope: ContentEnvelope = {
     updatedAt: new Date().toISOString(),
     content,
   };
 
   try {
-    const result = await put(CONTENT_PATH, JSON.stringify(envelope), {
+    await put(CONTENT_PATH, JSON.stringify(envelope), {
       access: "private",
       contentType: "application/json",
       addRandomSuffix: false,
       allowOverwrite: true,
-      // Only guard when a previous version exists; the first write creates it.
-      ...(expectedEtag ? { ifMatch: expectedEtag } : {}),
     });
 
-    return { ok: true, etag: result.etag, updatedAt: envelope.updatedAt };
+    // Re-read so the ETag handed back is a `get()` ETag, directly comparable
+    // with what the next save will send.
+    const after = await readContent();
+
+    return { ok: true, etag: after.etag, updatedAt: envelope.updatedAt };
   } catch (err) {
     if (err instanceof BlobPreconditionFailedError) {
       return { ok: false, reason: "conflict" };

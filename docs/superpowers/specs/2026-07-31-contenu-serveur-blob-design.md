@@ -58,12 +58,19 @@ Approches écartées :
 
 ## 5. Architecture
 
-### 5.1 Les deux stockages
+### 5.1 Les deux stores
 
-| Donnée | Type de blob | Justification |
-|---|---|---|
-| `content.json` | **privé**, lu côté serveur via le SDK | Jamais servi tel quel au navigateur. La lecture passe par l'origine, pas par le CDN : aucun risque de servir une version périmée, ce qui est le point critique de l'exigence « instantané ». |
-| Images uploadées | **publiques**, cache CDN long | Servies directement aux navigateurs. Le nom de fichier dérive du hash du contenu binaire : une image différente a forcément une URL différente, donc un cache long est sûr par construction. |
+Le mode d'accès est une propriété **du store**, choisie à sa création et **irréversible**
+(cf. documentation Vercel Blob). Il est donc impossible de mélanger blobs privés et
+publics dans un même store : le projet en utilise **deux**.
+
+| Store | Accès | Contenu | Justification |
+|---|---|---|---|
+| `vcm-contenu` | **Private** | `content.json` | Lu côté serveur au rendu, jamais servi tel quel au navigateur. Le mode privé autorise la lecture immédiate via `useCache: false`, qui contourne les jusqu'à 60 s de propagation du cache — condition indispensable à l'exigence « instantané » (§2). |
+| `vcm-images` | **Public** | Photos uploadées | Servies directement par le CDN. En privé, elles transiteraient par une Function : latence et coûts d'egress accrus, ce que la documentation déconseille pour des fichiers destinés à l'affichage public. Le nom de fichier dérive du hash du binaire, donc un cache long est sûr par construction. |
+
+Les deux stores sont connectés au même projet Vercel, avec des **préfixes de variables
+d'environnement distincts** (Advanced Options à la création) pour éviter toute collision.
 
 ### 5.2 Format stocké
 
@@ -71,16 +78,17 @@ Le blob contient une enveloppe, pas le contenu brut :
 
 ```ts
 interface ContentEnvelope {
-  /** Incrémenté à chaque écriture. Base du verrou optimiste (§5.5). */
-  version: number;
   /** Date ISO de la dernière écriture, affichée dans l'admin. */
   updatedAt: string;
   content: SiteContent;
 }
 ```
 
-Si le blob n'existe pas encore (premier démarrage), la lecture renvoie
-`{ version: 0, content: defaultContent }`. Le premier enregistrement le crée.
+Si le blob n'existe pas encore (premier démarrage), la lecture renvoie `defaultContent`
+sans ETag. Le premier enregistrement le crée.
+
+Le contrôle de concurrence ne repose pas sur un numéro de version stocké mais sur
+l'**ETag natif du blob** (§5.5).
 
 ### 5.3 Flux
 
@@ -88,8 +96,8 @@ Si le blob n'existe pas encore (premier démarrage), la lecture renvoie
 Admin (n'importe quel appareil)
       │  « Enregistrer »
       ▼
-POST /api/content ──▶ valide + vérifie la version
-                  ──▶ écrit content.json dans le Blob (version + 1)
+POST /api/content ──▶ valide le payload
+                  ──▶ écrit content.json (put conditionnel sur l'ETag)
                   ──▶ revalidateTag("vcm-content")
                             │
                             ▼
@@ -109,12 +117,28 @@ src/data/*.ts (defaults)  →  deepMerge  →  content.json (Blob)
 de rôle une fois le Blob en place, et les conserver créerait une troisième couche de
 précédence source de confusion. `deepMerge` et ses tests sont conservés.
 
-### 5.5 Verrou optimiste
+### 5.5 Verrou optimiste (écritures conditionnelles natives)
 
-Plusieurs personnes pouvant désormais éditer, l'admin renvoie la `version` qu'il a
-chargée. Si elle ne correspond plus à celle du blob, le serveur répond `409` et l'admin
-affiche « le contenu a été modifié entre-temps, recharge la page ». Aucune écriture
-n'écrase silencieusement le travail d'un autre.
+Plusieurs personnes pouvant désormais éditer, on s'appuie sur les **écritures
+conditionnelles** de Vercel Blob plutôt que sur un compteur maison :
+
+```ts
+const meta = await head("content.json");          // → meta.etag
+await put("content.json", json, {
+  access: "private",
+  allowOverwrite: true,                            // sinon Vercel refuse d'écraser
+  ifMatch: meta.etag,                              // échoue si le blob a changé
+});
+// → BlobPreconditionFailedError si quelqu'un a écrit entre-temps
+```
+
+L'ETag chargé par l'admin fait l'aller-retour avec le brouillon. Sur
+`BlobPreconditionFailedError`, la route répond `409` et l'admin affiche « le contenu a
+été modifié entre-temps, recharge la page ». Aucune écriture n'écrase silencieusement le
+travail d'un autre.
+
+`allowOverwrite: true` est requis : par défaut, réécrire un chemin existant lève une
+erreur.
 
 ### 5.6 Rendu et cache
 
@@ -132,15 +156,18 @@ réellement dans ce projet — `next.config.ts` n'active aujourd'hui aucun flag 
 ### 6.1 `src/content/store.ts` — accès serveur
 
 ```ts
-/** Lit l'enveloppe depuis le Blob. Renvoie les defaults si absente. */
-function readContent(): Promise<ContentEnvelope>;
+/** Lit l'enveloppe + son ETag. Renvoie les defaults et etag: null si absente. */
+function readContent(): Promise<{ content: SiteContent; etag: string | null }>;
 
-/** Écrit une nouvelle version. Rejette si expectedVersion ne correspond plus. */
+/** Écrit le contenu. Échoue si l'ETag ne correspond plus (écriture concurrente). */
 function writeContent(
   content: SiteContent,
-  expectedVersion: number,
-): Promise<{ ok: true; version: number } | { ok: false; reason: "conflict" }>;
+  expectedEtag: string | null,
+): Promise<{ ok: true; etag: string } | { ok: false; reason: "conflict" }>;
 ```
+
+La lecture utilise `useCache: false` pour obtenir la version la plus récente sans subir
+le délai de propagation du cache.
 
 Seul module à connaître `@vercel/blob`. `import "server-only"` pour garantir qu'il ne
 puisse jamais être inclus dans un bundle client.
@@ -157,8 +184,12 @@ function validateContent(raw: unknown): ValidationResult;
 
 `REQUIRED_KEYS` et `isValidContent` sont déplacés ici depuis `ImportExport.tsx`, puis
 ré-importés par celui-ci : client et serveur partagent une règle unique. Contrôles
-ajoutés : taille du JSON sérialisé ≤ 4 Mo, et refus de toute valeur `data:` résiduelle
+ajoutés : taille du JSON sérialisé ≤ 2 Mo, et refus de toute valeur `data:` résiduelle
 (les images doivent être passées par l'upload, cf. §6.4).
+
+Le plafond de 2 Mo tient compte de la **limite de taille de corps de requête des Vercel
+Functions** documentée à 4,5 Mo pour les uploads serveur. Une fois les images sorties du
+JSON, le contenu réel se compte en dizaines de kilo-octets : la marge est confortable.
 
 ### 6.3 `src/app/api/content/route.ts`
 
@@ -167,13 +198,21 @@ métier propre : elle assemble `validate.ts` et `store.ts`.
 
 ### 6.4 `src/app/api/upload/route.ts`
 
-Reçoit une image, la stocke en blob public sous `images/<hash>.<ext>`, renvoie son URL.
+Reçoit une image, la stocke dans le store **public** sous `images/<hash>.<ext>`, renvoie
+son URL.
 
-Le nom de fichier est **calculé côté serveur** à partir du hash du binaire, jamais
-dérivé d'une valeur fournie par le client. Contrôles : type MIME dans
-`{webp, jpeg, png}`, taille ≤ 2 Mo. Le redimensionnement côté navigateur existant
-(`src/admin/image.ts`, `fileToImageData`) est conservé — il réduit le poids avant envoi —
-mais son résultat est désormais envoyé comme fichier au lieu d'être stocké en base64.
+Le nom de fichier est **calculé côté serveur** à partir du hash du binaire, jamais dérivé
+d'une valeur fournie par le client. Contrôles : type MIME dans `{webp, jpeg, png}`,
+taille ≤ 2 Mo.
+
+Le hash rend l'upload idempotent : réenvoyer la même image vise le même chemin. Comme
+Vercel refuse par défaut d'écraser un blob existant, l'erreur « déjà présent » est traitée
+comme un **succès** et l'URL existante est renvoyée — un contenu identique ne peut pas
+produire un fichier différent.
+
+Le redimensionnement côté navigateur existant (`src/admin/image.ts`, `fileToImageData`)
+est conservé : il réduit le poids avant envoi et garde chaque upload très en deçà des
+limites. Son résultat est désormais envoyé comme fichier au lieu d'être stocké en base64.
 
 ### 6.5 `src/content/ContentContext.tsx` — simplifié
 
@@ -206,12 +245,24 @@ d'un abus est donc du contenu indésirable, jamais l'écriture de code exécutab
 
 ## 8. Configuration
 
-| Variable | Emplacement | Rôle |
-|---|---|---|
-| `BLOB_READ_WRITE_TOKEN` | Provisionnée automatiquement par Vercel à la création du store Blob | Accès lecture/écriture au Blob. Jamais exposée au navigateur. |
+Deux stores à créer depuis **Storage → Create Database → Blob**, connectés au projet :
 
-Développement local : `vercel env pull .env.local` après création du store, sinon les
-routes échouent avec un message explicite (§10).
+| Store | Accès | Préfixe de variables (Advanced Options) |
+|---|---|---|
+| `vcm-contenu` | **Private** | `CONTENU_` |
+| `vcm-images` | **Public** | `IMAGES_` |
+
+Vercel provisionne alors, par store et par préfixe, `…BLOB_STORE_ID` et
+`…BLOB_READ_WRITE_TOKEN`. L'authentification par défaut des stores connectés repose sur
+OIDC (`VERCEL_OIDC_TOKEN`, à rotation automatique) ; le token statique sert de repli hors
+Vercel. Aucune de ces variables n'est exposée au navigateur.
+
+Le mode d'accès étant **définitif**, il doit être choisi correctement à la création : un
+store créé en Public ne pourra pas servir de stockage privé pour `content.json`.
+
+Développement local : cocher aussi l'environnement **Development** à la création, puis
+`vercel env pull .env.local`. Sans ces variables, les routes échouent avec un message
+explicite (§10).
 
 ## 9. Risque de sécurité accepté
 
@@ -241,10 +292,11 @@ dans le `README.md`.
 
 | Cas | Comportement |
 |---|---|
-| `BLOB_READ_WRITE_TOKEN` absent | Lecture : repli sur `defaultContent`, le site reste debout. Écriture : 500 avec message explicite (« stockage non configuré »). |
-| Blob inexistant (premier lancement) | `readContent()` renvoie les defaults en version 0, sans erreur. |
+| Variables Blob absentes | Lecture : repli sur `defaultContent`, le site reste debout. Écriture : 500 avec message explicite (« stockage non configuré »). |
+| Blob inexistant (premier lancement) | `readContent()` renvoie les defaults avec `etag: null`, sans erreur. |
 | JSON du blob corrompu | Repli sur `defaultContent` + log serveur. Le site ne tombe jamais à cause du contenu. |
-| Conflit de version | `409`, message « contenu modifié entre-temps ». Le brouillon en cours reste à l'écran. |
+| `BlobPreconditionFailedError` (écriture concurrente) | `409`, message « contenu modifié entre-temps ». Le brouillon en cours reste à l'écran. |
+| Image déjà présente au même hash | Traité comme un succès, l'URL existante est renvoyée (§6.4). |
 | Payload invalide | `400` avec le motif précis. |
 | Échec réseau à l'enregistrement | Message d'erreur, brouillon conservé en mémoire, aucune perte tant que l'onglet reste ouvert. |
 
@@ -256,10 +308,12 @@ Tests unitaires (vitest, déjà configuré) sur les fonctions pures :
 
 - `validate` : rejet des clés manquantes, dépassement de taille, présence de `data:`
   résiduel ; acceptation d'un payload conforme.
-- Enveloppe : incrémentation de version, détection de conflit, repli defaults quand le
-  blob est absent ou corrompu.
 - Nommage des images : déterminisme du hash, extension dérivée du MIME validé.
-- `store.ts` et les routes API : testés avec le client Blob simulé.
+- `store.ts` avec client Blob simulé : repli sur les defaults quand le blob est absent
+  ou corrompu, propagation de l'ETag, conversion de `BlobPreconditionFailedError` en
+  `{ ok: false, reason: "conflict" }`.
+- Routes API avec client Blob simulé : `409` sur conflit, `400` sur payload invalide,
+  succès idempotent sur réenvoi d'une image déjà présente.
 
 Les tests existants (`merge.test.ts`, `data.test.ts`, `validation.test.ts`,
 `counter.test.ts`, `date.test.ts`) doivent rester verts.

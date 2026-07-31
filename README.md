@@ -261,37 +261,63 @@ navigateur.
 - Formats acceptés : tout ce que le navigateur sait décoder (PNG, JPEG, WebP,
   GIF, AVIF, BMP…).
 - Les images sont **redimensionnées automatiquement** (largeur max **1600 px**,
-  ré-encodées en **WebP**, repli JPEG/PNG) puis **stockées directement dans le
-  contenu** (data URL). Une alerte s'affiche si une image dépasse ~500 Ko.
+  ré-encodées en **WebP**, repli JPEG/PNG) puis **envoyées dans le store Blob
+  public** dès la sélection du fichier. Le contenu ne stocke que leur URL.
+- Le nom de fichier est le **hash du contenu** : réimporter la même image ne
+  crée pas de doublon.
 
 ### Persistance des modifications
 
-- Les modifications sont enregistrées dans le **`localStorage` du navigateur**.
-- Elles sont **visibles immédiatement sur CE navigateur** et **synchronisées
-  entre les onglets ouverts** (événement `storage`).
-- Elles ne sont **pas** visibles par les autres visiteurs tant qu'elles n'ont
-  pas été publiées (voir ci-dessous).
-- ⚠️ Le `localStorage` est **limité en taille** (~5 Mo selon le navigateur).
-  Beaucoup d'images volumineuses peuvent saturer ce quota : dans ce cas
-  l'enregistrement échoue et il faut **privilégier l'export**.
+Le contenu vit dans **Vercel Blob**, côté serveur. Il n'y a **aucun stockage
+navigateur** : la source est unique, donc tous les appareils voient la même
+chose.
 
-### Publier pour tout le monde
+- Le bouton **« Publier »** envoie le contenu au serveur.
+- Les changements sont visibles **immédiatement, par tous les visiteurs, sur
+  tous les appareils** — aucun redéploiement.
+- Les pages sont rendues **à chaque requête** (`dynamic = "force-dynamic"` dans
+  `src/app/layout.tsx`) et le blob est lu avec `useCache: false`, ce qui court-
+  circuite le cache CDN. C'est ce qui garantit l'effet immédiat.
+- ⚠️ Un brouillon non publié vit uniquement en mémoire : fermer l'onglet le
+  perd. Une alerte prévient avant la fermeture.
 
-Comme il n'y a pas de base de données, la publication globale se fait via un
-fichier JSON committé :
+### Deux stores Blob
 
-1. Dans **Import / Export**, cliquer sur **« Exporter »** → un fichier
-   `vcm-contenu-AAAA-MM-JJ.json` est téléchargé.
-2. Remplacer le contenu de **`src/content/imported.json`** par celui de ce
-   fichier exporté.
-3. **Commit + redéploiement** du site.
-4. Tout le monde voit alors les changements.
+Le mode d'accès est fixé **à la création du store** et **irréversible** :
 
-Ordre de priorité du contenu effectif :
-**`localStorage` (ce navigateur) > `src/content/imported.json` (committé, global)
-> valeurs par défaut**. Un `imported.json` vide (`{}`) ne change rien.
+| Store | Accès | Variables | Contenu |
+|---|---|---|---|
+| `vcm-contenu` | **Private** | `BLOB_STORE_ID` | `content.json`, lu au rendu |
+| `vcm-image` | **Public** | `BLOB_IMAGE_STORE_ID` | Images, servies par le CDN |
 
-### Réinitialiser
+L'authentification se fait par **OIDC** (`VERCEL_OIDC_TOKEN`), fourni
+automatiquement par Vercel. En local : `vercel env pull`.
 
-Le bouton **« Réinitialiser »** (Import / Export) efface les modifications
-locales de ce navigateur et restaure le **contenu par défaut**.
+### Édition à plusieurs
+
+L'ETag du contenu chargé est renvoyé à l'enregistrement. Si quelqu'un a publié
+entre-temps, le serveur répond **409** et invite à recharger, plutôt que
+d'écraser silencieusement son travail.
+
+### ⚠️ Sécurité de l'admin — limite connue
+
+Le mot de passe admin est une **constante du bundle JavaScript public**
+(`src/admin/config.ts`), dans un dépôt lui-même public. **Toute personne qui le
+lit peut modifier le contenu du site pour tous les visiteurs.** C'est un choix
+assumé du propriétaire du projet.
+
+Les routes d'écriture sont confinées : elles n'écrivent que `content.json` et
+`images/<hash>.<ext>`, jamais un chemin dérivé de l'entrée utilisateur — le pire
+cas est du contenu indésirable, pas l'exécution de code.
+
+Il **n'y a pas d'historique des versions** : en cas d'effacement, la seule
+récupération est un export JSON. **Exportez régulièrement** via Import / Export.
+
+Pour durcir : définir la variable d'environnement `ADMIN_PASSWORD` sur Vercel.
+Elle prend le pas sur la constante et le secret ne part alors plus au navigateur.
+
+### Contenu par défaut
+
+Le bouton **« Charger le contenu par défaut »** (Import / Export) charge les
+valeurs d'usine **dans l'éditeur**. Rien ne change en ligne tant que
+**« Publier »** n'a pas été cliqué.

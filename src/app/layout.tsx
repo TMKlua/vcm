@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { display, sans } from "@/lib/fonts";
 import { ContentProvider } from "@/content/ContentContext";
+import { readContent } from "@/content/store";
 import { club } from "@/data/club";
 import { SITE_URL } from "@/lib/seo";
 
@@ -96,11 +97,25 @@ const jsonLd = {
 
 /* ── Root layout ────────────────────────────────────────────────────────────── */
 
-export default function RootLayout({
+/**
+ * Render every page per request.
+ *
+ * Without this Next prerenders the tree at build time and bakes in whatever
+ * content existed then — an edit would only appear after a redeploy, which is
+ * precisely the bug this architecture removes. Reading the blob per request is
+ * what makes a save visible everywhere immediately.
+ */
+export const dynamic = "force-dynamic";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Resolved on the server, for every request: this is what makes an edit made
+  // on one device show up for every visitor on every other device.
+  const { content, etag, updatedAt } = await readContent();
+
   return (
     <html lang="fr" className={`${display.variable} ${sans.variable}`}>
       <body>
@@ -110,7 +125,9 @@ export default function RootLayout({
         />
         {/* ContentProvider wraps BOTH the public site and /admin so the admin
             can edit content and the public site reflects the changes. */}
-        <ContentProvider>{children}</ContentProvider>
+        <ContentProvider content={content} etag={etag} updatedAt={updatedAt}>
+          {children}
+        </ContentProvider>
       </body>
     </html>
   );

@@ -4,6 +4,8 @@ import { useId, useRef, useState } from "react";
 import { ImageIcon, Loader2, Upload, RotateCcw } from "lucide-react";
 import { Button, Field, TextInput } from "./ui";
 import { fileToImageData, dataUrlBytes } from "./image";
+import { ADMIN_HEADER } from "./apiAuth";
+import { ADMIN_PASSWORD } from "./config";
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Reusable image field for the admin.
@@ -48,8 +50,29 @@ export default function ImageInput({
     setError(null);
     setBusy(true);
     try {
+      // Downscale in the browser first — keeps the upload small and fast.
       const { dataUrl, width, height } = await fileToImageData(file);
-      onChange(dataUrl, { width, height });
+
+      // Then store it in the public blob store and keep only its URL, so images
+      // never travel inside the content payload.
+      const blob = await (await fetch(dataUrl)).blob();
+      const body = new FormData();
+      body.append("file", new File([blob], "image", { type: blob.type }));
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        headers: { [ADMIN_HEADER]: ADMIN_PASSWORD },
+        body,
+      });
+      const payload = (await response.json().catch(() => null)) as
+        | { ok?: boolean; url?: string; error?: string }
+        | null;
+
+      if (!response.ok || !payload?.ok || !payload.url) {
+        throw new Error(payload?.error ?? "Échec de l'envoi de l'image.");
+      }
+
+      onChange(payload.url, { width, height });
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Échec du traitement de l'image.",
@@ -102,7 +125,7 @@ export default function ImageInput({
                 ) : (
                   <Upload className="h-4 w-4" aria-hidden />
                 )}
-                {busy ? "Traitement…" : "Importer une image"}
+                {busy ? "Envoi…" : "Importer une image"}
               </Button>
               {defaultValue !== undefined && value !== defaultValue && (
                 <Button
@@ -122,9 +145,8 @@ export default function ImageInput({
               <p
                 className={`text-xs ${tooLarge ? "text-amber-300" : "text-white/40"}`}
               >
-                Image intégrée · {kb} Ko
-                {tooLarge &&
-                  " — volumineuse : risque de saturer le stockage local. Préférez une image plus petite ou exportez le contenu."}
+                Image intégrée · {kb} Ko — héritée de l&apos;ancien stockage local.
+                Elle sera envoyée automatiquement à la prochaine publication.
               </p>
             )}
             {error && (

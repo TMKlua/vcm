@@ -194,7 +194,7 @@ export interface SiteContent {
 }
 
 /**
- * Recursive partial — used for the localStorage overrides layer. Every property
+ * Recursive partial — used by `deepMerge` for partial content layers. Every property
  * (at any depth) is optional so an admin can override just a single leaf.
  *
  * Arrays are intentionally NOT made partial element-by-element: an override of

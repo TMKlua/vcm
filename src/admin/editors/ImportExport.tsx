@@ -2,29 +2,9 @@
 
 import { useRef, useState } from "react";
 import { Download, Upload, RotateCcw } from "lucide-react";
-import type { SiteContent } from "@/content/types";
+import { isValidContent } from "@/content/validate";
 import { useAdminDraft } from "../useAdminDraft";
 import { Button, Card, SectionTitle } from "../ui";
-
-/** Top-level keys every valid content export must contain. */
-const REQUIRED_KEYS: (keyof SiteContent)[] = [
-  "club",
-  "stats",
-  "teams",
-  "news",
-  "events",
-  "partners",
-  "gallery",
-  "faq",
-  "timeline",
-  "text",
-];
-
-function isValidContent(value: unknown): value is SiteContent {
-  if (typeof value !== "object" || value === null) return false;
-  const obj = value as Record<string, unknown>;
-  return REQUIRED_KEYS.every((k) => k in obj);
-}
 
 export default function ImportExport({
   onToast,
@@ -63,7 +43,7 @@ export default function ImportExport({
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
         const parsed = JSON.parse(String(reader.result));
         if (!isValidContent(parsed)) {
@@ -71,16 +51,14 @@ export default function ImportExport({
             "Le fichier ne contient pas toutes les sections attendues.",
           );
         }
-        // Atomically load the imported object into the draft AND persist it,
+        // Atomically load the imported object into the draft AND publish it,
         // so we never save a stale closure copy of the previous draft.
-        const ok = saveObject(parsed);
-        if (ok) {
-          onToast("Contenu importé et enregistré.");
+        const result = await saveObject(parsed);
+        if (result.ok) {
+          onToast("Contenu importé et publié pour tout le monde.");
         } else {
-          onToast(
-            "Importé, mais trop volumineux pour le stockage local — exportez plutôt le contenu.",
-            "error",
-          );
+          setImportError(result.error);
+          onToast(result.error, "error");
         }
       } catch (err) {
         const msg =
@@ -101,9 +79,12 @@ export default function ImportExport({
 
   function handleReset() {
     const ok = window.confirm(
-      "Réinitialiser tout le contenu aux valeurs par défaut ? Cette action efface vos modifications locales (ce navigateur).",
+      "Charger le contenu d'usine dans l'éditeur ? Rien ne change en ligne tant que vous n'avez pas cliqué sur « Publier ».",
     );
-    if (ok) resetAll();
+    if (ok) {
+      resetAll();
+      onToast("Contenu d'usine chargé — cliquez sur « Publier » pour l'appliquer.");
+    }
   }
 
   return (
@@ -156,29 +137,30 @@ export default function ImportExport({
           Réinitialiser
         </h3>
         <p className="text-sm text-white/60">
-          Restaure le contenu d&apos;usine et efface toutes les modifications
-          locales de ce navigateur.
+          Charge le contenu d&apos;usine dans l&apos;éditeur. Rien n&apos;est
+          modifié en ligne tant que vous n&apos;avez pas publié.
         </p>
         <Button variant="danger" onClick={handleReset}>
-          <RotateCcw className="h-4 w-4" /> Réinitialiser tout (contenu par défaut)
+          <RotateCcw className="h-4 w-4" /> Charger le contenu par défaut
         </Button>
       </Card>
 
       <Card className="space-y-2 bg-[#0a0418]/60">
         <h3 className="font-display text-sm uppercase tracking-wide text-white">
-          Comment publier pour tout le monde&nbsp;?
+          Comment ça marche&nbsp;?
         </h3>
         <p className="text-sm text-white/60">
-          Les modifications faites ici sont enregistrées dans le{" "}
-          <strong className="text-white/80">localStorage de ce navigateur</strong>{" "}
-          uniquement : elles ne sont visibles que par vous, sur cet appareil.
+          Le bouton <strong className="text-white/80">Publier</strong> enregistre
+          le contenu sur le serveur du site. Les modifications sont visibles{" "}
+          <strong className="text-white/80">
+            immédiatement, par tous les visiteurs, sur tous les appareils
+          </strong>{" "}
+          — aucun redéploiement nécessaire.
         </p>
         <p className="text-sm text-white/60">
-          Pour publier le contenu pour tous les visiteurs&nbsp;:{" "}
-          <strong className="text-white/80">Exportez</strong> le fichier JSON,
-          déposez-le dans le projet sous{" "}
-          <code className="rounded bg-white/10 px-1">src/content/imported.json</code>{" "}
-          puis redéployez le site.
+          Pensez à <strong className="text-white/80">exporter</strong> le contenu
+          de temps en temps : c&apos;est votre seule sauvegarde en cas de fausse
+          manœuvre.
         </p>
       </Card>
     </div>

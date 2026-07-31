@@ -1,125 +1,47 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useContext, useMemo } from "react";
 
-import { defaultContent } from "./defaults";
-import importedRaw from "./imported.json";
-import { deepMerge } from "./merge";
-import type { DeepPartial, SiteContent } from "./types";
+import type { SiteContent } from "./types";
 
-/** localStorage key for the persisted overrides layer. */
-export const CONTENT_STORAGE_KEY = "vcm_content_v1";
-
-/**
- * Committed, global override layer. Edited in /admin then exported and pasted
- * into `imported.json` + redeployed so ALL visitors see the changes (no DB).
+/* ──────────────────────────────────────────────────────────────────────────
+ * Content context.
  *
- * Precedence (highest first): localStorage (this browser) > imported.json
- * (committed, global) > defaults. `imported.json` is available at build time on
- * both the server and the client, so merging it into the very first render is
- * safe and produces no hydration mismatch.
- */
-const imported = importedRaw as DeepPartial<SiteContent>;
-
-/** Base content everyone sees by default = defaults + the committed import layer. */
-const baseContent: SiteContent = deepMerge(defaultContent, imported);
+ * The content is resolved on the SERVER (see `src/content/store.ts`) and handed
+ * down as props. There is deliberately no browser-side storage layer: a single
+ * server-side source of truth is what makes an edit visible on every device at
+ * once. Anything cached per-browser would resurrect the original bug.
+ *
+ * Because the provider derives straight from its props, a `router.refresh()`
+ * after a save re-renders the tree with the new content — no local state to
+ * keep in sync.
+ * ────────────────────────────────────────────────────────────────────────── */
 
 interface ContentContextValue {
-  /** Default content deep-merged with the current overrides. */
+  /** The live site content, as resolved server-side. */
   content: SiteContent;
-  /** The raw overrides layer (what gets persisted). */
-  overrides: DeepPartial<SiteContent>;
-  /** Replace the full overrides object (state + localStorage). */
-  setOverrides: (next: DeepPartial<SiteContent>) => void;
-  /** Clear all overrides (state + remove localStorage key). */
-  resetOverrides: () => void;
-  /** True once the client has read localStorage (post-hydration). */
-  isLoaded: boolean;
+  /** ETag of the stored content; null when nothing has been saved yet. */
+  etag: string | null;
+  /** ISO date of the last save, or null. */
+  updatedAt: string | null;
 }
 
 const ContentContext = createContext<ContentContextValue | null>(null);
 
-export function ContentProvider({ children }: { children: React.ReactNode }) {
-  // Start empty so the first render (SSR + initial client render) renders
-  // exactly `defaultContent` — avoids any hydration mismatch.
-  const [overrides, setOverridesState] = useState<DeepPartial<SiteContent>>({});
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Read persisted overrides once, on the client, after mount.
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(CONTENT_STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as DeepPartial<SiteContent>;
-        setOverridesState(parsed);
-      }
-    } catch (err) {
-      console.warn("[content] failed to read overrides from localStorage", err);
-    } finally {
-      setIsLoaded(true);
-    }
-  }, []);
-
-  // Cross-tab live update: when the admin saves in another tab the `storage`
-  // event fires here, so the public site reloads overrides without a refresh.
-  // (The `storage` event only fires in *other* tabs, never the one that wrote.)
-  useEffect(() => {
-    function onStorage(event: StorageEvent) {
-      if (event.key !== CONTENT_STORAGE_KEY) return;
-      try {
-        if (event.newValue) {
-          setOverridesState(JSON.parse(event.newValue) as DeepPartial<SiteContent>);
-        } else {
-          // Key removed (reset to factory defaults in another tab).
-          setOverridesState({});
-        }
-      } catch (err) {
-        console.warn("[content] failed to sync overrides from storage event", err);
-      }
-    }
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
-
-  const setOverrides = useCallback((next: DeepPartial<SiteContent>) => {
-    setOverridesState(next);
-    try {
-      window.localStorage.setItem(CONTENT_STORAGE_KEY, JSON.stringify(next));
-    } catch (err) {
-      console.warn("[content] failed to persist overrides to localStorage", err);
-      // Surface quota/persistence failures to callers (e.g. the admin save flow)
-      // so they can warn the user — the in-memory state is still updated.
-      throw err;
-    }
-  }, []);
-
-  const resetOverrides = useCallback(() => {
-    setOverridesState({});
-    try {
-      window.localStorage.removeItem(CONTENT_STORAGE_KEY);
-    } catch (err) {
-      console.warn("[content] failed to clear overrides from localStorage", err);
-    }
-  }, []);
-
-  // Effective content = defaults + imported.json + localStorage overrides.
-  // `baseContent` (defaults + imported) is the same on server + initial client
-  // render; localStorage `overrides` start empty and are applied after mount.
-  const content = useMemo(
-    () => deepMerge(baseContent, overrides),
-    [overrides],
-  );
-
+export function ContentProvider({
+  content,
+  etag = null,
+  updatedAt = null,
+  children,
+}: {
+  content: SiteContent;
+  etag?: string | null;
+  updatedAt?: string | null;
+  children: React.ReactNode;
+}) {
   const value = useMemo<ContentContextValue>(
-    () => ({ content, overrides, setOverrides, resetOverrides, isLoaded }),
-    [content, overrides, setOverrides, resetOverrides, isLoaded],
+    () => ({ content, etag, updatedAt }),
+    [content, etag, updatedAt],
   );
 
   return (
@@ -127,20 +49,11 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Access the merged content + admin controls. Throws if used outside the provider. */
+/** Access the live content. Throws if used outside the provider. */
 export function useContent(): ContentContextValue {
   const ctx = useContext(ContentContext);
   if (ctx === null) {
     throw new Error("useContent must be used within a <ContentProvider>");
   }
   return ctx;
-}
-
-/** Admin-focused accessor — overrides + setters. Throws if used outside the provider. */
-export function useContentAdmin(): Pick<
-  ContentContextValue,
-  "overrides" | "setOverrides" | "resetOverrides" | "isLoaded"
-> {
-  const { overrides, setOverrides, resetOverrides, isLoaded } = useContent();
-  return { overrides, setOverrides, resetOverrides, isLoaded };
 }

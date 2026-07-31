@@ -4,7 +4,8 @@ import { get, put, BlobPreconditionFailedError } from "@vercel/blob";
 
 import { defaultContent } from "./defaults";
 import { imagePathname } from "./images";
-import type { SiteContent } from "./types";
+import { deepMerge } from "./merge";
+import type { DeepPartial, SiteContent } from "./types";
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Server-side content store — the single source of truth for the whole site.
@@ -81,7 +82,10 @@ export async function readContent(): Promise<ContentSnapshot> {
     }
 
     return {
-      content: parsed.content as SiteContent,
+      // Merged over the defaults so a payload missing a field — an older
+      // export, a hand-edited JSON — degrades to the default value instead of
+      // crashing a page on an undefined read.
+      content: deepMerge(defaultContent, parsed.content as DeepPartial<SiteContent>),
       etag: result.blob.etag,
       updatedAt: parsed.updatedAt ?? null,
     };

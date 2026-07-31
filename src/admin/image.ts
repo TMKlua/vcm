@@ -4,8 +4,8 @@
  * Takes any raster image File the browser can decode (PNG, JPEG, WebP, GIF,
  * AVIF, BMP…), downscales it to a max width preserving aspect ratio (never
  * upscales), and exports a compact data URL — WebP when supported (keeps alpha),
- * falling back to JPEG. The data URL is stored directly in the content overrides
- * (localStorage), so keeping it small matters.
+ * falling back to JPEG. The caller uploads the result to the public blob store
+ * and keeps only its URL, so keeping the payload small matters.
  *
  * Runs only in the browser (called from event handlers); guarded for SSR.
  * ────────────────────────────────────────────────────────────────────────── */

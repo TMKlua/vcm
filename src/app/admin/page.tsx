@@ -88,7 +88,7 @@ interface ToastState {
 }
 
 function Dashboard() {
-  const { ready, dirty, save, discard } = useAdminDraft();
+  const { ready, dirty, saving, save, discard } = useAdminDraft();
   const [section, setSection] = useState<SectionId>("dashboard");
   const [navOpen, setNavOpen] = useState(false);
   const [toast, setToast] = useState<ToastState | null>(null);
@@ -97,15 +97,12 @@ function Dashboard() {
     setToast({ message, type });
   }
 
-  function handleSave() {
-    const ok = save();
-    if (ok) {
-      pushToast("Modifications enregistrées.");
+  async function handleSave() {
+    const result = await save();
+    if (result.ok) {
+      pushToast("Publié — visible par tout le monde, sur tous les appareils.");
     } else {
-      pushToast(
-        "Trop d'images volumineuses pour le stockage local — exportez plutôt le contenu.",
-        "error",
-      );
+      pushToast(result.error, "error");
     }
   }
 
@@ -178,20 +175,21 @@ function Dashboard() {
               Administration VCM
             </p>
             <p className="flex items-center gap-2 text-xs text-white/50">
-              {ready ? (
-                dirty ? (
-                  <span className="inline-flex items-center gap-1.5 text-amber-300">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                    Modifications non enregistrées
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1.5 text-emerald-300">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    À jour
-                  </span>
-                )
+              {saving ? (
+                <span className="inline-flex items-center gap-1.5 text-sky-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+                  Publication en cours…
+                </span>
+              ) : dirty ? (
+                <span className="inline-flex items-center gap-1.5 text-amber-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  Modifications non publiées
+                </span>
               ) : (
-                "Chargement…"
+                <span className="inline-flex items-center gap-1.5 text-emerald-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  En ligne
+                </span>
               )}
             </p>
           </div>
@@ -206,14 +204,20 @@ function Dashboard() {
               <ExternalLink className="h-4 w-4" />
               <span className="hidden sm:inline">Voir le site</span>
             </a>
-            {dirty && (
+            {dirty && !saving && (
               <Button variant="ghost" onClick={discard}>
                 Annuler
               </Button>
             )}
-            <Button variant="primary" onClick={handleSave} disabled={!ready || !dirty}>
+            <Button
+              variant="primary"
+              onClick={handleSave}
+              disabled={!ready || !dirty || saving}
+            >
               <Save className="h-4 w-4" />
-              <span className="hidden sm:inline">Enregistrer</span>
+              <span className="hidden sm:inline">
+                {saving ? "Publication…" : "Publier"}
+              </span>
             </Button>
             <button
               type="button"

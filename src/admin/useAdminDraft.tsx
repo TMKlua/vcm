@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -10,47 +11,51 @@ import {
 } from "react";
 
 import { useContent } from "@/content/ContentContext";
+import { defaultContent } from "@/content/defaults";
 import type { SiteContent } from "@/content/types";
+import { ADMIN_HEADER } from "./apiAuth";
+import { ADMIN_PASSWORD } from "./config";
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Admin draft — the spine all editors build on.
  *
- * The draft is a deep clone of the live `content`, initialised once after the
- * content context has read localStorage (`isLoaded`). Editors mutate the draft
- * immutably via `update(path, value)` or `setSection`. `save()` pushes the full
- * draft into the content store (deepMerge replaces arrays + merges objects, so
- * the draft becomes the active content). `dirty` compares draft vs. last saved.
+ * The draft is an in-memory copy of the live content. Nothing is persisted in
+ * the browser: `save()` posts to /api/content, which writes the shared blob so
+ * the change is live for every visitor on every device.
+ *
+ * Because there is no local safety net, an unsaved draft is lost when the tab
+ * closes — hence the beforeunload guard below.
+ *
+ * Concurrency: the ETag read alongside the content travels back on save. If
+ * somebody else saved in between, the server refuses the write (409) instead of
+ * silently discarding their work.
  * ────────────────────────────────────────────────────────────────────────── */
 
 /** Dotted path into SiteContent, e.g. "club.contact.email" or "text.hero.kicker". */
 type Path = string;
 
+export type SaveOutcome = { ok: true } | { ok: false; error: string };
+
 interface AdminDraftValue {
   /** The editable working copy. `null` until content has loaded. */
   draft: SiteContent | null;
-  /** True once the draft has been initialised from loaded content. */
+  /** True once the draft has been initialised. */
   ready: boolean;
   /** Immutable deep set by dotted path. */
   update: (path: Path, value: unknown) => void;
   /** Replace a whole top-level section (club, text, teams, …). */
-  setSection: <K extends keyof SiteContent>(
-    key: K,
-    value: SiteContent[K],
-  ) => void;
+  setSection: <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => void;
   /** True when the draft differs from the last saved snapshot. */
   dirty: boolean;
-  /** Persist the draft (setOverrides) and mark clean. Returns true on success. */
-  save: () => boolean;
-  /**
-   * Atomically replace the draft with `next` AND persist it (used by Import).
-   * Avoids the stale-closure trap of `loadDraft(obj)` + `save()`: this both sets
-   * the draft state and writes `next` straight to the content store in one go.
-   * Returns true on success, false if persistence failed (draft still updated).
-   */
-  saveObject: (next: SiteContent) => boolean;
-  /** Reset the draft back to the current live content. */
+  /** True while a save request is in flight. */
+  saving: boolean;
+  /** Publish the draft for everyone. */
+  save: () => Promise<SaveOutcome>;
+  /** Atomically replace the draft with `next` AND publish it (used by Import). */
+  saveObject: (next: SiteContent) => Promise<SaveOutcome>;
+  /** Reset the draft back to the last published content. */
   discard: () => void;
-  /** Wipe all overrides → factory defaults, and reset the draft to those. */
+  /** Load the factory defaults into the draft (still needs a save to go live). */
   resetAll: () => void;
   /** Replace the entire draft (used by Import). Marks dirty until saved. */
   loadDraft: (next: SiteContent) => void;
@@ -84,68 +89,83 @@ function setByPath<T>(obj: T, path: Path, value: unknown): T {
 }
 
 export function AdminDraftProvider({ children }: { children: React.ReactNode }) {
-  const { content, setOverrides, resetOverrides, isLoaded } = useContent();
+  const { content, etag: serverEtag } = useContent();
+  const router = useRouter();
 
-  const [draft, setDraft] = useState<SiteContent | null>(null);
-  // JSON snapshot of the last-saved state, used for the dirty comparison.
-  const [savedSnapshot, setSavedSnapshot] = useState<string>("");
-
-  // Initialise the draft once, after content has loaded from localStorage.
-  useEffect(() => {
-    if (isLoaded && draft === null) {
-      const initial = clone(content);
-      setDraft(initial);
-      setSavedSnapshot(JSON.stringify(initial));
-    }
-    // Intentionally only depends on isLoaded — we snapshot once, not on every
-    // content change (cross-tab changes are handled by the public site, and we
-    // don't want to clobber an in-progress edit).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoaded]);
+  const [draft, setDraft] = useState<SiteContent>(() => clone(content));
+  const [savedSnapshot, setSavedSnapshot] = useState<string>(() =>
+    JSON.stringify(content),
+  );
+  const [etag, setEtag] = useState<string | null>(serverEtag);
+  const [saving, setSaving] = useState(false);
 
   const update = useCallback((path: Path, value: unknown) => {
-    setDraft((prev) => (prev ? setByPath(prev, path, value) : prev));
+    setDraft((prev) => setByPath(prev, path, value));
   }, []);
 
   const setSection = useCallback(
     <K extends keyof SiteContent>(key: K, value: SiteContent[K]) => {
-      setDraft((prev) => (prev ? { ...prev, [key]: value } : prev));
+      setDraft((prev) => ({ ...prev, [key]: value }));
     },
     [],
   );
 
-  const save = useCallback((): boolean => {
-    if (!draft) return false;
-    try {
-      setOverrides(draft);
-    } catch {
-      // Persistence failed (most likely localStorage quota exceeded due to
-      // large embedded images). Leave the draft dirty so nothing is lost.
-      return false;
-    }
-    // Updating the snapshot recomputes `dirty` (now false).
-    setSavedSnapshot(JSON.stringify(draft));
-    return true;
-  }, [draft, setOverrides]);
+  const dirty = useMemo(
+    () => JSON.stringify(draft) !== savedSnapshot,
+    [draft, savedSnapshot],
+  );
+
+  /** POST the given content and, on success, mark it as the new baseline. */
+  const publish = useCallback(
+    async (next: SiteContent): Promise<SaveOutcome> => {
+      setSaving(true);
+      try {
+        const response = await fetch("/api/content", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            [ADMIN_HEADER]: ADMIN_PASSWORD,
+          },
+          body: JSON.stringify({ content: next, etag }),
+        });
+
+        const payload = (await response.json().catch(() => null)) as
+          | { ok?: boolean; etag?: string; error?: string }
+          | null;
+
+        if (!response.ok || !payload?.ok) {
+          return {
+            ok: false,
+            error: payload?.error ?? "Échec de l'enregistrement.",
+          };
+        }
+
+        setEtag(payload.etag ?? null);
+        setSavedSnapshot(JSON.stringify(next));
+        // Re-render server components so the public site picks up the change.
+        router.refresh();
+        return { ok: true };
+      } catch {
+        return {
+          ok: false,
+          error: "Connexion impossible. Vérifiez votre réseau et réessayez.",
+        };
+      } finally {
+        setSaving(false);
+      }
+    },
+    [etag, router],
+  );
+
+  const save = useCallback(() => publish(draft), [publish, draft]);
 
   const saveObject = useCallback(
-    (next: SiteContent): boolean => {
+    async (next: SiteContent): Promise<SaveOutcome> => {
       const cloned = clone(next);
-      // Set the draft from the passed object (not via stale closure state).
       setDraft(cloned);
-      const snapshot = JSON.stringify(cloned);
-      try {
-        setOverrides(cloned);
-      } catch {
-        // Persistence failed (e.g. localStorage quota). The draft is updated
-        // in memory but stays dirty so the user can export instead.
-        return false;
-      }
-      // Mark clean: the snapshot now matches the just-persisted draft.
-      setSavedSnapshot(snapshot);
-      return true;
+      return publish(cloned);
     },
-    [setOverrides],
+    [publish],
   );
 
   const discard = useCallback(() => {
@@ -155,42 +175,41 @@ export function AdminDraftProvider({ children }: { children: React.ReactNode }) 
   }, [content]);
 
   const resetAll = useCallback(() => {
-    resetOverrides();
-    // After clearing overrides the live content is the factory default. We can't
-    // read the post-reset content synchronously here, so reconstruct the draft
-    // from defaults via a clone of current content minus overrides on next tick.
-    // Simplest correct approach: reload so the provider re-reads cleared state.
-    if (typeof window !== "undefined") {
-      window.location.reload();
-    }
-  }, [resetOverrides]);
-
-  const loadDraft = useCallback((next: SiteContent) => {
-    const cloned = clone(next);
-    setDraft(cloned);
-    // Leave the saved snapshot as-is so the imported draft shows as dirty until
-    // the caller saves it (Import flow saves immediately afterwards).
+    // Loaded into the draft only — going live still requires an explicit save,
+    // so a mis-click can never wipe the published site.
+    setDraft(clone(defaultContent));
   }, []);
 
-  const dirty = useMemo(() => {
-    if (!draft) return false;
-    return JSON.stringify(draft) !== savedSnapshot;
-  }, [draft, savedSnapshot]);
+  const loadDraft = useCallback((next: SiteContent) => {
+    setDraft(clone(next));
+  }, []);
+
+  // No localStorage fallback any more: warn before losing an unsaved draft.
+  useEffect(() => {
+    if (!dirty) return;
+    function onBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [dirty]);
 
   const value = useMemo<AdminDraftValue>(
     () => ({
       draft,
-      ready: draft !== null,
+      ready: true,
       update,
       setSection,
       dirty,
+      saving,
       save,
       saveObject,
       discard,
       resetAll,
       loadDraft,
     }),
-    [draft, update, setSection, dirty, save, saveObject, discard, resetAll, loadDraft],
+    [draft, update, setSection, dirty, saving, save, saveObject, discard, resetAll, loadDraft],
   );
 
   return (

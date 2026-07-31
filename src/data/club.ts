@@ -18,7 +18,10 @@ export const club: ClubInfo = {
     email: "volleymarseillan@gmail.com",
   },
   schedule: "Entraînements les lundis et mercredis",
-  logo: "/logo-vcm.png",
+  // No logo file ships with the repo. Empty means "use the gradient badge" —
+  // pointing at a missing file made every device 404 and paint the alt text.
+  // Upload a real logo from /admin and it lands in the public blob store.
+  logo: "",
   socials: {
     facebook: "https://www.facebook.com/volleyclub.marseillanais/",
     instagram: "https://www.instagram.com/volleyclubmarseillanais/", // [À CONFIRMER]

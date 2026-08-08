@@ -1,5 +1,7 @@
 "use client";
 
+import { useContent } from "@/content/ContentContext";
+
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -13,6 +15,7 @@ interface TeamCardProps {
 }
 
 export default function TeamCard({ team, className }: TeamCardProps) {
+  const ui = useContent().content.text.ui;
   return (
     <TiltCard
       className={[
@@ -85,7 +88,7 @@ export default function TeamCard({ team, className }: TeamCardProps) {
         {/* Découvrir affordance */}
         <div className="mt-1 flex items-center gap-1.5">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-violet-500 transition-colors duration-300 group-hover:text-fuchsia-vcm">
-            Découvrir
+            {ui?.teamCardCta ?? "Découvrir"}
           </span>
           <span
             className="text-violet-500 transition-all duration-300 group-hover:text-fuchsia-vcm group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

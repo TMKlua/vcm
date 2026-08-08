@@ -1,3 +1,7 @@
+"use client";
+
+import { useContent } from "@/content/ContentContext";
+
 /**
  * SkipLink — "Aller au contenu" bypass link.
  *
@@ -7,6 +11,7 @@
  * focusable element in the document.
  */
 export default function SkipLink() {
+  const ui = useContent().content.text.ui;
   return (
     <a
       href="#contenu"
@@ -24,7 +29,7 @@ export default function SkipLink() {
         focus-visible:ring-offset-2 focus-visible:ring-offset-ink
       "
     >
-      Aller au contenu
+      {ui?.skipLink ?? "Aller au contenu"}
     </a>
   );
 }

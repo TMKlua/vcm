@@ -40,6 +40,24 @@ export type TeamContent = Team & {
  * rendered). Later tasks will refactor the components/pages to read these
  * values from the content context instead of hardcoded JSX.
  */
+/** Une étape numérotée (page Inscriptions). */
+export interface StepItem {
+  title: string;
+  description: string;
+}
+
+/** Une pièce à fournir (page Inscriptions). */
+export interface DocumentItem {
+  label: string;
+  note?: string | null;
+}
+
+/** Un bénéfice illustré (page Sport Santé). */
+export interface BenefitItem {
+  title: string;
+  text: string;
+}
+
 export interface SiteText {
   /** Home — Hero section. */
   hero: {
@@ -50,6 +68,10 @@ export interface SiteText {
     locationChip: string;
     ctaPrimary: string;
     ctaSecondary: string;
+    /** Photo de fond du hero. Vide → image livrée avec le site. */
+    image?: string;
+    /** Libellé de l'indicateur de défilement (« Défiler »). */
+    scrollHint?: string;
   };
   /** Home — Intro section. */
   intro: {
@@ -58,6 +80,10 @@ export interface SiteText {
     titleAccent?: string;
     body: string;
     cta: string;
+    /** Photo de la section « Le Club ». */
+    image?: string;
+    /** Badge posé sur la photo (ex. « Saison 2024–2025 »). */
+    imageCaption?: string;
   };
   /** Home — Stats section. */
   stats: {
@@ -70,6 +96,8 @@ export interface SiteText {
     title: string;
     subtitle: string;
     cta: string;
+    /** Bouton en bas de section (« Voir toutes les équipes »). */
+    ctaAll?: string;
   };
   /** Home — Events preview section. */
   events: {
@@ -97,6 +125,10 @@ export interface SiteText {
     title: string;
     subtitle: string;
     cta: string;
+    /** Pastille au-dessus du titre (ex. « Saison 2025–2026 »). */
+    kicker?: string;
+    /** Second bouton (« Nous contacter »). */
+    ctaSecondary?: string;
   };
   /** Home — Quick contact section. */
   contactQuick: {
@@ -109,6 +141,62 @@ export interface SiteText {
   footer: {
     tagline: string;
     copyright?: string;
+    /** Intitulés des colonnes et du lien légal. */
+    navHeading?: string;
+    practicesHeading?: string;
+    contactHeading?: string;
+    legalLabel?: string;
+  };
+  /** Libellés d'interface réutilisés dans la navigation. */
+  labels?: {
+    /** Bouton de la barre de navigation (desktop). */
+    navCta?: string;
+    /** Bouton des menus mobile / méga-menu. */
+    navCtaLong?: string;
+  };
+  /** Libellés partagés par plusieurs pages et composants. */
+  ui?: {
+    /** Premier maillon du fil d'Ariane. */
+    breadcrumbHome?: string;
+    /** Intitulés d'une fiche équipe. */
+    teamObjectives?: string;
+    teamSchedule?: string;
+    teamRoster?: string;
+    /** Encart promotionnel du méga-menu. */
+    megaMenuTitle?: string;
+    megaMenuText?: string;
+    megaMenuCta?: string;
+    /** Libellé du lien Clubeo. */
+    clubeoLabel?: string;
+    /** Lien d'évitement en haut de page. */
+    skipLink?: string;
+    /** Bouton d'itinéraire sous la carte. */
+    mapDirections?: string;
+    /** Badge « à la une » d'une actualité. */
+    newsFeatured?: string;
+    /** Lien d'une carte équipe sur l'accueil. */
+    teamCardCta?: string;
+    /** Libellés des boutons réseaux sociaux. */
+    socialFacebook?: string;
+    socialInstagram?: string;
+    socialWebsite?: string;
+    /** Formulaire de contact. */
+    form?: {
+      kicker?: string;
+      heading?: string;
+      note?: string;
+      nameLabel?: string;
+      namePlaceholder?: string;
+      emailLabel?: string;
+      emailPlaceholder?: string;
+      messageLabel?: string;
+      messagePlaceholder?: string;
+      submit?: string;
+      errorSummary?: string;
+      successTitle?: string;
+      successBody?: string;
+      successAgain?: string;
+    };
   };
   /** Per-page heroes and prose. */
   pages: {
@@ -121,12 +209,22 @@ export interface SiteText {
       visionTitle: string;
       visionBody: string;
       cta: string;
+      /** Photo illustrant l'intro de la page. */
+      image?: string;
+      introKicker?: string;
+      timelineKicker?: string;
+      timelineSubtitle?: string;
+      visionKicker?: string;
+      visionExtra?: string;
     };
     equipes: {
       heroKicker: string;
       heroTitle: string;
       heroSubtitle: string;
       cta: string;
+      ctaKicker?: string;
+      ctaTitle?: string;
+      ctaBody?: string;
     };
     sportSante: {
       heroKicker: string;
@@ -138,6 +236,16 @@ export interface SiteText {
       inclusionTitle: string;
       inclusionBody: string[];
       cta: string;
+      introKicker?: string;
+      benefitsKicker?: string;
+      benefitsIntro?: string;
+      inclusionKicker?: string;
+      ctaKicker?: string;
+      ctaTitle?: string;
+      ctaBody?: string;
+      ctaSecondary?: string;
+      /** Les 6 vignettes « Ce que vous y gagnez ». */
+      benefits?: BenefitItem[];
     };
     inscriptions: {
       heroKicker: string;
@@ -148,6 +256,34 @@ export interface SiteText {
       linksHeading?: string;
       faqHeading: string;
       cta: string;
+      stepsKicker?: string;
+      stepsIntro?: string;
+      ffvolleyCta?: string;
+      documentsKicker?: string;
+      documentsIntro?: string;
+      contactHeading?: string;
+      contactPersonLabel?: string;
+      scheduleHeading?: string;
+      tipHeading?: string;
+      tipBody?: string;
+      linksKicker?: string;
+      linksIntro?: string;
+      clubeoTitle?: string;
+      clubeoBody?: string;
+      clubeoCta?: string;
+      licenceTitle?: string;
+      licenceBody?: string;
+      contactCta?: string;
+      faqKicker?: string;
+      faqIntro?: string;
+      ctaKicker?: string;
+      ctaTitle?: string;
+      ctaBody?: string;
+      ctaSecondary?: string;
+      /** Les étapes numérotées. */
+      steps?: StepItem[];
+      /** Les pièces du dossier. */
+      documents?: DocumentItem[];
     };
     partenaires: {
       heroKicker: string;
@@ -157,16 +293,34 @@ export interface SiteText {
       becomeTitle: string;
       becomeBody: string[];
       cta: string;
+      wallKicker?: string;
+      wallIntro?: string;
+      becomeKicker?: string;
+      /** Intitulés des trois niveaux de partenariat. */
+      tiers?: { label: string; description: string }[];
+      becomeCtaTitle?: string;
+      contactCta?: string;
     };
     galerie: {
       heroKicker: string;
       heroTitle: string;
       heroSubtitle: string;
+      sectionKicker?: string;
+      sectionTitle?: string;
+      sectionBody?: string;
     };
     actualites: {
       heroKicker: string;
       heroTitle: string;
       heroSubtitle: string;
+      latestLabel?: string;
+      allLabel?: string;
+      relatedHeading?: string;
+      backLabel?: string;
+      articleCta?: string;
+      notFoundKicker?: string;
+      notFoundTitle?: string;
+      notFoundBody?: string;
     };
     contact: {
       heroKicker: string;
@@ -175,6 +329,11 @@ export interface SiteText {
       infoHeading?: string;
       formHeading?: string;
       mapHeading?: string;
+      contactsHeading?: string;
+      contactPersonLabel?: string;
+      scheduleLabel?: string;
+      socialsHeading?: string;
+      mapKicker?: string;
     };
   };
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { MapPin, Phone, Mail, Globe } from "lucide-react";
-import { motion } from "framer-motion";
 
+import ClubMap from "@/components/ui/ClubMap";
 import Reveal from "@/components/motion/Reveal";
 import ScrollBall from "@/components/motion/ScrollBall";
 import MagneticButton from "@/components/ui/MagneticButton";
@@ -17,9 +17,11 @@ import { useContent } from "@/content/ContentContext";
  *   - Email as mailto: link with Mail icon
  *   - Social links: Globe for website; inline SVG "f" path for Facebook
  *     (lucide-react v1 has no Facebook icon — we use a minimal inline SVG)
+ *   - Créneaux d'entraînement (affichés sous la carte)
  *   - MagneticButton "Nous contacter" → /contact
  *
- * Layout: two-column on md+ (contact info left, decorative gradient panel right)
+ * Layout: two-column on md+ (contact info left, Google Maps embed right).
+ * The map stays visible on mobile portrait — it sits below the contact rows.
  */
 
 // Minimal Instagram icon as inline SVG — avoids non-existent lucide Instagram import
@@ -163,6 +165,7 @@ export default function ContactQuick() {
                   </a>
                 </div>
               </Reveal>
+
             </div>
 
             {/* Social links */}
@@ -216,7 +219,7 @@ export default function ContactQuick() {
                     aria-label="VCM sur Clubeo (nouvel onglet)"
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/70 transition-all duration-200 hover:border-fuchsia-vcm/40 hover:bg-fuchsia-vcm/10 hover:text-fuchsia-vcm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                   >
-                    Clubeo
+                    {text.ui?.clubeoLabel ?? "Clubeo"}
                   </a>
                 )}
               </div>
@@ -236,60 +239,13 @@ export default function ContactQuick() {
             </Reveal>
           </div>
 
-          {/* Right: decorative gradient panel */}
+          {/* Right: Google Maps embed — visible on every viewport, portrait included */}
           <Reveal delay={0.2}>
-            <motion.div
-              className="relative hidden overflow-hidden rounded-3xl border border-white/10 bg-night md:block"
-              style={{ minHeight: "22rem" }}
-              whileHover={{ scale: 1.01 }}
-              transition={{ duration: 0.4, ease: [0.25, 0, 0, 1] }}
-            >
-              {/* Gradient mesh background */}
-              <div
-                aria-hidden
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #15082e 0%, #1a0b3a 40%, rgba(124,58,237,0.25) 80%, rgba(192,38,211,0.2) 100%)",
-                }}
-              />
-
-              {/* Subtle court grid lines overlay */}
-              <svg
-                aria-hidden
-                className="absolute inset-0 h-full w-full opacity-[0.06] text-violet-500"
-                viewBox="0 0 400 280"
-                fill="none"
-                preserveAspectRatio="xMidYMid slice"
-              >
-                {/* Horizontal lines */}
-                {[40, 100, 140, 180, 240].map((y) => (
-                  <line key={y} x1="20" y1={y} x2="380" y2={y} stroke="currentColor" strokeWidth="1" />
-                ))}
-                {/* Vertical lines */}
-                {[60, 140, 200, 260, 340].map((x) => (
-                  <line key={x} x1={x} y1="20" x2={x} y2="260" stroke="currentColor" strokeWidth="1" />
-                ))}
-                {/* Center/net */}
-                <line x1="200" y1="20" x2="200" y2="260" stroke="currentColor" strokeWidth="2" strokeDasharray="6 5" />
-              </svg>
-
-              {/* Club info overlay */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-8 text-center">
-                <span className="font-display text-4xl text-white/10 select-none">VCM</span>
-                <div className="h-px w-20 bg-gradient-to-r from-transparent via-fuchsia-vcm/40 to-transparent" aria-hidden />
-                <p className="text-sm font-medium text-white/75">
-                  Gymnase Louis Boudou
-                </p>
-                <p className="text-xs text-white/60">
-                      {club.address.postalCode} Marseillan · Hérault
-                </p>
-                <div className="mt-4 h-px w-20 bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" aria-hidden />
-                <p className="text-xs font-medium uppercase tracking-[0.2em] text-fuchsia-vcm/70">
-                  {club.schedule}
-                </p>
-              </div>
-            </motion.div>
+            <ClubMap
+              address={club.address}
+              schedule={club.schedule}
+              directionsLabel={text.ui?.mapDirections}
+            />
           </Reveal>
         </div>
       </div>

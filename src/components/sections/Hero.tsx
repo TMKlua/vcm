@@ -71,7 +71,7 @@ export default function Hero() {
         className="absolute inset-0 -z-30 will-change-transform"
       >
         <Image
-          src="/images/hero/hero-1.jpg"
+          src={text.hero.image || "/images/hero/hero-1.jpg"}
           alt=""
           fill
           priority
@@ -167,8 +167,15 @@ export default function Hero() {
                 text={text.hero.titleLine1}
                 className="block text-[clamp(3.25rem,11vw,9rem)]"
               />
-              <span className="mt-1 block text-gradient text-[clamp(3.25rem,11vw,9rem)] [-webkit-text-fill-color:transparent]">
-                <TextReveal text={text.hero.titleLine2} className="block" />
+              {/* Le dégradé est posé sur les mots, pas sur ce conteneur : sur
+                  WebKit un `background-clip: text` parent ne peint rien
+                  au-dessus d'un enfant transformé, et la ligne disparaissait. */}
+              <span className="mt-1 block text-[clamp(3.25rem,11vw,9rem)]">
+                <TextReveal
+                  text={text.hero.titleLine2}
+                  className="block"
+                  wordClassName="text-gradient"
+                />
               </span>
             </span>
           </h1>
@@ -224,7 +231,7 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 bottom-6 z-10 flex flex-col items-center gap-2 sm:bottom-8"
       >
         <span className="text-[0.7rem] font-medium uppercase tracking-[0.3em] text-white/55">
-          Défiler
+          {text.hero.scrollHint ?? "Défiler"}
         </span>
         <motion.span
           animate={reduce ? undefined : { y: [0, 7, 0] }}

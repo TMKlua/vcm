@@ -15,6 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { NavLink, Team } from "@/types";
+import { useContent } from "@/content/ContentContext";
 
 /**
  * MegaMenu — reusable animated dropdown panel for the Navbar.
@@ -61,6 +62,7 @@ export default function MegaMenu({
   triggerRef,
   align = "left",
 }: MegaMenuProps) {
+  const ui = useContent().content.text.ui;
   const reduce = useReducedMotion();
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -188,13 +190,13 @@ export default function MegaMenu({
                     className="absolute -right-8 -top-10 size-32 rounded-full bg-white/20 blur-2xl"
                   />
                   <span className="relative z-10 font-display text-lg uppercase leading-tight text-white">
-                    Rejoignez le club
+                    {ui?.megaMenuTitle ?? "Rejoignez le club"}
                   </span>
                   <span className="relative z-10 mt-1 text-xs leading-snug text-white/85">
-                    Du Baby Volley à la compétition, une place pour chacun.
+                    {ui?.megaMenuText ?? "Du Baby Volley à la compétition, une place pour chacun."}
                   </span>
                   <span className="relative z-10 mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-widest text-white">
-                    S&rsquo;inscrire
+                    {ui?.megaMenuCta ?? "S’inscrire"}
                     <ArrowUpRight className="size-4 transition-transform group-hover/promo:translate-x-0.5 group-hover/promo:-translate-y-0.5" aria-hidden />
                   </span>
                 </Link>

@@ -28,6 +28,7 @@ function categoryClass(cat: string): string {
 
 export default function ArticleView({ slug }: { slug: string }) {
   const { content } = useContent();
+  const t = content.text.pages.actualites;
   const article = content.news.find((n) => n.slug === slug);
 
   /* ── Article introuvable — friendly client state (NOT a hard 404) ───────── */
@@ -36,21 +37,21 @@ export default function ArticleView({ slug }: { slug: string }) {
       <Section tone="dark" id="article-introuvable">
         <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 py-24 text-center sm:py-32">
           <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-            Oups
+            {t.notFoundKicker ?? "Oups"}
           </span>
           <h1 className="font-display text-[clamp(2rem,5vw,3.5rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]">
-            Article introuvable
+            {t.notFoundTitle ?? "Article introuvable"}
           </h1>
           <p className="max-w-md text-[0.95rem] leading-relaxed text-white/70">
-            L&rsquo;article que vous recherchez n&rsquo;existe pas ou n&rsquo;est plus
-            disponible. Retrouvez toutes nos actualités sur la page dédiée.
+            {t.notFoundBody ??
+              "L’article que vous recherchez n’existe pas ou n’est plus disponible. Retrouvez toutes nos actualités sur la page dédiée."}
           </p>
           <Link
             href="/actualites"
             className="group inline-flex items-center gap-2 rounded-full border border-fuchsia-vcm/30 bg-fuchsia-vcm/10 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-fuchsia-vcm transition-all duration-300 hover:bg-fuchsia-vcm/20 hover:border-fuchsia-vcm/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
           >
             <ArrowLeft className="size-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" aria-hidden />
-            Toutes les actualités
+            {t.allLabel ?? "Toutes les actualités"}
           </Link>
         </div>
       </Section>
@@ -119,7 +120,7 @@ export default function ArticleView({ slug }: { slug: string }) {
               className="mb-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/40 transition-colors duration-200 hover:text-white/70 focus-visible:outline-none focus-visible:underline"
             >
               <ArrowLeft className="size-3.5" aria-hidden />
-              Retour aux actualités
+              {t.backLabel ?? "Retour aux actualités"}
             </Link>
           </Reveal>
 
@@ -225,14 +226,14 @@ export default function ArticleView({ slug }: { slug: string }) {
                   className="size-3.5 transition-transform duration-200 group-hover:-translate-x-0.5"
                   aria-hidden
                 />
-                Toutes les actualités
+                {t.allLabel ?? "Toutes les actualités"}
               </Link>
 
               <Link
                 href="/inscriptions"
                 className="group inline-flex items-center gap-2 rounded-full border border-fuchsia-vcm/30 bg-fuchsia-vcm/10 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-fuchsia-vcm transition-all duration-300 hover:bg-fuchsia-vcm/20 hover:border-fuchsia-vcm/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
               >
-                Rejoindre le club
+                {t.articleCta ?? "Rejoindre le club"}
                 <ArrowUpRight
                   className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   aria-hidden
@@ -267,7 +268,7 @@ export default function ArticleView({ slug }: { slug: string }) {
                   id="related-heading"
                   className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm"
                 >
-                  À lire aussi
+                  {t.relatedHeading ?? "À lire aussi"}
                 </h2>
               </div>
             </Reveal>

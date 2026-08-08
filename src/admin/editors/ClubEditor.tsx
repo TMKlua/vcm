@@ -106,6 +106,55 @@ export default function ClubEditor() {
             />
           </Field>
         </div>
+
+        <h3 className="pt-2 text-sm font-semibold uppercase tracking-wide text-white/50">
+          Carte Google Maps
+        </h3>
+        <Field label="Nom affiché sur le repère" htmlFor="club-mapLabel">
+          <TextInput
+            id="club-mapLabel"
+            value={club.address.mapLabel ?? ""}
+            onChange={(e) => update("club.address.mapLabel", e.target.value)}
+          />
+        </Field>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Latitude" htmlFor="club-latitude">
+            <TextInput
+              id="club-latitude"
+              inputMode="decimal"
+              value={club.address.latitude?.toString() ?? ""}
+              onChange={(e) => {
+                const raw = e.target.value.trim().replace(",", ".");
+                const num = Number.parseFloat(raw);
+                // Champ vidé ou saisie en cours ("43.", "-") → on retire la
+                // coordonnée : la carte retombe alors sur l'adresse postale.
+                update(
+                  "club.address.latitude",
+                  raw === "" || Number.isNaN(num) ? null : num,
+                );
+              }}
+            />
+          </Field>
+          <Field label="Longitude" htmlFor="club-longitude">
+            <TextInput
+              id="club-longitude"
+              inputMode="decimal"
+              value={club.address.longitude?.toString() ?? ""}
+              onChange={(e) => {
+                const raw = e.target.value.trim().replace(",", ".");
+                const num = Number.parseFloat(raw);
+                update(
+                  "club.address.longitude",
+                  raw === "" || Number.isNaN(num) ? null : num,
+                );
+              }}
+            />
+          </Field>
+        </div>
+        <p className="text-xs text-white/40">
+          Les coordonnées posent le repère à l&rsquo;endroit exact. Laissez-les vides
+          pour que Google cherche simplement l&rsquo;adresse postale.
+        </p>
       </Card>
 
       <Card className="space-y-4">

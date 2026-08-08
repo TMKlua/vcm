@@ -7,6 +7,7 @@ import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import CourtLines from "@/components/motion/CourtLines";
 import ContactForm from "@/components/sections/ContactForm";
+import ClubMap from "@/components/ui/ClubMap";
 import { useContent } from "@/content/ContentContext";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -78,7 +79,7 @@ const InfoRow = ({
 
 export default function ContactView() {
   const { content } = useContent();
-  const { contact, address, socials } = content.club;
+  const { contact, address, socials, schedule } = content.club;
   const t = content.text.pages.contact;
   const telHref = `tel:${toTelHref(contact.phone)}`;
 
@@ -90,7 +91,7 @@ export default function ContactView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Contact", href: "/contact" },
         ]}
       />
@@ -113,7 +114,7 @@ export default function ContactView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Nos coordonnées
+                  {t.contactsHeading ?? "Nos coordonnées"}
                 </span>
               </div>
             </Reveal>
@@ -147,7 +148,7 @@ export default function ContactView() {
                   <StaggerItem>
                     <InfoRow icon={Phone} label="Téléphone">
                       <p className="text-sm text-white/75">
-                        <span className="text-white/70">Contact : </span>
+                        <span className="text-white/70">{t.contactPersonLabel ?? "Contact"} : </span>
                         <strong className="text-white">{contact.person}</strong>
                       </p>
                       <a
@@ -188,12 +189,12 @@ export default function ContactView() {
                       </span>
                       <div>
                         <p className="mb-0.5 text-[0.7rem] font-semibold uppercase tracking-wider text-white/70">
-                          Entraînements
+                          {t.scheduleLabel ?? "Entraînements"}
                         </p>
                         <p className="text-sm text-white/75">
-                          <strong className="text-white">Lundi &amp; Mercredi</strong>
+                          <strong className="text-white">{schedule}</strong>
                         </p>
-                        <p className="mt-0.5 text-xs text-white/70">Au Gymnase Louis Boudou</p>
+                        <p className="mt-0.5 text-xs text-white/70">Au {address.venue}</p>
                       </div>
                     </div>
                   </StaggerItem>
@@ -206,7 +207,7 @@ export default function ContactView() {
             <Reveal delay={0.2}>
               <div>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-white/70">
-                  Suivez-nous
+                  {t.socialsHeading ?? "Suivez-nous"}
                 </p>
                 <div className="flex flex-wrap gap-3">
                   {/* Facebook */}
@@ -218,7 +219,7 @@ export default function ContactView() {
                     className="group flex items-center gap-2 rounded-xl border border-white/10 bg-night/60 px-4 py-2.5 text-xs font-medium text-white/60 transition-all duration-200 hover:border-violet-500/40 hover:bg-violet-700/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60"
                   >
                     <FacebookIcon className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" />
-                    Facebook
+                    {content.text.ui?.socialFacebook ?? "Facebook"}
                   </a>
 
                   {/* Instagram */}
@@ -231,7 +232,7 @@ export default function ContactView() {
                       className="group flex items-center gap-2 rounded-xl border border-white/10 bg-night/60 px-4 py-2.5 text-xs font-medium text-white/60 transition-all duration-200 hover:border-violet-500/40 hover:bg-violet-700/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60"
                     >
                       <InstagramIcon className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" />
-                      Instagram
+                      {content.text.ui?.socialInstagram ?? "Instagram"}
                     </a>
                   )}
 
@@ -244,7 +245,7 @@ export default function ContactView() {
                     className="group flex items-center gap-2 rounded-xl border border-white/10 bg-night/60 px-4 py-2.5 text-xs font-medium text-white/60 transition-all duration-200 hover:border-violet-500/40 hover:bg-violet-700/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60"
                   >
                     <Globe className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" aria-hidden />
-                    Site officiel
+                    {content.text.ui?.socialWebsite ?? "Site officiel"}
                   </a>
 
                   {/* Clubeo */}
@@ -256,7 +257,7 @@ export default function ContactView() {
                     className="group flex items-center gap-2 rounded-xl border border-white/10 bg-night/60 px-4 py-2.5 text-xs font-medium text-white/60 transition-all duration-200 hover:border-violet-500/40 hover:bg-violet-700/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60"
                   >
                     <Globe className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" aria-hidden />
-                    Clubeo
+                    {content.text.ui?.clubeoLabel ?? "Clubeo"}
                   </a>
                 </div>
               </div>
@@ -285,7 +286,7 @@ export default function ContactView() {
               className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
             />
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-              Localisation
+              {t.mapKicker ?? "Localisation"}
             </span>
           </div>
         </Reveal>
@@ -296,38 +297,13 @@ export default function ContactView() {
           </h2>
         </Reveal>
 
-        {/* OSM iframe */}
+        {/* Carte Google Maps — même composant que l'accueil */}
         <Reveal delay={0.15}>
-          <div className="overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
-            <iframe
-              title="Carte de localisation — Gymnase Louis Boudou, Marseillan"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=3.5180%2C43.3490%2C3.5500%2C43.3650&amp;layer=mapnik&amp;marker=43.3570%2C3.5340"
-              width="100%"
-              height="400"
-              loading="lazy"
-              className="block h-[400px] w-full border-0"
-              style={{ display: "block" }}
-            />
-          </div>
-        </Reveal>
-
-        {/* Map footer: address + external link */}
-        <Reveal delay={0.22}>
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-white/70">
-              <MapPin className="mr-1.5 inline size-3.5 text-violet-400" aria-hidden />
-              {address.venue} · {address.street}, {address.postalCode} {address.city}
-            </p>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${address.venue}, ${address.street}, ${address.postalCode} ${address.city}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-medium text-violet-400 underline-offset-4 transition-colors hover:text-fuchsia-vcm hover:underline focus-visible:outline-none focus-visible:underline"
-              aria-label="Voir l'adresse sur Google Maps (nouvel onglet)"
-            >
-              Voir sur Google Maps ↗
-            </a>
-          </div>
+          <ClubMap
+            address={address}
+            directionsLabel={content.text.ui?.mapDirections}
+            frameClassName="h-[280px] sm:h-[360px] lg:h-[420px]"
+          />
         </Reveal>
       </Section>
     </>

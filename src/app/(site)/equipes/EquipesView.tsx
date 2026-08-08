@@ -19,7 +19,7 @@ export default function EquipesView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Équipes", href: "/equipes" },
         ]}
       />
@@ -77,15 +77,14 @@ export default function EquipesView() {
         <div className="relative mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
           <div className="flex flex-col items-center gap-8 text-center">
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-fuchsia-vcm">
-              Rejoignez l&rsquo;aventure
+              {t.ctaKicker ?? "Rejoignez l’aventure"}
             </p>
             <h2 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]">
-              Prêt à jouer ?
+              {t.ctaTitle ?? "Prêt à jouer ?"}
             </h2>
             <p className="max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              Quelle que soit votre discipline de prédilection, nos équipes vous
-              accueillent à bras ouverts. Remplissez le formulaire d&rsquo;inscription
-              et nous vous recontacterons rapidement.
+              {t.ctaBody ??
+                "Quelle que soit votre discipline de prédilection, nos équipes vous accueillent à bras ouverts. Remplissez le formulaire d’inscription et nous vous recontacterons rapidement."}
             </p>
             <MagneticButton
               href="/inscriptions"

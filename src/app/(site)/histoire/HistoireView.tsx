@@ -11,7 +11,7 @@ import { useContent } from "@/content/ContentContext";
 
 export default function HistoireView() {
   const { content } = useContent();
-  const { club, timeline } = content;
+  const { club, timeline, text } = content;
   const t = content.text.pages.histoire;
 
   return (
@@ -22,7 +22,7 @@ export default function HistoireView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Histoire", href: "/histoire" },
         ]}
       />
@@ -50,7 +50,7 @@ export default function HistoireView() {
             {/* Heading */}
             <Reveal delay={0.08}>
               <h2 className="font-display text-[clamp(1.9rem,4vw,3.2rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]">
-                Nés au bord de l&rsquo;étang de Thau
+                {t.introKicker ?? "Nés au bord de l’étang de Thau"}
               </h2>
             </Reveal>
 
@@ -81,7 +81,7 @@ export default function HistoireView() {
               {/* Image frame */}
               <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
                 <Image
-                  src="/images/gallery/2.jpg"
+                  src={text.pages.histoire.image || "/images/gallery/2.jpg"}
                   alt="Joueurs du Volley Club Marseillanais en action"
                   width={800}
                   height={560}
@@ -118,7 +118,7 @@ export default function HistoireView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Chronologie
+                {t.timelineKicker ?? "Chronologie"}
               </span>
             </div>
           </Reveal>
@@ -129,8 +129,8 @@ export default function HistoireView() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              De la fondation du club à aujourd&apos;hui, retour sur les moments clés
-              qui ont forgé l&apos;identité du VCM.
+              {t.timelineSubtitle ??
+                "De la fondation du club à aujourd’hui, retour sur les moments clés qui ont forgé l’identité du VCM."}
             </p>
           </Reveal>
         </div>
@@ -171,7 +171,7 @@ export default function HistoireView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Vision actuelle
+                  {t.visionKicker ?? "Vision actuelle"}
                 </span>
                 <span
                   aria-hidden
@@ -195,10 +195,8 @@ export default function HistoireView() {
               <div className="mt-6 space-y-5 text-[0.95rem] leading-relaxed text-white/70">
                 <p>{t.visionBody}</p>
                 <p>
-                  Que vous soyez parent cherchant une activité pour votre enfant, adulte
-                  souhaitant (re)découvrir le volley en loisir, sportif en quête de
-                  compétition ou simplement curieux de bouger dans un cadre bienveillant —
-                  le VCM a une place pour vous. Rejoignez-nous !
+                  {t.visionExtra ??
+                    "Que vous soyez parent cherchant une activité pour votre enfant, adulte souhaitant (re)découvrir le volley en loisir, sportif en quête de compétition ou simplement curieux de bouger dans un cadre bienveillant — le VCM a une place pour vous. Rejoignez-nous !"}
                 </p>
               </div>
             </Reveal>

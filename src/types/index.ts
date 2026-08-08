@@ -3,7 +3,20 @@ export interface ClubInfo {
   shortName: string;
   tagline: string;
   description: string;
-  address: { venue: string; street: string; city: string; postalCode: string };
+  address: {
+    venue: string;
+    street: string;
+    city: string;
+    postalCode: string;
+    /**
+     * Coordonnées du point exact affiché sur la carte (optionnel).
+     * `null` = coordonnée effacée depuis l'admin → repli sur l'adresse postale.
+     */
+    latitude?: number | null;
+    longitude?: number | null;
+    /** Libellé du repère sur la carte. Sinon le nom du club est utilisé. */
+    mapLabel?: string;
+  };
   contact: { person: string; phone: string; email: string };
   schedule: string;
   logo?: string;

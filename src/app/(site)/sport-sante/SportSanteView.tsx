@@ -20,36 +20,34 @@ import TiltCard from "@/components/ui/TiltCard";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
 
-// ── Data (stays hardcoded — no content field) ─────────────────────────────────
+// ── Icônes des bénéfices ──────────────────────────────────────────────────────
+// Seules les icônes restent en dur : titres et textes sont éditables depuis
+// /admin (text.pages.sportSante.benefits). L'icône est choisie par position.
 
-const benefits = [
+const BENEFIT_ICONS = [HeartPulse, Smile, Users, Sparkles, ShieldCheck, Activity];
+
+const fallbackBenefits = [
   {
-    icon: HeartPulse,
     title: "Santé cardio-vasculaire",
     text: "Une activité douce qui entretient le cœur et le souffle, adaptée à votre rythme.",
   },
   {
-    icon: Smile,
     title: "Plaisir & bonne humeur",
     text: "Le volley-ball, même en version douce, reste un sport collectif plein de joie et de rires.",
   },
   {
-    icon: Users,
     title: "Lien social",
     text: "Rejoindre le VCM, c'est intégrer une communauté chaleureuse, ouverte et bienveillante.",
   },
   {
-    icon: Sparkles,
     title: "Bien-être global",
     text: "Corps et esprit bénéficient ensemble d'une pratique régulière, légère et motivante.",
   },
   {
-    icon: ShieldCheck,
     title: "Sans pression · adapté",
     text: "Pas de compétition, pas de jugement. Chacun avance à son rythme, en toute sérénité.",
   },
   {
-    icon: Activity,
     title: "Remise en forme",
     text: "Idéal pour reprendre une activité physique progressive après une pause ou un arrêt médical.",
   },
@@ -62,9 +60,18 @@ export default function SportSanteView() {
   const { club, teams } = content;
   const t = content.text.pages.sportSante;
 
-  // Pull Sport Santé and Soft Volley from teams data
-  const sporSante = teams.find((tm) => tm.category === "sante")!;
-  const softVolley = teams.find((tm) => tm.category === "soft")!;
+  // Pull Sport Santé and Soft Volley from teams data.
+  //
+  // Ces deux catégories peuvent avoir été retirées depuis /admin : le `!` qui
+  // était ici affirmait le contraire et la page plantait au premier accès à
+  // `.objectives`. On retombe donc sur un objet neutre, et les blocs concernés
+  // sont simplement masqués quand la catégorie n'existe plus.
+  // Les bénéfices viennent du contenu ; repli sur la liste livrée avec le site
+  // si la clé n'existe pas encore dans le contenu publié.
+  const benefitItems = t.benefits?.length ? t.benefits : fallbackBenefits;
+
+  const sporSante = teams.find((tm) => tm.category === "sante");
+  const softVolley = teams.find((tm) => tm.category === "soft");
 
   return (
     <>
@@ -74,7 +81,7 @@ export default function SportSanteView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Sport Santé", href: "/sport-sante" },
         ]}
       />
@@ -94,7 +101,7 @@ export default function SportSanteView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Le volley pour tous
+                  {t.introKicker ?? "Le volley pour tous"}
                 </span>
               </div>
             </Reveal>
@@ -118,7 +125,7 @@ export default function SportSanteView() {
             {/* Objectives pull from data */}
             <Reveal delay={0.22}>
               <ul className="space-y-3">
-                {sporSante.objectives.map((obj, i) => (
+                {(sporSante?.objectives ?? []).map((obj, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-white/70">
                     <Stethoscope
                       className="mt-0.5 size-4 shrink-0 text-fuchsia-vcm"
@@ -148,7 +155,7 @@ export default function SportSanteView() {
               {/* Image frame */}
               <div className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/50">
                 <Image
-                  src={sporSante.image}
+                  src={sporSante?.image ?? "/images/teams/sport-sante.jpg"}
                   alt="Séance Sport Santé au Volley Club Marseillanais"
                   width={800}
                   height={560}
@@ -164,7 +171,7 @@ export default function SportSanteView() {
                 {/* Caption */}
                 <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between px-1">
                   <span className="rounded-full border border-white/15 bg-ink/70 px-4 py-2 text-xs font-medium text-white/60 backdrop-blur-sm">
-                    Sport Santé · {sporSante.ageRange}
+                    Sport Santé · {sporSante?.ageRange}
                   </span>
                 </div>
               </div>
@@ -186,7 +193,7 @@ export default function SportSanteView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Ce que vous y gagnez
+                {t.benefitsKicker ?? "Ce que vous y gagnez"}
               </span>
             </div>
           </Reveal>
@@ -197,16 +204,16 @@ export default function SportSanteView() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              Sport Santé et Soft Volley ne se contentent pas d&rsquo;entretenir
-              le corps — ils nourrissent aussi l&rsquo;esprit et le lien humain.
+              {t.benefitsIntro ??
+                "Sport Santé et Soft Volley ne se contentent pas d’entretenir le corps — ils nourrissent aussi l’esprit et le lien humain."}
             </p>
           </Reveal>
         </div>
 
         {/* Cards grid */}
         <StaggerGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {benefits.map((benefit, i) => {
-            const Icon = benefit.icon;
+          {benefitItems.map((benefit, i) => {
+            const Icon = BENEFIT_ICONS[i % BENEFIT_ICONS.length];
             return (
               <StaggerItem key={i}>
                 <div className="group relative flex flex-col gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition-all duration-300 hover:border-violet-500/30 hover:bg-violet-700/[0.06]">
@@ -256,7 +263,7 @@ export default function SportSanteView() {
               />
               <div className="relative overflow-hidden rounded-3xl shadow-xl shadow-encre/15 border border-encre/10">
                 <Image
-                  src={softVolley.image}
+                  src={softVolley?.image ?? "/images/teams/soft-volley.jpg"}
                   alt="Soft Volley — pratique douce et accessible au VCM"
                   width={800}
                   height={560}
@@ -268,7 +275,7 @@ export default function SportSanteView() {
               {/* Caption badge */}
               <div className="absolute bottom-4 left-4">
                 <span className="rounded-full border border-encre/15 bg-white/80 px-4 py-2 text-xs font-medium text-encre/70 backdrop-blur-sm shadow-sm">
-                  Soft Volley · {softVolley.ageRange}
+                  Soft Volley · {softVolley?.ageRange}
                 </span>
               </div>
             </div>
@@ -284,7 +291,7 @@ export default function SportSanteView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-violet-700">
-                  Accessibilité & inclusion
+                  {t.inclusionKicker ?? "Accessibilité & inclusion"}
                 </span>
               </div>
             </Reveal>
@@ -306,7 +313,7 @@ export default function SportSanteView() {
             {/* Soft Volley objectives */}
             <Reveal delay={0.22}>
               <ul className="space-y-3">
-                {softVolley.objectives.map((obj, i) => (
+                {(softVolley?.objectives ?? []).map((obj, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-encre/65">
                     <HeartHandshake
                       className="mt-0.5 size-4 shrink-0 text-violet-700"
@@ -354,7 +361,7 @@ export default function SportSanteView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Venez essayer
+                  {t.ctaKicker ?? "Venez essayer"}
                 </span>
                 <span
                   aria-hidden
@@ -369,16 +376,15 @@ export default function SportSanteView() {
                 id="sante-cta-heading"
                 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]"
               >
-                Prêt à bouger ?
+                {t.ctaTitle ?? "Prêt à bouger ?"}
               </h2>
             </Reveal>
 
             {/* Body */}
             <Reveal delay={0.18}>
               <p className="mt-6 text-[0.95rem] leading-relaxed text-white/70">
-                Une séance d&rsquo;essai gratuite vous attend. Pas besoin d&rsquo;équipement
-                particulier — juste l&rsquo;envie de vous faire du bien. Contactez-nous
-                pour planifier votre première visite au Gymnase Louis Boudou de Marseillan.
+                {t.ctaBody ??
+                  "Une séance d’essai gratuite vous attend. Pas besoin d’équipement particulier — juste l’envie de vous faire du bien. Contactez-nous pour planifier votre première visite au Gymnase Louis Boudou de Marseillan."}
               </p>
             </Reveal>
 
@@ -400,7 +406,7 @@ export default function SportSanteView() {
                   href="/contact"
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-white/20 bg-white/[0.04] px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white/80 transition-all duration-300 hover:border-violet-500/50 hover:bg-violet-700/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-night"
                 >
-                  Nous contacter
+                  {t.ctaSecondary ?? "Nous contacter"}
                   <ArrowRight
                     className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                     aria-hidden

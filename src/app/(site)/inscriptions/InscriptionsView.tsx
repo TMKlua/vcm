@@ -20,62 +20,54 @@ import Accordion from "@/components/ui/Accordion";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
 
-// ── Data (stays hardcoded — no content field) ─────────────────────────────────
+// ── Icônes ────────────────────────────────────────────────────────────────────
+// Seules les icônes restent en dur : les titres et textes des étapes et des
+// documents sont éditables depuis /admin. L'icône est choisie par position.
 
-const steps = [
+const STEP_ICONS = [MessageSquare, ClipboardList, Calendar, CreditCard];
+const DOCUMENT_ICON = FileText;
+
+const fallbackSteps = [
   {
-    number: "01",
-    icon: MessageSquare,
     title: "Prendre contact",
     description:
       "Contactez-nous par email, téléphone ou venez directement au Gymnase Louis Boudou lors des entraînements. Une séance d'essai gratuite est proposée à tous les nouveaux venus, quel que soit l'âge ou le niveau.", // [À CONFIRMER]
   },
   {
-    number: "02",
-    icon: ClipboardList,
     title: "Constituer le dossier",
     description:
       "Rassemblez les documents nécessaires : certificat médical de non contre-indication à la pratique du volley-ball (ou questionnaire de santé selon votre situation), formulaire de licence FFVolley et une photo d'identité.",
   },
   {
-    number: "03",
-    icon: Calendar,
     title: "Choisir sa pratique",
     description:
       "Baby Volley, Pôle Jeunes, Loisir, Compétition, Sport Santé, Soft Volley ou Beach Volley — choisissez la pratique et le créneau qui vous correspond. Nous vous guiderons selon votre profil et vos disponibilités.",
   },
   {
-    number: "04",
-    icon: CreditCard,
     title: "Régler la cotisation",
     description:
       "Les tarifs varient selon la catégorie et la saison. Contactez le club pour connaître les montants en vigueur. Le règlement peut se faire en plusieurs fois selon les modalités du club.",
   },
 ];
 
-const documents = [
+const fallbackDocuments = [
   {
-    icon: FileText,
     label: "Certificat médical de non contre-indication à la pratique du volley-ball",
     note: "Ou questionnaire de santé selon votre catégorie",
   },
   {
-    icon: FileText,
     label: "Formulaire de demande de licence FFVolley",
     note: "Disponible auprès du club ou sur ffvolley.org",
   },
   {
-    icon: FileText,
     label: "Photo d'identité",
     note: null,
   },
   {
-    icon: CreditCard,
     label: "Règlement de la cotisation",
     note: "Tarifs à confirmer auprès du club pour la saison en cours",
   },
   {
-    icon: FileText,
     label: "Autorisation parentale (pour les mineurs)",
     note: null,
   },
@@ -87,6 +79,9 @@ export default function InscriptionsView() {
   const { content } = useContent();
   const { club, faq } = content;
   const t = content.text.pages.inscriptions;
+  // Étapes et documents éditables ; repli sur les listes livrées avec le site.
+  const stepItems = t.steps?.length ? t.steps : fallbackSteps;
+  const documentItems = t.documents?.length ? t.documents : fallbackDocuments;
 
   return (
     <>
@@ -96,7 +91,7 @@ export default function InscriptionsView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Inscriptions", href: "/inscriptions" },
         ]}
       />
@@ -113,7 +108,7 @@ export default function InscriptionsView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Mode d&rsquo;emploi
+                {t.stepsKicker ?? "Mode d’emploi"}
               </span>
             </div>
           </Reveal>
@@ -124,16 +119,16 @@ export default function InscriptionsView() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              En quatre étapes simples, devenez membre du Volley Club Marseillanais
-              et intégrez une communauté sportive accueillante à Marseillan.
+              {t.stepsIntro ??
+                "En quatre étapes simples, devenez membre du Volley Club Marseillanais et intégrez une communauté sportive accueillante à Marseillan."}
             </p>
           </Reveal>
         </div>
 
         {/* Steps */}
         <StaggerGroup className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, i) => {
-            const Icon = step.icon;
+          {stepItems.map((step, i) => {
+            const Icon = STEP_ICONS[i % STEP_ICONS.length];
             return (
               <StaggerItem key={i}>
                 <div className="group relative flex h-full flex-col gap-5 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition-all duration-300 hover:border-violet-500/30 hover:bg-violet-700/[0.06]">
@@ -145,7 +140,7 @@ export default function InscriptionsView() {
                       className="font-display text-[3rem] leading-none tracking-tight text-gradient opacity-80"
                       aria-hidden
                     >
-                      {step.number}
+                      {String(i + 1).padStart(2, "0")}
                     </span>
 
                     {/* Icon badge */}
@@ -192,7 +187,7 @@ export default function InscriptionsView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-violet-700">
-                  À préparer
+                  {t.documentsKicker ?? "À préparer"}
                 </span>
               </div>
             </Reveal>
@@ -205,15 +200,14 @@ export default function InscriptionsView() {
 
             <Reveal delay={0.15}>
               <p className="text-[0.95rem] leading-relaxed text-encre/65">
-                Pour finaliser votre inscription, merci de préparer les pièces
-                suivantes. En cas de doute, notre responsable club vous guidera
-                pour compléter votre dossier.
+                {t.documentsIntro ??
+                  "Pour finaliser votre inscription, merci de préparer les pièces suivantes. En cas de doute, notre responsable club vous guidera pour compléter votre dossier."}
               </p>
             </Reveal>
 
             <Reveal delay={0.22}>
               <ul className="space-y-4">
-                {documents.map((doc, i) => {
+                {documentItems.map((doc, i) => {
                   return (
                     <li
                       key={i}
@@ -252,13 +246,13 @@ export default function InscriptionsView() {
                     className="h-px w-6 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                   />
                   <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-violet-700">
-                    Contact
+                    {t.contactHeading ?? "Contact"}
                   </span>
                 </div>
 
                 <div className="space-y-2">
                   <p className="font-medium text-encre">{club.contact.person}</p>
-                  <p className="text-xs text-encre/50">Responsable des inscriptions</p>
+                  <p className="text-xs text-encre/50">{t.contactPersonLabel ?? "Responsable des inscriptions"}</p>
                 </div>
 
                 <div className="space-y-3">
@@ -280,7 +274,7 @@ export default function InscriptionsView() {
 
                 <div className="border-t border-encre/8 pt-5 space-y-2">
                   <p className="text-xs font-medium text-encre/60 uppercase tracking-wide">
-                    Horaires d&rsquo;entraînement
+                    {t.scheduleHeading ?? "Horaires d’entraînement"}
                   </p>
                   <p className="text-sm text-encre/70">{club.schedule}</p>
                   <p className="text-sm text-encre/70">
@@ -292,13 +286,11 @@ export default function InscriptionsView() {
               {/* Essai gratuit nudge */}
               <div className="rounded-2xl border border-violet-700/20 bg-gradient-to-br from-violet-700/5 to-fuchsia-vcm/5 p-6 flex flex-col gap-3">
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-violet-700">
-                  Bon à savoir
+                  {t.tipHeading ?? "Bon à savoir"}
                 </span>
                 <p className="text-sm leading-relaxed text-encre/70">
-                  Une <strong className="text-encre/85">séance d&rsquo;essai gratuite</strong>{" "}
-                  est proposée à tous les nouveaux membres. {/* [À CONFIRMER] */}
-                  C&rsquo;est l&rsquo;occasion parfaite de découvrir l&rsquo;ambiance
-                  du club avant de vous engager.
+                  {t.tipBody ??
+                    "Une séance d’essai gratuite est proposée à tous les nouveaux membres. C’est l’occasion parfaite de découvrir l’ambiance du club avant de vous engager."}
                 </p>
               </div>
 
@@ -320,7 +312,7 @@ export default function InscriptionsView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Plateformes
+                {t.linksKicker ?? "Plateformes"}
               </span>
             </div>
           </Reveal>
@@ -331,8 +323,8 @@ export default function InscriptionsView() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              Toutes les ressources pour préparer votre inscription et rester
-              connecté à la vie du club.
+              {t.linksIntro ??
+                "Toutes les ressources pour préparer votre inscription et rester connecté à la vie du club."}
             </p>
           </Reveal>
         </div>
@@ -348,18 +340,18 @@ export default function InscriptionsView() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <h3 className="font-display text-base leading-tight text-white">
-                  Espace club (Clubeo)
+                  {t.clubeoTitle ?? "Espace club (Clubeo)"}
                 </h3>
                 <p className="text-sm leading-relaxed text-white/70">
-                  Inscriptions en ligne, actualités et documents sur la plateforme
-                  officielle du VCM.
+                  {t.clubeoBody ??
+                    "Inscriptions en ligne, actualités et documents sur la plateforme officielle du VCM."}
                 </p>
               </div>
               <MagneticButton
                 href={club.socials.clubeo!}
                 className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-fuchsia-vcm transition-colors hover:text-white"
               >
-                Accéder au Clubeo
+                {t.clubeoCta ?? "Accéder au Clubeo"}
                 <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
               </MagneticButton>
               <div
@@ -377,19 +369,19 @@ export default function InscriptionsView() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <h3 className="font-display text-base leading-tight text-white">
-                  Licence FFVolley
+                  {t.licenceTitle ?? "Licence FFVolley"}
                   {/* [À CONFIRMER] */}
                 </h3>
                 <p className="text-sm leading-relaxed text-white/70">
-                  Renseignements sur la licence fédérale, les catégories et les
-                  formulaires officiels.
+                  {t.licenceBody ??
+                    "Renseignements sur la licence fédérale, les catégories et les formulaires officiels."}
                 </p>
               </div>
               <MagneticButton
                 href="https://www.ffvolley.org/"
                 className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-fuchsia-vcm transition-colors hover:text-white"
               >
-                Site FFVolley {/* [À CONFIRMER] */}
+                {t.ffvolleyCta ?? "Site FFVolley"}
                 <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
               </MagneticButton>
               <div
@@ -407,7 +399,7 @@ export default function InscriptionsView() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <h3 className="font-display text-base leading-tight text-white">
-                  Contacter le club
+                  {t.contactCta ?? "Contacter le club"}
                 </h3>
                 <p className="text-sm leading-relaxed text-white/70">
                   Une question sur votre inscription ? Envoyez-nous un email, nous
@@ -444,7 +436,7 @@ export default function InscriptionsView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Vos questions
+                {t.faqKicker ?? "Vos questions"}
               </span>
             </div>
           </Reveal>
@@ -455,8 +447,7 @@ export default function InscriptionsView() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              Vous ne trouvez pas la réponse à votre question ? Contactez-nous
-              directement à{" "}
+              {t.faqIntro ?? "Vous ne trouvez pas la réponse à votre question ? Contactez-nous directement à"}{" "}
               <a
                 href={`mailto:${club.contact.email}`}
                 className="text-fuchsia-vcm underline decoration-fuchsia-vcm/40 underline-offset-2 transition-colors hover:text-white"
@@ -508,7 +499,7 @@ export default function InscriptionsView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Rejoignez l&rsquo;aventure
+                  {t.ctaKicker ?? "Rejoignez l’aventure"}
                 </span>
                 <span
                   aria-hidden
@@ -523,17 +514,15 @@ export default function InscriptionsView() {
                 id="inscriptions-cta-heading"
                 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]"
               >
-                Prêt à jouer ?
+                {t.ctaTitle ?? "Prêt à jouer ?"}
               </h2>
             </Reveal>
 
             {/* Body */}
             <Reveal delay={0.18}>
               <p className="mt-6 text-[0.95rem] leading-relaxed text-white/70">
-                Quelle que soit votre section, le Volley Club Marseillanais vous
-                accueille à bras ouverts. Commencez par une séance d&rsquo;essai
-                gratuite et rejoignez une communauté sportive unique au bord de
-                l&rsquo;étang de Thau.
+                {t.ctaBody ??
+                  "Quelle que soit votre section, le Volley Club Marseillanais vous accueille à bras ouverts. Commencez par une séance d’essai gratuite et rejoignez une communauté sportive unique au bord de l’étang de Thau."}
               </p>
             </Reveal>
 
@@ -555,7 +544,7 @@ export default function InscriptionsView() {
                   href="/contact"
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-white/20 bg-white/[0.04] px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white/80 transition-all duration-300 hover:border-violet-500/50 hover:bg-violet-700/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-night"
                 >
-                  Nous contacter
+                  {t.ctaSecondary ?? "Nous contacter"}
                   <ArrowRight
                     className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                     aria-hidden

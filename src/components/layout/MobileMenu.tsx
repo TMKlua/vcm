@@ -35,7 +35,7 @@ type MobileMenuProps = {
 
 export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
   const { content } = useContent();
-  const { club } = content;
+  const { club, text } = content;
   const reduce = useReducedMotion();
   const dialogRef = useRef<HTMLDivElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
@@ -194,7 +194,7 @@ export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
           onClick={onClose}
           className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-6 py-3.5 font-semibold uppercase tracking-wide text-white shadow-lg shadow-magenta/30 outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
         >
-          Rejoindre le club
+          {text.labels?.navCtaLong ?? "Rejoindre le club"}
           <ArrowUpRight className="size-5" aria-hidden />
         </Link>
 

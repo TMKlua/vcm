@@ -73,7 +73,7 @@ export default function JoinCta() {
         {/* Kicker */}
         <Reveal delay={0.05}>
           <span className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-sm">
-            Saison 2025–2026
+            {text.join.kicker ?? "Saison 2025–2026"}
           </span>
         </Reveal>
 
@@ -124,7 +124,7 @@ export default function JoinCta() {
               href="/contact"
               className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/50 bg-white/10 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:border-white/80 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-magenta"
             >
-              Nous contacter
+              {text.join.ctaSecondary ?? "Nous contacter"}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

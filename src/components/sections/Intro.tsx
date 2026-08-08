@@ -71,10 +71,11 @@ export default function Intro() {
               className="block"
             />
             {text.intro.titleAccent && (
-              <span className="mt-1 block text-gradient [-webkit-text-fill-color:transparent]">
+              <span className="mt-1 block">
                 <TextReveal
                   text={text.intro.titleAccent}
                   className="block"
+                  wordClassName="text-gradient"
                 />
               </span>
             )}
@@ -159,7 +160,7 @@ export default function Intro() {
 
               <ParallaxImage className="aspect-[4/3] w-full" amount={24}>
                 <Image
-                  src="/images/gallery/1.jpg"
+                  src={text.intro.image || "/images/gallery/1.jpg"}
                   alt="Le Volley Club Marseillanais à l'entraînement"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -171,7 +172,7 @@ export default function Intro() {
               <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-4 py-2 backdrop-blur-md">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-fuchsia-vcm" aria-hidden />
                 <span className="text-xs font-medium text-white/85">
-                  Saison 2024–2025
+                  {text.intro.imageCaption ?? "Saison 2024–2025"}
                 </span>
               </div>
             </TiltCard>

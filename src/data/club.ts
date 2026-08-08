@@ -11,13 +11,19 @@ export const club: ClubInfo = {
     street: "Avenue de Florensac",
     city: "Marseillan",
     postalCode: "34340",
+    // Position réelle du complexe sportif Louis Boudou (rue d'Olympie), relevée
+    // sur OpenStreetMap. Une recherche sur la seule adresse postale tombait sur
+    // un commerce voisin — d'où le point fixe.
+    latitude: 43.3632942,
+    longitude: 3.5223033,
+    mapLabel: "Volley Marseillan",
   },
   contact: {
     person: "Delphine Mary",
     phone: "06 81 82 26 60",
     email: "volleymarseillan@gmail.com",
   },
-  schedule: "Entraînements les lundis et mercredis",
+  schedule: "Entraînements les lundis, mercredis et vendredis",
   // No logo file ships with the repo. Empty means "use the gradient badge" —
   // pointing at a missing file made every device 404 and paint the alt text.
   // Upload a real logo from /admin and it lands in the public blob store.

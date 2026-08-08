@@ -1,4 +1,6 @@
 "use client";
+
+import { useContent } from "@/content/ContentContext";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Volleyball from "@/components/motion/Volleyball";
@@ -6,6 +8,7 @@ import Volleyball from "@/components/motion/Volleyball";
 type ExitTarget = { dx: number; dy: number; scale: number } | "fade" | null;
 
 export default function Loader() {
+  const clubName = useContent().content.club.name;
   const reduce = useReducedMotion();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -178,7 +181,7 @@ export default function Loader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.18 } }}
           >
-            Volley Club Marseillanais
+            {clubName}
           </motion.p>
         </motion.div>
       )}

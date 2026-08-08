@@ -71,8 +71,12 @@ export default function EventsPreview() {
                   <>
                     <TextReveal text={titleMain} className="block" />
                     {titleAccent && (
-                      <span className="mt-0.5 block text-gradient [-webkit-text-fill-color:transparent]">
-                        <TextReveal text={titleAccent} className="block" />
+                      <span className="mt-0.5 block">
+                        <TextReveal
+                          text={titleAccent}
+                          className="block"
+                          wordClassName="text-gradient"
+                        />
                       </span>
                     )}
                   </>

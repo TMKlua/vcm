@@ -115,7 +115,7 @@ export default function Footer() {
           {/* Navigation */}
           <nav aria-label="Navigation du pied de page">
             <h2 className="font-display text-sm uppercase tracking-widest text-white">
-              Navigation
+              {text.footer.navHeading ?? "Navigation"}
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm">
               {navLinks.map((link) => (
@@ -134,7 +134,7 @@ export default function Footer() {
           {/* Pratiques */}
           <nav aria-label="Nos pratiques">
             <h2 className="font-display text-sm uppercase tracking-widest text-white">
-              Nos pratiques
+              {text.footer.practicesHeading ?? "Nos pratiques"}
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm">
               {footerTeams.map((team) => (
@@ -153,7 +153,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h2 className="font-display text-sm uppercase tracking-widest text-white">
-              Contact
+              {text.footer.contactHeading ?? "Contact"}
             </h2>
             <address className="mt-4 space-y-3 text-sm not-italic">
               <p className="flex items-start gap-2.5 text-white/60">
@@ -199,7 +199,7 @@ export default function Footer() {
               href="/contact"
               className="outline-none transition-colors hover:text-white focus-visible:text-fuchsia-vcm"
             >
-              Mentions légales
+              {text.footer.legalLabel ?? "Mentions légales"}
             </Link>
           </div>
         </div>

@@ -9,6 +9,7 @@ const INITIAL_VALUES: ContactValues = { name: "", email: "", message: "" };
 
 export default function ContactForm() {
   const { content } = useContent();
+  const f = content.text.ui?.form;
   const [values, setValues] = useState<ContactValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -53,10 +54,12 @@ export default function ContactForm() {
           <CheckCircle className="size-8 text-violet-400" aria-hidden />
         </span>
         <div>
-          <h3 className="font-display text-2xl text-white">Message prêt !</h3>
+          <h3 className="font-display text-2xl text-white">
+            {f?.successTitle ?? "Message prêt !"}
+          </h3>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">
-            Votre client de messagerie s&rsquo;est ouvert avec le message pré-rempli.
-            Envoyez-le pour contacter le VCM.
+            {f?.successBody ??
+              "Votre client de messagerie s’est ouvert avec le message pré-rempli. Envoyez-le pour contacter le VCM."}
           </p>
         </div>
         <button
@@ -64,7 +67,7 @@ export default function ContactForm() {
           onClick={() => { setSubmitted(false); setValues(INITIAL_VALUES); setErrors({}); }}
           className="text-xs font-medium text-fuchsia-vcm underline-offset-4 hover:underline focus-visible:outline-none focus-visible:underline"
         >
-          Envoyer un autre message
+          {f?.successAgain ?? "Envoyer un autre message"}
         </button>
       </div>
     );
@@ -82,15 +85,15 @@ export default function ContactForm() {
             className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
           />
           <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-            Formulaire de contact
+            {f?.kicker ?? "Formulaire de contact"}
           </span>
         </div>
         <h2 className="font-display text-[clamp(1.6rem,3.5vw,2.4rem)] leading-[0.95] tracking-tight text-white">
-          Écrivez-nous
+          {f?.heading ?? "Écrivez-nous"}
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-white/70">
-          Ce formulaire ouvrira votre client de messagerie avec le message pré-rempli.
-          Aucune donnée n&rsquo;est envoyée directement par ce site.
+          {f?.note ??
+            "Ce formulaire ouvrira votre client de messagerie avec le message pré-rempli. Aucune donnée n’est envoyée directement par ce site."}
         </p>
       </div>
 
@@ -101,7 +104,7 @@ export default function ContactForm() {
           aria-live="assertive"
           className="mb-6 rounded-xl border border-fuchsia-vcm/25 bg-fuchsia-vcm/5 px-4 py-3 text-sm text-fuchsia-vcm"
         >
-          Veuillez corriger les erreurs ci-dessous avant d&rsquo;envoyer.
+          {f?.errorSummary ?? "Veuillez corriger les erreurs ci-dessous avant d’envoyer."}
         </div>
       )}
 
@@ -109,7 +112,7 @@ export default function ContactForm() {
         {/* Name field */}
         <div className="flex flex-col gap-2">
           <label htmlFor="contact-name" className="text-xs font-semibold uppercase tracking-wider text-white/70">
-            Nom complet <span aria-hidden className="text-fuchsia-vcm">*</span>
+            {f?.nameLabel ?? "Nom complet"} <span aria-hidden className="text-fuchsia-vcm">*</span>
           </label>
           <input
             ref={nameRef}
@@ -122,7 +125,7 @@ export default function ContactForm() {
             onChange={handleChange}
             aria-invalid={!!errors.name}
             aria-describedby={errors.name ? "error-name" : undefined}
-            placeholder="Jean Dupont"
+            placeholder={f?.namePlaceholder ?? "Jean Dupont"}
             className={[
               "w-full rounded-xl border bg-ink/60 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all duration-200",
               "focus:ring-2 focus:ring-violet-500/60 focus:border-violet-500/60",
@@ -148,7 +151,7 @@ export default function ContactForm() {
         {/* Email field */}
         <div className="flex flex-col gap-2">
           <label htmlFor="contact-email" className="text-xs font-semibold uppercase tracking-wider text-white/70">
-            Email <span aria-hidden className="text-fuchsia-vcm">*</span>
+            {f?.emailLabel ?? "Email"} <span aria-hidden className="text-fuchsia-vcm">*</span>
           </label>
           <input
             ref={emailRef}
@@ -161,7 +164,7 @@ export default function ContactForm() {
             onChange={handleChange}
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "error-email" : undefined}
-            placeholder="jean@exemple.fr"
+            placeholder={f?.emailPlaceholder ?? "jean@exemple.fr"}
             className={[
               "w-full rounded-xl border bg-ink/60 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all duration-200",
               "focus:ring-2 focus:ring-violet-500/60 focus:border-violet-500/60",
@@ -186,7 +189,7 @@ export default function ContactForm() {
         {/* Message field */}
         <div className="flex flex-col gap-2">
           <label htmlFor="contact-message" className="text-xs font-semibold uppercase tracking-wider text-white/70">
-            Message <span aria-hidden className="text-fuchsia-vcm">*</span>
+            {f?.messageLabel ?? "Message"} <span aria-hidden className="text-fuchsia-vcm">*</span>
           </label>
           <textarea
             ref={messageRef}
@@ -198,7 +201,7 @@ export default function ContactForm() {
             onChange={handleChange}
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "error-message" : undefined}
-            placeholder="Bonjour, je souhaite en savoir plus sur les inscriptions…"
+            placeholder={f?.messagePlaceholder ?? "Bonjour, je souhaite en savoir plus sur les inscriptions…"}
             className={[
               "w-full resize-none rounded-xl border bg-ink/60 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-all duration-200",
               "focus:ring-2 focus:ring-violet-500/60 focus:border-violet-500/60",
@@ -229,7 +232,7 @@ export default function ContactForm() {
             className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden
           />
-          Ouvrir ma messagerie
+          {f?.submit ?? "Ouvrir ma messagerie"}
         </button>
       </form>
     </div>

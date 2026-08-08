@@ -75,8 +75,12 @@ export default function TeamsPreview() {
                   <>
                     <TextReveal text={titleMain} className="block" />
                     {titleAccent && (
-                      <span className="mt-0.5 block text-gradient [-webkit-text-fill-color:transparent]">
-                        <TextReveal text={titleAccent} className="block" />
+                      <span className="mt-0.5 block">
+                        <TextReveal
+                          text={titleAccent}
+                          className="block"
+                          wordClassName="text-gradient"
+                        />
                       </span>
                     )}
                   </>
@@ -123,7 +127,7 @@ export default function TeamsPreview() {
               href="/equipes"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white shadow-xl shadow-magenta/25 transition-shadow duration-300 hover:shadow-magenta/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              Voir toutes les équipes
+              {text.teamsPreview.ctaAll ?? "Voir toutes les équipes"}
               <ArrowRight
                 className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden

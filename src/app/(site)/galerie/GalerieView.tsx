@@ -19,7 +19,7 @@ export default function GalerieView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Galerie", href: "/galerie" },
         ]}
       />
@@ -34,19 +34,19 @@ export default function GalerieView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                En images
+                {t.sectionKicker ?? "En images"}
               </span>
             </div>
           </Reveal>
           <Reveal delay={0.08}>
             <h2 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[0.95] tracking-tight text-white [text-wrap:balance]">
-              Le VCM en mouvement
+              {t.sectionTitle ?? "Le VCM en mouvement"}
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              Filtrez par catégorie et cliquez sur une photo pour l&rsquo;agrandir.
-              Toute l&rsquo;énergie du club, du gymnase à la plage.
+              {t.sectionBody ??
+                "Filtrez par catégorie et cliquez sur une photo pour l’agrandir. Toute l’énergie du club, du gymnase à la plage."}
             </p>
           </Reveal>
         </div>

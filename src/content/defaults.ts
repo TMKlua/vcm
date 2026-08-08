@@ -8,7 +8,9 @@ import { gallery } from "@/data/gallery";
 import { faq } from "@/data/faq";
 import { timeline } from "@/data/timeline";
 
-import type { SiteContent, SiteText, TeamContent, Player } from "./types";
+import liveSnapshot from "./live-snapshot.json";
+import { deepMerge } from "./merge";
+import type { DeepPartial, SiteContent, SiteText, TeamContent, Player } from "./types";
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Players — [À CONFIRMER]
@@ -78,6 +80,8 @@ const text: SiteText = {
     locationChip: `${club.address.city} · Étang de Thau`,
     ctaPrimary: "Rejoindre le club",
     ctaSecondary: "Découvrir le club",
+    image: "/images/hero/hero-1.jpg",
+    scrollHint: "Défiler",
   },
   intro: {
     kicker: "Le Club",
@@ -85,6 +89,8 @@ const text: SiteText = {
     titleAccent: "de l'étang de Thau",
     body: club.description,
     cta: "Notre histoire",
+    image: "/images/gallery/1.jpg",
+    imageCaption: "Saison 2024–2025",
   },
   stats: {
     kicker: "En chiffres",
@@ -96,6 +102,7 @@ const text: SiteText = {
     subtitle:
       "Du baby volley dès 3 ans au sport santé en passant par la compétition et le beach — il y a une place pour vous au VCM.",
     cta: "Toutes nos équipes",
+    ctaAll: "Voir toutes les équipes",
   },
   events: {
     kicker: "Agenda",
@@ -121,6 +128,8 @@ const text: SiteText = {
     subtitle:
       "Rejoignez le Volley Club Marseillanais — du Baby Volley dès 3 ans à la compétition, pour tous les niveaux, toute l'année.",
     cta: "Rejoindre le club",
+    kicker: "Saison 2025–2026",
+    ctaSecondary: "Nous contacter",
   },
   contactQuick: {
     kicker: "Contact",
@@ -130,6 +139,47 @@ const text: SiteText = {
   footer: {
     tagline: club.tagline,
     copyright: "Volley Club Marseillanais. Tous droits réservés.",
+    navHeading: "Navigation",
+    practicesHeading: "Nos pratiques",
+    contactHeading: "Contact",
+    legalLabel: "Mentions légales",
+  },
+  labels: {
+    navCta: "Rejoindre",
+    navCtaLong: "Rejoindre le club",
+  },
+  ui: {
+    breadcrumbHome: "Accueil",
+    teamObjectives: "Objectifs",
+    teamSchedule: "Créneaux",
+    teamRoster: "Effectif",
+    megaMenuTitle: "Rejoignez le club",
+    megaMenuText: "Du Baby Volley à la compétition, une place pour chacun.",
+    megaMenuCta: "S'inscrire",
+    clubeoLabel: "Clubeo",
+    skipLink: "Aller au contenu",
+    mapDirections: "Itinéraire",
+    newsFeatured: "À la une",
+    teamCardCta: "Découvrir",
+    socialFacebook: "Facebook",
+    socialInstagram: "Instagram",
+    socialWebsite: "Site officiel",
+    form: {
+      kicker: "Formulaire de contact",
+      heading: "Écrivez-nous",
+      note: "Ce formulaire ouvrira votre client de messagerie avec le message pré-rempli. Aucune donnée n'est envoyée directement par ce site.",
+      nameLabel: "Nom complet",
+      namePlaceholder: "Jean Dupont",
+      emailLabel: "Email",
+      emailPlaceholder: "jean@exemple.fr",
+      messageLabel: "Message",
+      messagePlaceholder: "Bonjour, je souhaite en savoir plus sur les inscriptions…",
+      submit: "Ouvrir ma messagerie",
+      errorSummary: "Veuillez corriger les erreurs ci-dessous avant d'envoyer.",
+      successTitle: "Message prêt !",
+      successBody: "Envoyez-le pour contacter le VCM.",
+      successAgain: "Envoyer un autre message",
+    },
   },
   pages: {
     histoire: {
@@ -148,6 +198,13 @@ const text: SiteText = {
       visionBody:
         "Depuis près de trente ans, le Volley Club Marseillanais aborde une nouvelle ère avec ambition et sérénité. La refonte de son identité digitale et le renforcement de toutes ses sections témoignent d'un club qui regarde vers l'avenir sans oublier ses racines.", // [À CONFIRMER]
       cta: "Rejoindre l'aventure",
+      introKicker: "Nés au bord de l'étang de Thau",
+      timelineKicker: "Chronologie",
+      timelineSubtitle:
+        "De la fondation du club à aujourd'hui, retour sur les moments clés qui ont forgé l'identité du VCM.",
+      visionKicker: "Vision actuelle",
+      visionExtra:
+        "Que vous soyez parent cherchant une activité pour votre enfant, adulte souhaitant (re)découvrir le volley en loisir, sportif en quête de compétition ou simplement curieux de bouger dans un cadre bienveillant — le VCM a une place pour vous. Rejoignez-nous !",
     },
     equipes: {
       heroKicker: "Le club",
@@ -155,6 +212,10 @@ const text: SiteText = {
       heroSubtitle:
         "Du Baby Volley dès 3 ans à la compétition régionale, en passant par le Beach Volley et le Sport Santé — le VCM propose une pratique adaptée à chaque âge, chaque profil et chaque ambition.",
       cta: "S'inscrire au club",
+      ctaKicker: "Rejoignez l'aventure",
+      ctaTitle: "Prêt à jouer ?",
+      ctaBody:
+        "Quelle que soit votre discipline de prédilection, nos équipes vous accueillent à bras ouverts. Remplissez le formulaire d'inscription et nous vous recontacterons rapidement.",
     },
     sportSante: {
       heroKicker: "Le club",
@@ -175,6 +236,42 @@ const text: SiteText = {
         "Que vous soyez en rééducation, atteint d'une maladie chronique, en reprise après une longue période d'inactivité ou simplement curieux de bouger différemment — venez tel que vous êtes.",
       ],
       cta: "S'inscrire",
+      introKicker: "Le volley pour tous",
+      benefitsKicker: "Ce que vous y gagnez",
+      benefitsIntro:
+        "Sport Santé et Soft Volley ne se contentent pas d'entretenir le corps — ils nourrissent aussi l'esprit et le lien humain.",
+      inclusionKicker: "Accessibilité & inclusion",
+      ctaKicker: "Venez essayer",
+      ctaTitle: "Prêt à bouger ?",
+      ctaBody:
+        "Une séance d'essai gratuite vous attend. Pas besoin d'équipement particulier — juste l'envie de vous faire du bien. Contactez-nous pour planifier votre première visite au Gymnase Louis Boudou de Marseillan.",
+      ctaSecondary: "Nous contacter",
+      benefits: [
+        {
+          title: "Santé cardio-vasculaire",
+          text: "Une activité douce qui entretient le cœur et le souffle, adaptée à votre rythme.",
+        },
+        {
+          title: "Plaisir & bonne humeur",
+          text: "Le volley-ball, même en version douce, reste un sport collectif plein de joie et de rires.",
+        },
+        {
+          title: "Lien social",
+          text: "Rejoindre le VCM, c'est intégrer une communauté chaleureuse, ouverte et bienveillante.",
+        },
+        {
+          title: "Bien-être global",
+          text: "Corps et esprit bénéficient ensemble d'une pratique régulière, légère et motivante.",
+        },
+        {
+          title: "Sans pression · adapté",
+          text: "Pas de compétition, pas de jugement. Chacun avance à son rythme, en toute sérénité.",
+        },
+        {
+          title: "Remise en forme",
+          text: "Idéal pour reprendre une activité physique progressive après une pause ou un arrêt médical.",
+        },
+      ],
     },
     inscriptions: {
       heroKicker: "Rejoindre",
@@ -186,6 +283,76 @@ const text: SiteText = {
       linksHeading: "Liens utiles",
       faqHeading: "Questions fréquentes",
       cta: "S'inscrire en ligne",
+      stepsKicker: "Mode d'emploi",
+      stepsIntro:
+        "En quatre étapes simples, devenez membre du Volley Club Marseillanais et intégrez une communauté sportive accueillante à Marseillan.",
+      ffvolleyCta: "Site FFVolley",
+      documentsKicker: "À préparer",
+      documentsIntro:
+        "Pour finaliser votre inscription, merci de préparer les pièces suivantes. En cas de doute, notre responsable club vous guidera pour compléter votre dossier.",
+      contactHeading: "Contact",
+      contactPersonLabel: "Responsable des inscriptions",
+      scheduleHeading: "Horaires d'entraînement",
+      tipHeading: "Bon à savoir",
+      tipBody:
+        "Une séance d'essai gratuite est proposée à tous les nouveaux membres. C'est l'occasion parfaite de découvrir l'ambiance du club avant de vous engager.",
+      linksKicker: "Plateformes",
+      linksIntro:
+        "Toutes les ressources pour préparer votre inscription et rester connecté à la vie du club.",
+      clubeoTitle: "Espace club (Clubeo)",
+      clubeoBody:
+        "Inscriptions en ligne, actualités et documents sur la plateforme officielle du VCM.",
+      clubeoCta: "Accéder au Clubeo",
+      licenceTitle: "Licence FFVolley",
+      licenceBody:
+        "Renseignements sur la licence fédérale, les catégories et les formulaires officiels.",
+      contactCta: "Contacter le club",
+      faqKicker: "Vos questions",
+      faqIntro:
+        "Vous ne trouvez pas la réponse à votre question ? Contactez-nous directement à",
+      ctaKicker: "Rejoignez l'aventure",
+      ctaTitle: "Prêt à jouer ?",
+      ctaBody:
+        "Quelle que soit votre section, le Volley Club Marseillanais vous accueille. Profitez d'une séance d'essai gratuite et rejoignez une communauté sportive unique au bord de l'étang de Thau.",
+      ctaSecondary: "Nous contacter",
+      steps: [
+        {
+          title: "Prendre contact",
+          description:
+            "Contactez-nous par email, téléphone ou venez directement au Gymnase Louis Boudou lors des entraînements. Une séance d'essai gratuite est proposée à tous les nouveaux venus, quel que soit l'âge ou le niveau.",
+        },
+        {
+          title: "Constituer le dossier",
+          description:
+            "Rassemblez les documents nécessaires : certificat médical de non contre-indication à la pratique du volley-ball (ou questionnaire de santé selon votre situation), formulaire de licence FFVolley et une photo d'identité.",
+        },
+        {
+          title: "Choisir sa pratique",
+          description:
+            "Baby Volley, Pôle Jeunes, Loisir, Compétition, Sport Santé, Soft Volley ou Beach Volley — choisissez la pratique et le créneau qui vous correspond. Nous vous guiderons selon votre profil et vos disponibilités.",
+        },
+        {
+          title: "Régler la cotisation",
+          description:
+            "Les tarifs varient selon la catégorie et la saison. Contactez le club pour connaître les montants en vigueur. Le règlement peut se faire en plusieurs fois selon les modalités du club.",
+        },
+      ],
+      documents: [
+        {
+          label: "Certificat médical de non contre-indication à la pratique du volley-ball",
+          note: "Ou questionnaire de santé selon votre catégorie",
+        },
+        {
+          label: "Formulaire de demande de licence FFVolley",
+          note: "Disponible auprès du club ou sur ffvolley.org",
+        },
+        { label: "Photo d'identité", note: "" },
+        {
+          label: "Règlement de la cotisation",
+          note: "Tarifs à confirmer auprès du club pour la saison en cours",
+        },
+        { label: "Autorisation parentale (pour les mineurs)", note: "" },
+      ],
     },
     partenaires: {
       heroKicker: "Le club",
@@ -199,18 +366,54 @@ const text: SiteText = {
         "Nos formules sont adaptables selon votre structure et vos objectifs. Discutons ensemble de la meilleure façon de vous associer au Volley Club Marseillanais.", // [À CONFIRMER]
       ],
       cta: "Devenir partenaire",
+      wallKicker: "Ils nous soutiennent",
+      wallIntro:
+        "De la commune à nos sponsors locaux, chaque partenaire contribue à faire vivre le volleyball à Marseillan. Merci à eux.",
+      becomeKicker: "Rejoignez-nous",
+      tiers: [
+        {
+          label: "Partenaire Principal",
+          description:
+            "Notre partenaire majeur, présent à nos côtés sur l'ensemble des événements du club.",
+        },
+        {
+          label: "Partenaires Officiels",
+          description:
+            "Des acteurs locaux engagés qui contribuent au développement du volleyball à Marseillan.",
+        },
+        {
+          label: "Institutions",
+          description:
+            "Les collectivités et fédérations qui nous accompagnent dans notre mission sportive.",
+        },
+      ],
+      becomeCtaTitle: "Construisons votre partenariat ensemble",
+      contactCta: "Contactez-nous",
     },
     galerie: {
       heroKicker: "Le club",
       heroTitle: "Galerie",
       heroSubtitle:
         "Matchs disputés, entraînements, tournois de beach volley et moments de partage : revivez en images les temps forts du Volley Club Marseillanais.",
+      sectionKicker: "En images",
+      sectionTitle: "Le VCM en mouvement",
+      sectionBody:
+        "Filtrez par catégorie et cliquez sur une photo pour l'agrandir. Toute l'énergie du club, du gymnase à la plage.",
     },
     actualites: {
       heroKicker: "Le club",
       heroTitle: "Actualités",
       heroSubtitle:
         "Les dernières nouvelles du Volley Club Marseillanais : résultats, événements, inscriptions et vie du club.",
+      latestLabel: "Dernière actualité",
+      allLabel: "Toutes les actualités",
+      relatedHeading: "À lire aussi",
+      backLabel: "Retour aux actualités",
+      articleCta: "Rejoindre le club",
+      notFoundKicker: "Oups",
+      notFoundTitle: "Article introuvable",
+      notFoundBody:
+        "L'article que vous recherchez n'existe pas ou n'est plus disponible. Retrouvez toutes nos actualités sur la page dédiée.",
     },
     contact: {
       heroKicker: "Le club",
@@ -220,16 +423,21 @@ const text: SiteText = {
       infoHeading: "Trouvez-nous à Marseillan",
       formHeading: "Écrivez-nous",
       mapHeading: "Gymnase Louis Boudou",
+      contactsHeading: "Nos coordonnées",
+      contactPersonLabel: "Contact",
+      scheduleLabel: "Entraînements",
+      socialsHeading: "Suivez-nous",
+      mapKicker: "Localisation",
     },
   },
 };
 
 /**
- * The default content — what the site renders before any localStorage override
- * is applied. Composed from the existing `@/data` collections plus the
- * `text` tree above.
+ * Contenu de base — composé des collections `@/data` et de l'arbre `text`.
+ * C'est le socle : il porte TOUTES les clés du modèle, y compris celles que le
+ * site publié ne connaît pas encore.
  */
-export const defaultContent: SiteContent = {
+const baseContent: SiteContent = {
   club,
   stats,
   teams: teamsWithPlayers,
@@ -241,3 +449,24 @@ export const defaultContent: SiteContent = {
   timeline,
   text,
 };
+
+/**
+ * Le contenu par défaut du site.
+ *
+ * `baseContent` fournit la structure complète ; `liveSnapshot` — l'export du
+ * contenu réellement publié sur volleymarseillan.com — fournit les vraies
+ * valeurs (textes relus par le club, photos hébergées sur le blob public).
+ *
+ * L'ordre compte : le snapshot gagne sur le socle, mais toute clé ajoutée au
+ * modèle et absente du snapshot garde sa valeur de base au lieu de partir
+ * `undefined`. Les tableaux (équipes, actus, galerie…) sont remplacés en bloc,
+ * comme partout ailleurs dans le modèle.
+ *
+ * Cela ne touche pas au contenu publié : en production, le blob est fusionné
+ * PAR-DESSUS ces valeurs (`readContent`), donc les modifications faites depuis
+ * /admin restent prioritaires.
+ */
+export const defaultContent: SiteContent = deepMerge(
+  baseContent,
+  liveSnapshot as unknown as DeepPartial<SiteContent>,
+);

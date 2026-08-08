@@ -1,5 +1,7 @@
 "use client";
 
+import { useContent } from "@/content/ContentContext";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, ArrowUpRight } from "lucide-react";
@@ -130,6 +132,7 @@ function StandardCard({ article }: { article: NewsArticle }) {
 
 /* ── Featured card (horizontal on desktop) ───────────────────────────────── */
 function FeaturedCard({ article }: { article: NewsArticle }) {
+  const ui = useContent().content.text.ui;
   return (
     <Link
       href={`/actualites/${article.slug}`}
@@ -172,7 +175,7 @@ function FeaturedCard({ article }: { article: NewsArticle }) {
             className="inline-flex h-1.5 w-1.5 rounded-full bg-fuchsia-vcm ring-2 ring-fuchsia-vcm/30"
           />
           <span className="text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-fuchsia-vcm">
-            À la une
+            {ui?.newsFeatured ?? "À la une"}
           </span>
         </div>
 

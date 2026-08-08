@@ -23,7 +23,7 @@ export default function ActualitesView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Actualités", href: "/actualites" },
         ]}
       />
@@ -39,7 +39,7 @@ export default function ActualitesView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Dernière actualité
+                {t.latestLabel ?? "Dernière actualité"}
               </span>
             </div>
             <NewsCard article={featured} featured />
@@ -62,7 +62,7 @@ export default function ActualitesView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Toutes les actualités
+                  {t.allLabel ?? "Toutes les actualités"}
                 </span>
               </div>
             </Reveal>

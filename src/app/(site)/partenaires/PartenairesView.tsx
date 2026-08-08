@@ -101,6 +101,12 @@ export default function PartenairesView() {
   const { content } = useContent();
   const { club, partners } = content;
   const t = content.text.pages.partenaires;
+  // Intitulés des niveaux éditables ; les classes de grille restent en code.
+  const tierGroups = TIER_GROUPS.map((g, i) => ({
+    ...g,
+    label: t.tiers?.[i]?.label ?? g.label,
+    description: t.tiers?.[i]?.description ?? g.description,
+  }));
 
   return (
     <>
@@ -110,7 +116,7 @@ export default function PartenairesView() {
         title={t.heroTitle}
         subtitle={t.heroSubtitle}
         breadcrumb={[
-          { label: "Accueil", href: "/" },
+          { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
           { label: "Partenaires", href: "/partenaires" },
         ]}
       />
@@ -126,7 +132,7 @@ export default function PartenairesView() {
                 className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
               />
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Ils nous soutiennent
+                {t.wallKicker ?? "Ils nous soutiennent"}
               </span>
             </div>
           </Reveal>
@@ -137,15 +143,15 @@ export default function PartenairesView() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
-              De la commune à nos sponsors locaux, chaque partenaire contribue à
-              faire vivre le volleyball à Marseillan. Merci à eux.
+              {t.wallIntro ??
+                "De la commune à nos sponsors locaux, chaque partenaire contribue à faire vivre le volleyball à Marseillan. Merci à eux."}
             </p>
           </Reveal>
         </div>
 
         {/* Tier groups */}
         <div className="flex flex-col gap-16 sm:gap-20">
-          {TIER_GROUPS.map(({ tier, label, description, gridClass }) => {
+          {tierGroups.map(({ tier, label, description, gridClass }) => {
             const tierPartners = partners.filter((p) => p.tier === tier);
             if (tierPartners.length === 0) return null;
 
@@ -222,7 +228,7 @@ export default function PartenairesView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Rejoignez-nous
+                  {t.becomeKicker ?? "Rejoignez-nous"}
                 </span>
                 <span
                   aria-hidden
@@ -287,7 +293,7 @@ export default function PartenairesView() {
                   className="h-px w-6 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-violet-500">
-                  Contactez-nous
+                  {t.contactCta ?? "Contactez-nous"}
                 </span>
                 <span
                   aria-hidden
@@ -296,7 +302,7 @@ export default function PartenairesView() {
               </div>
 
               <h3 className="font-display text-[clamp(1.4rem,3vw,2.2rem)] leading-[0.95] tracking-tight text-white mb-4 [text-wrap:balance]">
-                Construisons votre partenariat ensemble
+                {t.becomeCtaTitle ?? "Construisons votre partenariat ensemble"}
               </h3>
 
               <p className="text-sm leading-relaxed text-white/70 mb-8 max-w-lg mx-auto">

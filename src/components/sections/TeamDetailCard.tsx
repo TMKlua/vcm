@@ -18,6 +18,7 @@ import Reveal from "@/components/motion/Reveal";
 import ParallaxImage from "@/components/motion/ParallaxImage";
 import type { Team } from "@/types";
 import type { Player, TeamContent } from "@/content/types";
+import { useContent } from "@/content/ContentContext";
 
 const categoryIcon: Record<Team["category"], LucideIcon> = {
   baby: Baby,
@@ -88,6 +89,7 @@ function PlayerCard({ player }: { player: Player }) {
 }
 
 export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
+  const ui = useContent().content.text.ui;
   const isEven = index % 2 === 0;
   const Icon = categoryIcon[team.category];
   const label = categoryLabel[team.category];
@@ -121,7 +123,12 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
             {/* Image wrapper */}
             <div className="relative overflow-hidden rounded-3xl">
               <div className="group relative aspect-[4/3] w-full overflow-hidden">
-                <ParallaxImage className="absolute inset-0" amount={22}>
+                {/* `h-full w-full`, pas `absolute inset-0` : ParallaxImage pose
+                    déjà `relative` sur son wrapper, et les deux classes de
+                    position se contredisaient — `relative` gagnait, `inset-0`
+                    ne s'appliquait plus et la hauteur retombait à 0. Résultat :
+                    les photos d'équipes existaient mais mesuraient 616×0. */}
+                <ParallaxImage className="h-full w-full" amount={22}>
                   <Image
                     src={team.image}
                     alt={team.name}
@@ -170,7 +177,7 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
           {/* Objectives */}
           <div className="mt-7">
             <h3 className="mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-              Objectifs
+              {ui?.teamObjectives ?? "Objectifs"}
             </h3>
             <ul className="space-y-2.5">
               {team.objectives.map((obj, i) => (
@@ -189,7 +196,7 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
             <Clock className="mt-0.5 size-4 shrink-0 text-fuchsia-vcm" aria-hidden />
             <div>
               <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-white/70">
-                Créneaux
+                {ui?.teamSchedule ?? "Créneaux"}
               </span>
               <span className="mt-1 block text-sm text-white/80">{team.schedule}</span>
             </div>
@@ -199,7 +206,7 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
           {team.players && team.players.length > 0 && (
             <div className="mt-7">
               <h3 className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                Effectif
+                {ui?.teamRoster ?? "Effectif"}
               </h3>
               <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {team.players.map((player) => (

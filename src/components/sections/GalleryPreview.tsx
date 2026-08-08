@@ -112,8 +112,12 @@ export default function GalleryPreview() {
                   <>
                     <TextReveal text={titleMain} className="block" />
                     {titleAccent && (
-                      <span className="mt-0.5 block text-gradient [-webkit-text-fill-color:transparent]">
-                        <TextReveal text={titleAccent} className="block" />
+                      <span className="mt-0.5 block">
+                        <TextReveal
+                          text={titleAccent}
+                          className="block"
+                          wordClassName="text-gradient"
+                        />
                       </span>
                     )}
                   </>
@@ -164,11 +168,14 @@ export default function GalleryPreview() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.55, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Inner wrapper gives the aspect ratio */}
+              {/* Inner wrapper gives the aspect ratio.
+                  NB : ParallaxImage pose déjà `relative` sur son wrapper — lui
+                  passer `absolute inset-0` se contredisait et la tuile
+                  s'effondrait à une hauteur nulle. D'où `h-full w-full`. */}
               <div className={["relative w-full overflow-hidden", ASPECT_CLASSES[idx]].join(" ")}>
                 {/* Image — the featured tile (idx 0) gets a subtle scroll parallax */}
                 {idx === 0 ? (
-                  <ParallaxImage className="absolute inset-0" amount={26}>
+                  <ParallaxImage className="h-full w-full" amount={26}>
                     <Image
                       src={img.src}
                       alt={img.alt}

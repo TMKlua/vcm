@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import EquipesView from "./EquipesView";
+import { getContent } from "@/content/store";
+import { metadataFor } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Nos Équipes",
-  description:
-    "Découvrez toutes les équipes et pratiques du Volley Club Marseillanais : Baby Volley, Pôle Jeunes, Loisir, Compétition, Soft Volley, Sport Santé et Beach Volley. Une place pour chaque âge et chaque niveau à Marseillan.",
-};
+/**
+ * Titre d'onglet et description Google de cette page — éditables depuis /admin,
+ * section « Référencement & favicon ». Les valeurs livrées avec le site sont
+ * celles qui étaient auparavant écrites en dur ici.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const { content } = await getContent();
+  return metadataFor(content, "equipes", "/equipes");
+}
 
 export default function EquipesPage() {
   return <EquipesView />;

@@ -30,6 +30,7 @@ const categoryIcon: Record<Team["category"], LucideIcon> = {
   beach: Sun,
 };
 
+/** Repli si le contenu ne fournit pas d'intitulé pour la catégorie. */
 const categoryLabel: Record<Team["category"], string> = {
   baby: "Baby Volley",
   jeunes: "Jeunes",
@@ -92,7 +93,8 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
   const ui = useContent().content.text.ui;
   const isEven = index % 2 === 0;
   const Icon = categoryIcon[team.category];
-  const label = categoryLabel[team.category];
+  const label =
+    ui?.teamCategories?.[team.category] || categoryLabel[team.category];
 
   const subTeams = team.subTeams ?? [];
 

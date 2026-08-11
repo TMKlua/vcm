@@ -8,11 +8,13 @@ import Reveal from "@/components/motion/Reveal";
 import Timeline from "@/components/sections/Timeline";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 export default function HistoireView() {
   const { content } = useContent();
   const { club, timeline, text } = content;
   const t = content.text.pages.histoire;
+  const breadcrumbLabel = useNavLabel("histoire", "Histoire");
 
   return (
     <>
@@ -23,7 +25,7 @@ export default function HistoireView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Histoire", href: "/histoire" },
+          { label: breadcrumbLabel, href: "/histoire" },
         ]}
       />
 
@@ -42,7 +44,7 @@ export default function HistoireView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  Depuis {/* [À CONFIRMER] */}1996
+                  {t.introBadge ?? "Depuis 1996"}
                 </span>
               </div>
             </Reveal>
@@ -82,7 +84,7 @@ export default function HistoireView() {
               <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
                 <Image
                   src={text.pages.histoire.image || "/images/gallery/2.jpg"}
-                  alt="Joueurs du Volley Club Marseillanais en action"
+                  alt={t.imageCaption ?? `${club.address.city} · ${club.address.venue}`}
                   width={800}
                   height={560}
                   className="w-full object-cover object-center"
@@ -98,7 +100,7 @@ export default function HistoireView() {
               {/* Caption badge */}
               <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between px-1">
                 <span className="rounded-full border border-white/15 bg-ink/70 px-4 py-2 text-xs font-medium text-white/60 backdrop-blur-sm">
-                  {club.address.city} · {club.address.venue}
+                  {t.imageCaption ?? `${club.address.city} · ${club.address.venue}`}
                 </span>
               </div>
             </div>

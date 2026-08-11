@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import PartenairesView from "./PartenairesView";
+import { getContent } from "@/content/store";
+import { metadataFor } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Nos Partenaires",
-  description:
-    "Découvrez les partenaires et sponsors qui soutiennent le Volley Club Marseillanais à Marseillan. Rejoignez notre communauté de partenaires engagés pour le sport, la jeunesse et les valeurs du volley-ball.",
-};
+/**
+ * Titre d'onglet et description Google de cette page — éditables depuis /admin,
+ * section « Référencement & favicon ». Les valeurs livrées avec le site sont
+ * celles qui étaient auparavant écrites en dur ici.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const { content } = await getContent();
+  return metadataFor(content, "partenaires", "/partenaires");
+}
 
 export default function PartenairesPage() {
   return <PartenairesView />;

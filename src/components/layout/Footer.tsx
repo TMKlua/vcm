@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { MapPin, Phone, Mail, Globe } from "lucide-react";
 import BrandLogo from "./BrandLogo";
-import { navLinks } from "@/data/nav";
+import { useNavLinks } from "@/data/useNavLinks";
 import CourtLines from "@/components/motion/CourtLines";
 import { useContent } from "@/content/ContentContext";
 
@@ -32,12 +32,20 @@ const FOOTER_TEAM_SLUGS = ["baby-volley", "jeunes", "loisir", "competition", "be
 export default function Footer() {
   const { content } = useContent();
   const { club, teams, text } = content;
+  const navLinks = useNavLinks();
   const year = new Date().getFullYear();
   const { address, contact, socials } = club;
 
-  const footerTeams = FOOTER_TEAM_SLUGS
+  const preferredTeams = FOOTER_TEAM_SLUGS
     .map((slug) => teams.find((t) => t.slug === slug))
     .filter((t): t is typeof teams[number] => Boolean(t));
+
+  // Filet de sécurité : si les équipes ont été renommées depuis /admin, aucune
+  // ne correspondrait plus à la liste ci-dessus et la colonne « Nos pratiques »
+  // se viderait sans que personne ne comprenne pourquoi. On complète alors avec
+  // les équipes réellement publiées.
+  const footerTeams =
+    preferredTeams.length >= 2 ? preferredTeams : teams.slice(0, 5);
 
   return (
     <footer className="relative isolate overflow-hidden border-t border-white/10 bg-night text-white/70">
@@ -63,7 +71,7 @@ export default function Footer() {
             >
               <BrandLogo className="size-24" />
               <span className="font-display text-2xl uppercase leading-none tracking-tight text-white">
-                VCM
+                {club.shortName}
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/70">
@@ -72,7 +80,7 @@ export default function Footer() {
               </span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">
-              {club.name}, au bord de l&rsquo;étang de Thau.
+              {text.footer.aboutLine ?? `${club.name}, au bord de l’étang de Thau.`}
             </p>
 
             <div className="mt-5 flex items-center gap-3">
@@ -185,7 +193,7 @@ export default function Footer() {
                 </a>
               </p>
               <p className="pt-1 text-xs text-white/60">
-                Contact&nbsp;: {contact.person}
+                {text.footer.contactPersonLabel ?? "Contact"}&nbsp;: {contact.person}
               </p>
             </address>
           </div>

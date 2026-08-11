@@ -8,7 +8,8 @@ import Volleyball from "@/components/motion/Volleyball";
 type ExitTarget = { dx: number; dy: number; scale: number } | "fade" | null;
 
 export default function Loader() {
-  const clubName = useContent().content.club.name;
+  const { club } = useContent().content;
+  const clubName = club.name;
   const reduce = useReducedMotion();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -171,7 +172,7 @@ export default function Loader() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, transition: { duration: 0.22 } }}
           >
-            VCM
+            {club.shortName}
           </motion.h1>
 
           <motion.p

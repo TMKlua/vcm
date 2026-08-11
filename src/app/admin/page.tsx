@@ -13,6 +13,7 @@ import {
   Images,
   HelpCircle,
   History,
+  Search,
   Download,
   ExternalLink,
   Save,
@@ -34,6 +35,7 @@ import PartnersEditor from "@/admin/editors/PartnersEditor";
 import GalleryEditor from "@/admin/editors/GalleryEditor";
 import FaqEditor from "@/admin/editors/FaqEditor";
 import TimelineEditor from "@/admin/editors/TimelineEditor";
+import SeoEditor from "@/admin/editors/SeoEditor";
 import ImportExport from "@/admin/editors/ImportExport";
 
 /* ── Section registry ───────────────────────────────────────────────────── */
@@ -50,6 +52,7 @@ type SectionId =
   | "gallery"
   | "faq"
   | "timeline"
+  | "seo"
   | "io";
 
 const SECTIONS: {
@@ -68,6 +71,7 @@ const SECTIONS: {
   { id: "gallery", label: "Galerie", icon: Images },
   { id: "faq", label: "FAQ", icon: HelpCircle },
   { id: "timeline", label: "Historique (timeline)", icon: History },
+  { id: "seo", label: "Référencement & favicon", icon: Search },
   { id: "io", label: "Import / Export", icon: Download },
 ];
 
@@ -290,6 +294,8 @@ function Dashboard() {
               <FaqEditor />
             ) : section === "timeline" ? (
               <TimelineEditor />
+            ) : section === "seo" ? (
+              <SeoEditor />
             ) : section === "io" ? (
               <ImportExport onToast={pushToast} />
             ) : null}

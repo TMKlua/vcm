@@ -45,6 +45,7 @@ export default function NewsCard({ article, featured = false }: NewsCardProps) {
 
 /* ── Standard card ──────────────────────────────────────────────────────── */
 function StandardCard({ article }: { article: NewsArticle }) {
+  const ui = useContent().content.text.ui;
   return (
     <Link
       href={`/actualites/${article.slug}`}
@@ -113,7 +114,7 @@ function StandardCard({ article }: { article: NewsArticle }) {
 
         {/* CTA affordance */}
         <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-fuchsia-vcm/70 transition-colors duration-300 group-hover:text-fuchsia-vcm">
-          <span>Lire la suite</span>
+          <span>{ui?.newsReadMore ?? "Lire la suite"}</span>
           <ArrowUpRight
             className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden
@@ -225,7 +226,7 @@ function FeaturedCard({ article }: { article: NewsArticle }) {
 
         {/* CTA */}
         <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-fuchsia-vcm/70 transition-colors duration-300 group-hover:text-fuchsia-vcm">
-          <span>Lire la suite</span>
+          <span>{ui?.newsReadMore ?? "Lire la suite"}</span>
           <ArrowUpRight
             className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden

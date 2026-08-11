@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { news } from "@/data/news";
+import { getContent } from "@/content/store";
 import { SITE_URL } from "@/lib/seo";
 
 /* ── Static route definitions ───────────────────────────────────────────────── */
@@ -22,7 +22,22 @@ const STATIC_ROUTES: Array<{
 
 /* ── Sitemap export ─────────────────────────────────────────────────────────── */
 
-export default function sitemap(): MetadataRoute.Sitemap {
+/**
+ * Généré à chaque requête, comme le reste du site : sans cela Next figerait le
+ * plan au moment du build, avec les articles qui existaient ce jour-là.
+ */
+export const dynamic = "force-dynamic";
+
+/**
+ * Le plan du site liste les actualités RÉELLEMENT publiées.
+ *
+ * Il partait des articles livrés avec le code : un article ajouté depuis /admin
+ * n'était donc jamais signalé à Google, et un article supprimé y restait.
+ */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { content } = await getContent();
+  const news = content.news;
+
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map(
     ({ path, changeFrequency, priority }) => ({
       url: `${SITE_URL}${path}`,

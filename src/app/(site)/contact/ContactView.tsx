@@ -9,6 +9,7 @@ import CourtLines from "@/components/motion/CourtLines";
 import ContactForm from "@/components/sections/ContactForm";
 import ClubMap from "@/components/ui/ClubMap";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -81,6 +82,7 @@ export default function ContactView() {
   const { content } = useContent();
   const { contact, address, socials, schedule } = content.club;
   const t = content.text.pages.contact;
+  const breadcrumbLabel = useNavLabel("contact", "Contact");
   const telHref = `tel:${toTelHref(contact.phone)}`;
 
   return (
@@ -92,7 +94,7 @@ export default function ContactView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Contact", href: "/contact" },
+          { label: breadcrumbLabel, href: "/contact" },
         ]}
       />
 
@@ -133,7 +135,7 @@ export default function ContactView() {
 
                   {/* Address */}
                   <StaggerItem>
-                    <InfoRow icon={MapPin} label="Adresse">
+                    <InfoRow icon={MapPin} label={content.text.ui?.addressLabel ?? "Adresse"}>
                       <address className="not-italic text-sm leading-relaxed text-white/75">
                         <strong className="text-white">{address.venue}</strong>
                         <br />
@@ -146,7 +148,7 @@ export default function ContactView() {
 
                   {/* Contact person & phone */}
                   <StaggerItem>
-                    <InfoRow icon={Phone} label="Téléphone">
+                    <InfoRow icon={Phone} label={content.text.ui?.phoneLabel ?? "Téléphone"}>
                       <p className="text-sm text-white/75">
                         <span className="text-white/70">{t.contactPersonLabel ?? "Contact"} : </span>
                         <strong className="text-white">{contact.person}</strong>
@@ -163,7 +165,7 @@ export default function ContactView() {
 
                   {/* Email */}
                   <StaggerItem>
-                    <InfoRow icon={Mail} label="Email">
+                    <InfoRow icon={Mail} label={content.text.ui?.emailLabel ?? "Email"}>
                       <a
                         href={`mailto:${contact.email}`}
                         className="text-sm font-medium text-violet-400 underline-offset-4 transition-colors hover:text-fuchsia-vcm hover:underline focus-visible:outline-none focus-visible:underline"
@@ -194,7 +196,11 @@ export default function ContactView() {
                         <p className="text-sm text-white/75">
                           <strong className="text-white">{schedule}</strong>
                         </p>
-                        <p className="mt-0.5 text-xs text-white/70">Au {address.venue}</p>
+                        <p className="mt-0.5 text-xs text-white/70">
+                          {[content.text.ui?.venuePrefix ?? "Au", address.venue]
+                            .filter(Boolean)
+                            .join(" ")}
+                        </p>
                       </div>
                     </div>
                   </StaggerItem>

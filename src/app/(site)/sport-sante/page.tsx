@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import SportSanteView from "./SportSanteView";
+import { getContent } from "@/content/store";
+import { metadataFor } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Sport Santé & Soft Volley",
-  description:
-    "Le programme Sport Santé et Soft Volley du VCM : une pratique ludique, conviviale et accessible à tous, particulièrement adaptée aux personnes non sportives, en reprise d'activité ou souhaitant prendre soin de leur santé dans un cadre bienveillant à Marseillan.",
-};
+/**
+ * Titre d'onglet et description Google de cette page — éditables depuis /admin,
+ * section « Référencement & favicon ». Les valeurs livrées avec le site sont
+ * celles qui étaient auparavant écrites en dur ici.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const { content } = await getContent();
+  return metadataFor(content, "sportSante", "/sport-sante");
+}
 
 export default function SportSantePage() {
   return <SportSanteView />;

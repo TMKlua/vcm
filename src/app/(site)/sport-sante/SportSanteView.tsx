@@ -19,6 +19,7 @@ import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import TiltCard from "@/components/ui/TiltCard";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 // ── Icônes des bénéfices ──────────────────────────────────────────────────────
 // Seules les icônes restent en dur : titres et textes sont éditables depuis
@@ -72,6 +73,34 @@ export default function SportSanteView() {
 
   const sporSante = teams.find((tm) => tm.category === "sante");
   const softVolley = teams.find((tm) => tm.category === "soft");
+  const breadcrumbLabel = useNavLabel("sportSante", "Sport Santé");
+
+  /*
+   * Les deux photos de la page sont désormais pilotées par le contenu.
+   *
+   * Avant, elles venaient uniquement de l'équipe dont la catégorie était
+   * « sante » / « soft ». Le jour où le club a renommé sa catégorie Sport Santé,
+   * plus aucune équipe ne correspondait et la page retombait sur la photo
+   * générique livrée avec le site, sans aucun moyen de la changer depuis
+   * /admin. L'ordre ci-dessous corrige ça : champ de la page d'abord, puis
+   * photo d'équipe, puis image livrée.
+   */
+  const introImage =
+    t.image?.trim() || sporSante?.image?.trim() || "/images/teams/sport-sante.jpg";
+  const inclusionImage =
+    t.inclusionImage?.trim() ||
+    softVolley?.image?.trim() ||
+    "/images/teams/soft-volley.jpg";
+
+  const introCaption = [t.imageCaption ?? "Sport Santé", sporSante?.ageRange]
+    .filter((part) => part && String(part).trim())
+    .join(" · ");
+  const inclusionCaption = [
+    t.inclusionImageCaption ?? "Soft Volley",
+    softVolley?.ageRange,
+  ]
+    .filter((part) => part && String(part).trim())
+    .join(" · ");
 
   return (
     <>
@@ -82,7 +111,7 @@ export default function SportSanteView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Sport Santé", href: "/sport-sante" },
+          { label: breadcrumbLabel, href: "/sport-sante" },
         ]}
       />
 
@@ -155,8 +184,8 @@ export default function SportSanteView() {
               {/* Image frame */}
               <div className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/50">
                 <Image
-                  src={sporSante?.image ?? "/images/teams/sport-sante.jpg"}
-                  alt="Séance Sport Santé au Volley Club Marseillanais"
+                  src={introImage}
+                  alt={t.imageCaption ?? "Sport Santé"}
                   width={800}
                   height={560}
                   className="w-full object-cover object-center"
@@ -169,11 +198,13 @@ export default function SportSanteView() {
                   className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink/70 to-transparent"
                 />
                 {/* Caption */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between px-1">
-                  <span className="rounded-full border border-white/15 bg-ink/70 px-4 py-2 text-xs font-medium text-white/60 backdrop-blur-sm">
-                    Sport Santé · {sporSante?.ageRange}
-                  </span>
-                </div>
+                {introCaption && (
+                  <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between px-1">
+                    <span className="rounded-full border border-white/15 bg-ink/70 px-4 py-2 text-xs font-medium text-white/60 backdrop-blur-sm">
+                      {introCaption}
+                    </span>
+                  </div>
+                )}
               </div>
             </TiltCard>
           </Reveal>
@@ -263,8 +294,8 @@ export default function SportSanteView() {
               />
               <div className="relative overflow-hidden rounded-3xl shadow-xl shadow-encre/15 border border-encre/10">
                 <Image
-                  src={softVolley?.image ?? "/images/teams/soft-volley.jpg"}
-                  alt="Soft Volley — pratique douce et accessible au VCM"
+                  src={inclusionImage}
+                  alt={t.inclusionImageCaption ?? "Soft Volley"}
                   width={800}
                   height={560}
                   className="w-full object-cover object-center"
@@ -273,11 +304,13 @@ export default function SportSanteView() {
                 />
               </div>
               {/* Caption badge */}
-              <div className="absolute bottom-4 left-4">
-                <span className="rounded-full border border-encre/15 bg-white/80 px-4 py-2 text-xs font-medium text-encre/70 backdrop-blur-sm shadow-sm">
-                  Soft Volley · {softVolley?.ageRange}
-                </span>
-              </div>
+              {inclusionCaption && (
+                <div className="absolute bottom-4 left-4">
+                  <span className="rounded-full border border-encre/15 bg-white/80 px-4 py-2 text-xs font-medium text-encre/70 backdrop-blur-sm shadow-sm">
+                    {inclusionCaption}
+                  </span>
+                </div>
+              )}
             </div>
           </Reveal>
 

@@ -5,11 +5,13 @@ import PageHero from "@/components/layout/PageHero";
 import TeamDetailCard from "@/components/sections/TeamDetailCard";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 export default function EquipesView() {
   const { content } = useContent();
   const { teams } = content;
   const t = content.text.pages.equipes;
+  const breadcrumbLabel = useNavLabel("equipes", "Équipes");
 
   return (
     <>
@@ -20,7 +22,7 @@ export default function EquipesView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Équipes", href: "/equipes" },
+          { label: breadcrumbLabel, href: "/equipes" },
         ]}
       />
 

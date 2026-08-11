@@ -7,10 +7,12 @@ import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import Reveal from "@/components/motion/Reveal";
 import { sortByDateDesc } from "@/lib/date";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 export default function ActualitesView() {
   const { content } = useContent();
   const t = content.text.pages.actualites;
+  const breadcrumbLabel = useNavLabel("actualites", "Actualités");
 
   const sorted = sortByDateDesc(content.news);
   const [featured, ...rest] = sorted;
@@ -24,7 +26,7 @@ export default function ActualitesView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Actualités", href: "/actualites" },
+          { label: breadcrumbLabel, href: "/actualites" },
         ]}
       />
 

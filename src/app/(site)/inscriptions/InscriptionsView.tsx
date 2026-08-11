@@ -19,6 +19,7 @@ import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import Accordion from "@/components/ui/Accordion";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 // ── Icônes ────────────────────────────────────────────────────────────────────
 // Seules les icônes restent en dur : les titres et textes des étapes et des
@@ -79,6 +80,7 @@ export default function InscriptionsView() {
   const { content } = useContent();
   const { club, faq } = content;
   const t = content.text.pages.inscriptions;
+  const breadcrumbLabel = useNavLabel("inscriptions", "Inscriptions");
   // Étapes et documents éditables ; repli sur les listes livrées avec le site.
   const stepItems = t.steps?.length ? t.steps : fallbackSteps;
   const documentItems = t.documents?.length ? t.documents : fallbackDocuments;
@@ -92,7 +94,7 @@ export default function InscriptionsView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Inscriptions", href: "/inscriptions" },
+          { label: breadcrumbLabel, href: "/inscriptions" },
         ]}
       />
 
@@ -378,7 +380,7 @@ export default function InscriptionsView() {
                 </p>
               </div>
               <MagneticButton
-                href="https://www.ffvolley.org/"
+                href={t.ffvolleyUrl?.trim() || "https://www.ffvolley.org/"}
                 className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-fuchsia-vcm transition-colors hover:text-white"
               >
                 {t.ffvolleyCta ?? "Site FFVolley"}
@@ -402,8 +404,8 @@ export default function InscriptionsView() {
                   {t.contactCta ?? "Contacter le club"}
                 </h3>
                 <p className="text-sm leading-relaxed text-white/70">
-                  Une question sur votre inscription ? Envoyez-nous un email, nous
-                  vous répondrons rapidement.
+                  {t.contactCardBody ??
+                    "Une question sur votre inscription ? Envoyez-nous un email, nous vous répondrons rapidement."}
                 </p>
               </div>
               <MagneticButton

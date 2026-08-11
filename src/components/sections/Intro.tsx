@@ -161,7 +161,7 @@ export default function Intro() {
               <ParallaxImage className="aspect-[4/3] w-full" amount={24}>
                 <Image
                   src={text.intro.image || "/images/gallery/1.jpg"}
-                  alt="Le Volley Club Marseillanais à l'entraînement"
+                  alt={text.intro.imageCaption ?? club.name}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover object-center"

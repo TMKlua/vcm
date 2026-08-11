@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import Hero from "@/components/sections/Hero";
 import Intro from "@/components/sections/Intro";
 import StatsSection from "@/components/sections/StatsSection";
@@ -11,11 +9,12 @@ import JoinCta from "@/components/sections/JoinCta";
 import ContactQuick from "@/components/sections/ContactQuick";
 import Marquee from "@/components/motion/Marquee";
 
-export const metadata: Metadata = {
-  title: "Volley Club Marseillanais — Club de volley à Marseillan",
-  description:
-    "Le Volley Club Marseillanais réunit passionnés et compétiteurs à Marseillan. Découvrez nos équipes, nos événements, notre galerie et rejoignez le club.",
-};
+/*
+ * Pas de métadonnées ici : le titre d'onglet et la description Google de
+ * l'accueil sont portés par la racine (`src/app/layout.tsx`), qui les lit dans
+ * `seo.pages.home`. Les redéclarer à ce niveau ferait appliquer par-dessus le
+ * gabarit « %s · … » et le nom du club apparaîtrait deux fois dans l'onglet.
+ */
 
 export default function Home() {
   return (

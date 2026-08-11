@@ -19,7 +19,7 @@ import { useContent } from "@/content/ContentContext";
  *   - Tier labels: "institutionnel", "principal", "officiel" grouped and labeled.
  */
 
-// Tier display labels
+// Tier display labels — repli si le contenu ne fournit rien.
 const TIER_LABELS: Record<string, string> = {
   institutionnel: "Partenaires institutionnels",
   principal: "Partenaire principal",
@@ -121,7 +121,7 @@ export default function PartnersStrip() {
                 {/* Tier label */}
                 <Reveal delay={0.05}>
                   <p className="mb-6 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/70">
-                    {TIER_LABELS[tier]}
+                    {text.ui?.partnerTierTitles?.[tier] || TIER_LABELS[tier]}
                   </p>
                 </Reveal>
 

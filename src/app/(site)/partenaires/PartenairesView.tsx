@@ -19,6 +19,7 @@ import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import MagneticButton from "@/components/ui/MagneticButton";
 import PartnerLogo from "@/components/ui/PartnerLogo";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 // ── Tier configuration ────────────────────────────────────────────────────────
 
@@ -54,44 +55,37 @@ const TIER_GROUPS: {
   },
 ];
 
-// ── Contreparties data (stays hardcoded — no content field) ────────────────────
+// ── Contreparties ─────────────────────────────────────────────────────────────
+// Seules les icônes restent en dur : titres et textes viennent du contenu
+// (text.pages.partenaires.benefits) et sont éditables depuis /admin. L'icône est
+// choisie par position, comme pour les bénéfices de la page Sport Santé.
 
-const contreparties = [
+const CONTREPARTIE_ICONS = [Eye, Megaphone, Users, Award, MapPin, HeartHandshake];
+
+const fallbackContreparties = [
   {
-    icon: Eye,
     title: "Visibilité locale",
-    description:
-      "Logo sur le site officiel du club, les réseaux sociaux et les supports de communication diffusés à Marseillan et autour de l'étang de Thau.",
+    text: "Logo sur le site officiel du club, les réseaux sociaux et les supports de communication diffusés à Marseillan et autour de l'étang de Thau.",
   },
   {
-    icon: Megaphone,
     title: "Présence événementielle",
-    description:
-      "Mise en avant lors des tournois Beach Volley, des remises de prix et des événements communautaires organisés par le VCM.",
+    text: "Mise en avant lors des tournois Beach Volley, des remises de prix et des événements communautaires organisés par le VCM.",
   },
   {
-    icon: Users,
     title: "Audience qualifiée",
-    description:
-      "Accès à une communauté de licenciés, familles et supporters — un public local, familial et engagé, fidèle à son club.",
+    text: "Accès à une communauté de licenciés, familles et supporters — un public local, familial et engagé, fidèle à son club.",
   },
   {
-    icon: Award,
     title: "Logo sur les équipements",
-    description:
-      "Association de votre marque aux maillots et équipements du club, visibles lors de tous les matchs et entraînements.",
+    text: "Association de votre marque aux maillots et équipements du club, visibles lors de tous les matchs et entraînements.",
   },
   {
-    icon: MapPin,
     title: "Rayonnement territorial",
-    description:
-      "Soutien à un projet sportif ancré dans le territoire de Marseillan, reconnu pour ses valeurs de convivialité, jeunesse et santé.",
+    text: "Soutien à un projet sportif ancré dans le territoire de Marseillan, reconnu pour ses valeurs de convivialité, jeunesse et santé.",
   },
   {
-    icon: HeartHandshake,
     title: "Partenariat sur-mesure",
-    description:
-      "Formules adaptées à votre budget et à vos objectifs. Contactez-nous pour construire ensemble un partenariat qui vous ressemble.",
+    text: "Formules adaptées à votre budget et à vos objectifs. Contactez-nous pour construire ensemble un partenariat qui vous ressemble.",
   },
 ];
 
@@ -101,12 +95,15 @@ export default function PartenairesView() {
   const { content } = useContent();
   const { club, partners } = content;
   const t = content.text.pages.partenaires;
+  const breadcrumbLabel = useNavLabel("partenaires", "Partenaires");
   // Intitulés des niveaux éditables ; les classes de grille restent en code.
   const tierGroups = TIER_GROUPS.map((g, i) => ({
     ...g,
     label: t.tiers?.[i]?.label ?? g.label,
     description: t.tiers?.[i]?.description ?? g.description,
   }));
+  const contreparties = t.benefits?.length ? t.benefits : fallbackContreparties;
+  const ui = content.text.ui;
 
   return (
     <>
@@ -117,7 +114,7 @@ export default function PartenairesView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Partenaires", href: "/partenaires" },
+          { label: breadcrumbLabel, href: "/partenaires" },
         ]}
       />
 
@@ -166,7 +163,9 @@ export default function PartenairesView() {
                       </h3>
                       <span className="mb-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/60">
                         {tierPartners.length}{" "}
-                        {tierPartners.length > 1 ? "membres" : "membre"}
+                        {tierPartners.length > 1
+                          ? (ui?.memberPlural ?? "membres")
+                          : (ui?.memberSingular ?? "membre")}
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-white/70">{description}</p>
@@ -256,7 +255,7 @@ export default function PartenairesView() {
           {/* Contreparties grid */}
           <StaggerGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-16 sm:mb-20">
             {contreparties.map((item, i) => {
-              const Icon = item.icon;
+              const Icon = CONTREPARTIE_ICONS[i % CONTREPARTIE_ICONS.length];
               return (
                 <StaggerItem key={i}>
                   <div className="group relative flex h-full flex-col gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition-all duration-300 hover:border-violet-500/30 hover:bg-violet-700/[0.06]">
@@ -270,7 +269,7 @@ export default function PartenairesView() {
                     </h3>
 
                     <p className="text-sm leading-relaxed text-white/70 flex-1">
-                      {item.description}
+                      {item.text}
                     </p>
 
                     {/* Hover bottom accent */}

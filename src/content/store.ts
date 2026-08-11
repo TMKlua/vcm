@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { get, put, BlobPreconditionFailedError } from "@vercel/blob";
 
 import { defaultContent } from "./defaults";
@@ -94,6 +95,16 @@ export async function readContent(): Promise<ContentSnapshot> {
     return fallbackSnapshot();
   }
 }
+
+/**
+ * `readContent` mémorisé pour la durée d'UNE requête.
+ *
+ * `generateMetadata` et le layout ont tous deux besoin du contenu ; sans cette
+ * mémorisation, chaque page ferait deux lectures du blob au lieu d'une. La
+ * mémoire est vidée à la fin de la requête, donc une publication reste visible
+ * immédiatement — exactement comme avec `readContent` seul.
+ */
+export const getContent = cache(readContent);
 
 export type WriteResult =
   // `etag` is null if the blob could not be re-read right after writing; the

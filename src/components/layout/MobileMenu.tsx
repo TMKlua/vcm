@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { X, Globe, ArrowUpRight } from "lucide-react";
-import { navLinks } from "@/data/nav";
+import { useNavLinks } from "@/data/useNavLinks";
 import { useContent } from "@/content/ContentContext";
 import BrandLogo from "./BrandLogo";
 
@@ -36,6 +36,7 @@ type MobileMenuProps = {
 export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
   const { content } = useContent();
   const { club, text } = content;
+  const navLinks = useNavLinks();
   const reduce = useReducedMotion();
   const dialogRef = useRef<HTMLDivElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
@@ -136,7 +137,7 @@ export default function MobileMenu({ onClose, isActive }: MobileMenuProps) {
           {navLinks.map((link, i) => {
             const active = isActive(link.href);
             return (
-              <motion.li key={link.label} variants={item}>
+              <motion.li key={link.key ?? link.href} variants={item}>
                 <Link
                   ref={i === 0 ? firstLinkRef : undefined}
                   href={link.href}

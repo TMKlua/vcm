@@ -13,6 +13,7 @@ import { deepMerge } from "./merge";
 import type {
   DeepPartial,
   Player,
+  SeoSettings,
   SiteContent,
   SiteText,
   SubTeam,
@@ -174,6 +175,21 @@ const text: SiteText = {
     practicesHeading: "Nos pratiques",
     contactHeading: "Contact",
     legalLabel: "Mentions légales",
+    aboutLine: `${club.name}, au bord de l'étang de Thau.`,
+    contactPersonLabel: "Contact",
+  },
+  marquee: ["VOLLEY", "CLUB", "MARSEILLANAIS", "ÉTANG DE THAU", "DEPUIS 1996"],
+  nav: {
+    home: "Accueil",
+    club: "Le Club",
+    histoire: "Histoire",
+    sportSante: "Sport Santé",
+    equipes: "Équipes",
+    actualites: "Actualités",
+    galerie: "Galerie",
+    partenaires: "Partenaires",
+    inscriptions: "Inscriptions",
+    contact: "Contact",
   },
   labels: {
     navCta: "Rejoindre",
@@ -192,6 +208,33 @@ const text: SiteText = {
     skipLink: "Aller au contenu",
     mapDirections: "Itinéraire",
     newsFeatured: "À la une",
+    newsReadMore: "Lire la suite",
+    galleryAll: "Tout",
+    memberSingular: "membre",
+    memberPlural: "membres",
+    addressLabel: "Adresse",
+    phoneLabel: "Téléphone",
+    emailLabel: "Email",
+    venuePrefix: "Au",
+    teamCategories: {
+      baby: "Baby Volley",
+      jeunes: "Jeunes",
+      loisir: "Loisir",
+      competition: "Compétition",
+      soft: "Soft Volley",
+      sante: "Sport Santé",
+      beach: "Beach Volley",
+    },
+    partnerTierTitles: {
+      principal: "Partenaire principal",
+      officiel: "Partenaires officiels",
+      institutionnel: "Partenaires institutionnels",
+    },
+    partnerTierBadges: {
+      principal: "Principal",
+      officiel: "Officiel",
+      institutionnel: "Institutionnel",
+    },
     teamCardCta: "Découvrir",
     socialFacebook: "Facebook",
     socialInstagram: "Instagram",
@@ -230,6 +273,9 @@ const text: SiteText = {
       visionBody:
         "Depuis près de trente ans, le Volley Club Marseillanais aborde une nouvelle ère avec ambition et sérénité. La refonte de son identité digitale et le renforcement de toutes ses sections témoignent d'un club qui regarde vers l'avenir sans oublier ses racines.", // [À CONFIRMER]
       cta: "Rejoindre l'aventure",
+      image: "/images/gallery/2.jpg",
+      imageCaption: `${club.address.city} · ${club.address.venue}`,
+      introBadge: "Depuis 1996", // [À CONFIRMER]
       introKicker: "Nés au bord de l'étang de Thau",
       timelineKicker: "Chronologie",
       timelineSubtitle:
@@ -304,6 +350,10 @@ const text: SiteText = {
           text: "Idéal pour reprendre une activité physique progressive après une pause ou un arrêt médical.",
         },
       ],
+      image: "/images/teams/sport-sante.jpg",
+      imageCaption: "Sport Santé",
+      inclusionImage: "/images/teams/soft-volley.jpg",
+      inclusionImageCaption: "Soft Volley",
     },
     inscriptions: {
       heroKicker: "Rejoindre",
@@ -385,6 +435,9 @@ const text: SiteText = {
         },
         { label: "Autorisation parentale (pour les mineurs)", note: "" },
       ],
+      contactCardBody:
+        "Une question sur votre inscription ? Envoyez-nous un email, nous vous répondrons rapidement.",
+      ffvolleyUrl: "https://www.ffvolley.org/",
     },
     partenaires: {
       heroKicker: "Le club",
@@ -421,6 +474,32 @@ const text: SiteText = {
       ],
       becomeCtaTitle: "Construisons votre partenariat ensemble",
       contactCta: "Contactez-nous",
+      benefits: [
+        {
+          title: "Visibilité locale",
+          text: "Logo sur le site officiel du club, les réseaux sociaux et les supports de communication diffusés à Marseillan et autour de l'étang de Thau.",
+        },
+        {
+          title: "Présence événementielle",
+          text: "Mise en avant lors des tournois Beach Volley, des remises de prix et des événements communautaires organisés par le VCM.",
+        },
+        {
+          title: "Audience qualifiée",
+          text: "Accès à une communauté de licenciés, familles et supporters — un public local, familial et engagé, fidèle à son club.",
+        },
+        {
+          title: "Logo sur les équipements",
+          text: "Association de votre marque aux maillots et équipements du club, visibles lors de tous les matchs et entraînements.",
+        },
+        {
+          title: "Rayonnement territorial",
+          text: "Soutien à un projet sportif ancré dans le territoire de Marseillan, reconnu pour ses valeurs de convivialité, jeunesse et santé.",
+        },
+        {
+          title: "Partenariat sur-mesure",
+          text: "Formules adaptées à votre budget et à vos objectifs. Contactez-nous pour construire ensemble un partenariat qui vous ressemble.",
+        },
+      ],
     },
     galerie: {
       heroKicker: "Le club",
@@ -464,6 +543,82 @@ const text: SiteText = {
   },
 };
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * SEO — reprise à l'identique des métadonnées jusqu'ici figées dans
+ * `src/app/layout.tsx` et dans chaque `page.tsx`. Le rendu Google et l'onglet
+ * du navigateur sont donc inchangés tant que rien n'est modifié dans /admin.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+const seo: SeoSettings = {
+  siteName: club.name,
+  defaultTitle: "Volley Club Marseillanais — Club de volley à Marseillan",
+  titleTemplate: "%s · Volley Club Marseillanais",
+  description:
+    "Club de volley-ball convivial et compétitif à Marseillan, au bord de l'étang de Thau. Baby volley dès 3 ans, jeunes, loisir, compétition, beach volley et sport santé — toutes les pratiques, tous les âges.",
+  keywords: [
+    "volley club Marseillan",
+    "VCM volleyball",
+    "Volley Club Marseillanais",
+    "volleyball Hérault",
+    "baby volley Marseillan",
+    "beach volley Marseillan",
+    "sport santé volley",
+    "volley étang de Thau",
+    "club sportif Marseillan",
+    "inscription volley Hérault",
+  ],
+  ogImage: "/og-image.jpg",
+  favicon: "/icon.png",
+  appleIcon: "/apple-icon.png",
+  pages: {
+    home: {
+      title: "Volley Club Marseillanais — Club de volley à Marseillan",
+      description:
+        "Le Volley Club Marseillanais réunit passionnés et compétiteurs à Marseillan. Découvrez nos équipes, nos événements, notre galerie et rejoignez le club.",
+    },
+    histoire: {
+      title: "Notre Histoire",
+      description:
+        "Découvrez l'histoire du Volley Club Marseillanais : des origines du club au bord de l'étang de Thau jusqu'à aujourd'hui, en passant par le développement des sections jeunes, beach volley et sport santé.",
+    },
+    equipes: {
+      title: "Nos Équipes",
+      description:
+        "Découvrez toutes les équipes et pratiques du Volley Club Marseillanais : Baby Volley, Pôle Jeunes, Loisir, Compétition, Soft Volley, Sport Santé et Beach Volley. Une place pour chaque âge et chaque niveau à Marseillan.",
+    },
+    sportSante: {
+      title: "Sport Santé & Soft Volley",
+      description:
+        "Le programme Sport Santé et Soft Volley du VCM : une pratique ludique, conviviale et accessible à tous, particulièrement adaptée aux personnes non sportives, en reprise d'activité ou souhaitant prendre soin de leur santé dans un cadre bienveillant à Marseillan.",
+    },
+    inscriptions: {
+      title: "Inscriptions",
+      description:
+        "Comment rejoindre le Volley Club Marseillanais : étapes d'inscription, documents nécessaires (certificat médical, licence FFVolley), tarifs et FAQ. Contactez-nous pour une séance d'essai gratuite à Marseillan.",
+    },
+    partenaires: {
+      title: "Nos Partenaires",
+      description:
+        "Découvrez les partenaires et sponsors qui soutiennent le Volley Club Marseillanais à Marseillan. Rejoignez notre communauté de partenaires engagés pour le sport, la jeunesse et les valeurs du volley-ball.",
+    },
+    galerie: {
+      title: "Galerie",
+      description:
+        "Plongez dans la vie du Volley Club Marseillanais en images : matchs, entraînements, beach volley, jeunes et événements du club à Marseillan, au bord de l'étang de Thau.",
+    },
+    actualites: {
+      title: "Actualités",
+      description:
+        "Retrouvez toutes les dernières actualités du Volley Club Marseillanais : résultats, événements, vie du club, beach volley, sport santé et bien plus.",
+    },
+    contact: {
+      title: "Contact",
+      description:
+        "Contactez le Volley Club Marseillanais à Marseillan (Hérault). Retrouvez nos coordonnées, l'adresse du Gymnase Louis Boudou, nos horaires d'entraînement et écrivez-nous directement depuis cette page.",
+    },
+  },
+};
+
 /**
  * Contenu de base — composé des collections `@/data` et de l'arbre `text`.
  * C'est le socle : il porte TOUTES les clés du modèle, y compris celles que le
@@ -480,6 +635,7 @@ const baseContent: SiteContent = {
   faq,
   timeline,
   text,
+  seo,
 };
 
 /**

@@ -371,6 +371,35 @@ export default function TextEditor() {
         <Str path="text.footer.practicesHeading" label="Titre colonne « Nos pratiques »" value={t.footer.practicesHeading ?? ""} update={update} />
         <Str path="text.footer.contactHeading" label="Titre colonne « Contact »" value={t.footer.contactHeading ?? ""} update={update} />
         <Str path="text.footer.legalLabel" label="Lien mentions légales" value={t.footer.legalLabel ?? ""} update={update} />
+        <Multi path="text.footer.aboutLine" label="Phrase sous le slogan" value={t.footer.aboutLine ?? ""} update={update} />
+        <Str path="text.footer.contactPersonLabel" label="Libellé devant la personne référente" value={t.footer.contactPersonLabel ?? ""} update={update} />
+      </Accordion>
+
+      <Accordion title="Accueil — Bandeau défilant">
+        <List
+          path="text.marquee"
+          label="Mots du bandeau"
+          value={t.marquee ?? []}
+          update={update}
+        />
+      </Accordion>
+
+      <Accordion title="Navigation — intitulés des liens">
+        <p className="text-xs text-white/40">
+          Ces intitulés apparaissent dans la barre du haut, le menu mobile, le
+          méga-menu, le pied de page et le fil d&apos;Ariane des pages. Les
+          adresses des pages, elles, ne changent pas.
+        </p>
+        <Str path="text.nav.home" label="Accueil" value={t.nav?.home ?? ""} update={update} />
+        <Str path="text.nav.club" label="Menu « Le Club »" value={t.nav?.club ?? ""} update={update} />
+        <Str path="text.nav.histoire" label="Histoire" value={t.nav?.histoire ?? ""} update={update} />
+        <Str path="text.nav.sportSante" label="Sport Santé" value={t.nav?.sportSante ?? ""} update={update} />
+        <Str path="text.nav.equipes" label="Équipes" value={t.nav?.equipes ?? ""} update={update} />
+        <Str path="text.nav.actualites" label="Actualités" value={t.nav?.actualites ?? ""} update={update} />
+        <Str path="text.nav.galerie" label="Galerie" value={t.nav?.galerie ?? ""} update={update} />
+        <Str path="text.nav.partenaires" label="Partenaires" value={t.nav?.partenaires ?? ""} update={update} />
+        <Str path="text.nav.inscriptions" label="Inscriptions" value={t.nav?.inscriptions ?? ""} update={update} />
+        <Str path="text.nav.contact" label="Contact" value={t.nav?.contact ?? ""} update={update} />
       </Accordion>
 
       <Accordion title="Navigation — boutons">
@@ -381,11 +410,46 @@ export default function TextEditor() {
         <Str path="text.ui.megaMenuCta" label="Méga-menu — bouton" value={t.ui?.megaMenuCta ?? ""} update={update} />
       </Accordion>
 
+      <Accordion title="Catégories d'équipes (pastilles)">
+        <p className="text-xs text-white/40">
+          Pastille affichée sur chaque fiche de la page Équipes, selon la
+          catégorie choisie dans « Équipes &amp; joueurs ».
+        </p>
+        <Str path="text.ui.teamCategories.baby" label="Catégorie « baby »" value={t.ui?.teamCategories?.baby ?? ""} update={update} />
+        <Str path="text.ui.teamCategories.jeunes" label="Catégorie « jeunes »" value={t.ui?.teamCategories?.jeunes ?? ""} update={update} />
+        <Str path="text.ui.teamCategories.loisir" label="Catégorie « loisir »" value={t.ui?.teamCategories?.loisir ?? ""} update={update} />
+        <Str path="text.ui.teamCategories.competition" label="Catégorie « compétition »" value={t.ui?.teamCategories?.competition ?? ""} update={update} />
+        <Str path="text.ui.teamCategories.soft" label="Catégorie « soft »" value={t.ui?.teamCategories?.soft ?? ""} update={update} />
+        <Str path="text.ui.teamCategories.sante" label="Catégorie « santé »" value={t.ui?.teamCategories?.sante ?? ""} update={update} />
+        <Str path="text.ui.teamCategories.beach" label="Catégorie « beach »" value={t.ui?.teamCategories?.beach ?? ""} update={update} />
+      </Accordion>
+
+      <Accordion title="Niveaux de partenariat (libellés)">
+        <p className="text-xs text-white/40">
+          Titres des groupes sur l&apos;accueil, et pastille affichée sur chaque
+          carte partenaire.
+        </p>
+        <Str path="text.ui.partnerTierTitles.principal" label="Accueil — groupe « principal »" value={t.ui?.partnerTierTitles?.principal ?? ""} update={update} />
+        <Str path="text.ui.partnerTierTitles.officiel" label="Accueil — groupe « officiels »" value={t.ui?.partnerTierTitles?.officiel ?? ""} update={update} />
+        <Str path="text.ui.partnerTierTitles.institutionnel" label="Accueil — groupe « institutions »" value={t.ui?.partnerTierTitles?.institutionnel ?? ""} update={update} />
+        <Str path="text.ui.partnerTierBadges.principal" label="Pastille « principal »" value={t.ui?.partnerTierBadges?.principal ?? ""} update={update} />
+        <Str path="text.ui.partnerTierBadges.officiel" label="Pastille « officiel »" value={t.ui?.partnerTierBadges?.officiel ?? ""} update={update} />
+        <Str path="text.ui.partnerTierBadges.institutionnel" label="Pastille « institutionnel »" value={t.ui?.partnerTierBadges?.institutionnel ?? ""} update={update} />
+      </Accordion>
+
       <Accordion title="Libellés partagés">
         <Str path="text.ui.breadcrumbHome" label="Fil d'Ariane — « Accueil »" value={t.ui?.breadcrumbHome ?? ""} update={update} />
         <Str path="text.ui.skipLink" label="Lien d'évitement clavier" value={t.ui?.skipLink ?? ""} update={update} />
         <Str path="text.ui.teamCardCta" label="Carte équipe — lien" value={t.ui?.teamCardCta ?? ""} update={update} />
         <Str path="text.ui.newsFeatured" label="Actualité — badge « À la une »" value={t.ui?.newsFeatured ?? ""} update={update} />
+        <Str path="text.ui.newsReadMore" label="Actualité — lien « Lire la suite »" value={t.ui?.newsReadMore ?? ""} update={update} />
+        <Str path="text.ui.galleryAll" label="Galerie — filtre « Tout »" value={t.ui?.galleryAll ?? ""} update={update} />
+        <Str path="text.ui.memberSingular" label="Partenaires — « membre » (singulier)" value={t.ui?.memberSingular ?? ""} update={update} />
+        <Str path="text.ui.memberPlural" label="Partenaires — « membres » (pluriel)" value={t.ui?.memberPlural ?? ""} update={update} />
+        <Str path="text.ui.addressLabel" label="Contact — intitulé « Adresse »" value={t.ui?.addressLabel ?? ""} update={update} />
+        <Str path="text.ui.phoneLabel" label="Contact — intitulé « Téléphone »" value={t.ui?.phoneLabel ?? ""} update={update} />
+        <Str path="text.ui.emailLabel" label="Contact — intitulé « Email »" value={t.ui?.emailLabel ?? ""} update={update} />
+        <Str path="text.ui.venuePrefix" label="Contact — mot devant le gymnase (« Au »)" value={t.ui?.venuePrefix ?? ""} update={update} />
         <Str path="text.ui.mapDirections" label="Carte — bouton itinéraire" value={t.ui?.mapDirections ?? ""} update={update} />
         <Str path="text.ui.teamObjectives" label="Fiche équipe — « Objectifs »" value={t.ui?.teamObjectives ?? ""} update={update} />
         <Str path="text.ui.teamSchedule" label="Fiche équipe — « Créneaux »" value={t.ui?.teamSchedule ?? ""} update={update} />
@@ -425,6 +489,7 @@ export default function TextEditor() {
         <Str path="text.pages.histoire.visionTitle" label="Titre vision" value={t.pages.histoire.visionTitle} update={update} />
         <Multi path="text.pages.histoire.visionBody" label="Texte vision" value={t.pages.histoire.visionBody} update={update} />
         <Str path="text.pages.histoire.cta" label="CTA" value={t.pages.histoire.cta} update={update} />
+        <Str path="text.pages.histoire.introBadge" label="Pastille au-dessus du titre d'intro" value={t.pages.histoire.introBadge ?? ""} update={update} />
         <Str path="text.pages.histoire.introKicker" label="Titre d'intro" value={t.pages.histoire.introKicker ?? ""} update={update} />
         <Str path="text.pages.histoire.timelineKicker" label="Kicker chronologie" value={t.pages.histoire.timelineKicker ?? ""} update={update} />
         <Multi path="text.pages.histoire.timelineSubtitle" label="Sous-titre chronologie" value={t.pages.histoire.timelineSubtitle ?? ""} update={update} />
@@ -437,6 +502,7 @@ export default function TextEditor() {
           update={update}
           defaultValue="/images/gallery/2.jpg"
         />
+        <Str path="text.pages.histoire.imageCaption" label="Badge posé sur cette photo" value={t.pages.histoire.imageCaption ?? ""} update={update} />
       </Accordion>
 
       <Accordion title="Page — Équipes">
@@ -450,6 +516,24 @@ export default function TextEditor() {
       </Accordion>
 
       <Accordion title="Page — Sport Santé">
+        <Img
+          path="text.pages.sportSante.image"
+          label="Photo de la section « Le volley autrement »"
+          value={t.pages.sportSante.image ?? ""}
+          update={update}
+          defaultValue="/images/teams/sport-sante.jpg"
+          help="Grande photo à droite du texte d'introduction. Si vous la laissez vide, le site reprend la photo de l'équipe dont la catégorie est « santé »."
+        />
+        <Str path="text.pages.sportSante.imageCaption" label="Badge posé sur cette photo" value={t.pages.sportSante.imageCaption ?? ""} update={update} />
+        <Img
+          path="text.pages.sportSante.inclusionImage"
+          label="Photo de la section « Une place pour chacun »"
+          value={t.pages.sportSante.inclusionImage ?? ""}
+          update={update}
+          defaultValue="/images/teams/soft-volley.jpg"
+          help="Photo du bloc Soft Volley, en bas de page. Vide → photo de l'équipe dont la catégorie est « soft »."
+        />
+        <Str path="text.pages.sportSante.inclusionImageCaption" label="Badge posé sur la photo Soft Volley" value={t.pages.sportSante.inclusionImageCaption ?? ""} update={update} />
         <Str path="text.pages.sportSante.heroKicker" label="Hero kicker" value={t.pages.sportSante.heroKicker} update={update} />
         <Str path="text.pages.sportSante.heroTitle" label="Hero titre" value={t.pages.sportSante.heroTitle} update={update} />
         <Multi path="text.pages.sportSante.heroSubtitle" label="Hero sous-titre" value={t.pages.sportSante.heroSubtitle} update={update} />
@@ -530,7 +614,9 @@ export default function TextEditor() {
         <Str path="text.pages.inscriptions.licenceTitle" label="Carte FFVolley — titre" value={t.pages.inscriptions.licenceTitle ?? ""} update={update} />
         <Multi path="text.pages.inscriptions.licenceBody" label="Carte FFVolley — texte" value={t.pages.inscriptions.licenceBody ?? ""} update={update} />
         <Str path="text.pages.inscriptions.ffvolleyCta" label="Carte FFVolley — lien" value={t.pages.inscriptions.ffvolleyCta ?? ""} update={update} />
-        <Str path="text.pages.inscriptions.contactCta" label="Carte contact — lien" value={t.pages.inscriptions.contactCta ?? ""} update={update} />
+        <Str path="text.pages.inscriptions.ffvolleyUrl" label="Carte FFVolley — adresse du site" value={t.pages.inscriptions.ffvolleyUrl ?? ""} update={update} />
+        <Str path="text.pages.inscriptions.contactCta" label="Carte contact — titre" value={t.pages.inscriptions.contactCta ?? ""} update={update} />
+        <Multi path="text.pages.inscriptions.contactCardBody" label="Carte contact — texte" value={t.pages.inscriptions.contactCardBody ?? ""} update={update} />
         <Str path="text.pages.inscriptions.faqKicker" label="Kicker FAQ" value={t.pages.inscriptions.faqKicker ?? ""} update={update} />
         <Multi path="text.pages.inscriptions.faqIntro" label="Intro FAQ (avant l'email)" value={t.pages.inscriptions.faqIntro ?? ""} update={update} />
         <Str path="text.pages.inscriptions.ctaKicker" label="Bloc final — kicker" value={t.pages.inscriptions.ctaKicker ?? ""} update={update} />
@@ -562,6 +648,18 @@ export default function TextEditor() {
           update={update}
         />
         <Str path="text.pages.partenaires.becomeKicker" label="Kicker « Devenir partenaire »" value={t.pages.partenaires.becomeKicker ?? ""} update={update} />
+        <ObjectList
+          path="text.pages.partenaires.benefits"
+          label="Contreparties (vignettes)"
+          hint="Les six cartes du bloc « Devenir partenaire ». L'icône est choisie automatiquement selon la position."
+          value={t.pages.partenaires.benefits}
+          fields={[
+            { key: "title", label: "Titre" },
+            { key: "text", label: "Texte", multiline: true },
+          ]}
+          blank={{ title: "", text: "" }}
+          update={update}
+        />
         <Str path="text.pages.partenaires.becomeCtaTitle" label="Titre du bloc contact" value={t.pages.partenaires.becomeCtaTitle ?? ""} update={update} />
         <Str path="text.pages.partenaires.contactCta" label="Kicker du bloc contact" value={t.pages.partenaires.contactCta ?? ""} update={update} />
       </Accordion>

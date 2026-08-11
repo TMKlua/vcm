@@ -77,10 +77,74 @@ export interface DocumentItem {
   note?: string | null;
 }
 
-/** Un bénéfice illustré (page Sport Santé). */
+/** Un bénéfice illustré (page Sport Santé, contreparties partenaires). */
 export interface BenefitItem {
   title: string;
   text: string;
+}
+
+/**
+ * Libellés de la navigation (barre du haut, menu mobile, méga-menu, pied de
+ * page ET fils d'Ariane des pages internes).
+ *
+ * Les `href` restent définis dans le code (`@/data/nav`) : ce sont des routes,
+ * pas du contenu. Seuls les intitulés sont éditables.
+ */
+export interface NavLabels {
+  home?: string;
+  club?: string;
+  histoire?: string;
+  sportSante?: string;
+  equipes?: string;
+  actualites?: string;
+  galerie?: string;
+  partenaires?: string;
+  inscriptions?: string;
+  contact?: string;
+}
+
+/** Titre + description d'une page, pour l'onglet du navigateur et Google. */
+export interface SeoPageMeta {
+  title?: string;
+  description?: string;
+}
+
+/**
+ * Réglages de référencement et d'identité visuelle du navigateur.
+ *
+ * Tout est optionnel : une clé vide fait retomber le site sur la valeur livrée
+ * avec le code, de sorte qu'un contenu publié avant l'ajout de cette section
+ * continue d'afficher exactement les mêmes métadonnées qu'avant.
+ */
+export interface SeoSettings {
+  /** Nom du site (Open Graph, JSON-LD). Vide → nom du club. */
+  siteName?: string;
+  /** Titre de l'onglet sur l'accueil. */
+  defaultTitle?: string;
+  /** Gabarit des autres pages. `%s` = titre de la page. */
+  titleTemplate?: string;
+  /** Description affichée sous le lien dans Google. */
+  description?: string;
+  /** Mots-clés (un par ligne dans l'admin). */
+  keywords?: string[];
+  /** Image de partage (Facebook, WhatsApp, X…). */
+  ogImage?: string;
+  /** Icône de l'onglet du navigateur et des résultats Google. */
+  favicon?: string;
+  /** Icône ajoutée à l'écran d'accueil iOS. */
+  appleIcon?: string;
+  /** Titre et description propres à chaque page. */
+  pages?: {
+    home?: SeoPageMeta;
+    histoire?: SeoPageMeta;
+    equipes?: SeoPageMeta;
+    sportSante?: SeoPageMeta;
+    inscriptions?: SeoPageMeta;
+    partenaires?: SeoPageMeta;
+    galerie?: SeoPageMeta;
+    actualites?: SeoPageMeta;
+    contact?: SeoPageMeta;
+  };
 }
 
 export interface SiteText {
@@ -171,7 +235,15 @@ export interface SiteText {
     practicesHeading?: string;
     contactHeading?: string;
     legalLabel?: string;
+    /** Phrase sous le slogan (« … au bord de l'étang de Thau. »). */
+    aboutLine?: string;
+    /** Libellé devant le nom de la personne référente. */
+    contactPersonLabel?: string;
   };
+  /** Bandeau défilant de l'accueil — un mot par entrée. */
+  marquee?: string[];
+  /** Intitulés des liens de navigation et des fils d'Ariane. */
+  nav?: NavLabels;
   /** Libellés d'interface réutilisés dans la navigation. */
   labels?: {
     /** Bouton de la barre de navigation (desktop). */
@@ -201,6 +273,41 @@ export interface SiteText {
     mapDirections?: string;
     /** Badge « à la une » d'une actualité. */
     newsFeatured?: string;
+    /** Lien au bas d'une carte actualité (« Lire la suite »). */
+    newsReadMore?: string;
+    /** Filtre « Tout » de la galerie. */
+    galleryAll?: string;
+    /** Décompte des partenaires d'un niveau (« 1 membre » / « 4 membres »). */
+    memberSingular?: string;
+    memberPlural?: string;
+    /** Intitulés de la fiche contact. */
+    addressLabel?: string;
+    phoneLabel?: string;
+    emailLabel?: string;
+    /** Préfixe devant le nom du gymnase (« Au Gymnase… »). */
+    venuePrefix?: string;
+    /** Intitulé de chaque catégorie d'équipe, sur /equipes. */
+    teamCategories?: {
+      baby?: string;
+      jeunes?: string;
+      loisir?: string;
+      competition?: string;
+      soft?: string;
+      sante?: string;
+      beach?: string;
+    };
+    /** Titres des groupes de partenaires sur l'accueil. */
+    partnerTierTitles?: {
+      principal?: string;
+      officiel?: string;
+      institutionnel?: string;
+    };
+    /** Pastille de niveau sur une carte partenaire. */
+    partnerTierBadges?: {
+      principal?: string;
+      officiel?: string;
+      institutionnel?: string;
+    };
     /** Lien d'une carte équipe sur l'accueil. */
     teamCardCta?: string;
     /** Libellés des boutons réseaux sociaux. */
@@ -238,6 +345,10 @@ export interface SiteText {
       cta: string;
       /** Photo illustrant l'intro de la page. */
       image?: string;
+      /** Badge posé sur la photo (ex. « Marseillan · Gymnase … »). */
+      imageCaption?: string;
+      /** Pastille au-dessus du titre d'intro (ex. « Depuis 1996 »). */
+      introBadge?: string;
       introKicker?: string;
       timelineKicker?: string;
       timelineSubtitle?: string;
@@ -273,6 +384,20 @@ export interface SiteText {
       ctaSecondary?: string;
       /** Les 6 vignettes « Ce que vous y gagnez ». */
       benefits?: BenefitItem[];
+      /**
+       * Photo de la section d'intro (« Le volley autrement »).
+       *
+       * Vide → photo de l'équipe dont la catégorie est « sante », puis l'image
+       * livrée avec le site. C'est le champ qui manquait : quand le club a
+       * renommé sa catégorie Sport Santé, plus rien ne pilotait cette photo.
+       */
+      image?: string;
+      /** Badge posé sur cette photo. */
+      imageCaption?: string;
+      /** Photo de la section « Une place pour chacun » (Soft Volley). */
+      inclusionImage?: string;
+      /** Badge posé sur la photo d'inclusion. */
+      inclusionImageCaption?: string;
     };
     inscriptions: {
       heroKicker: string;
@@ -311,6 +436,10 @@ export interface SiteText {
       steps?: StepItem[];
       /** Les pièces du dossier. */
       documents?: DocumentItem[];
+      /** Texte de la carte « Contacter le club » (bloc Liens utiles). */
+      contactCardBody?: string;
+      /** Adresse du site de la fédération, ouverte par la carte FFVolley. */
+      ffvolleyUrl?: string;
     };
     partenaires: {
       heroKicker: string;
@@ -327,6 +456,8 @@ export interface SiteText {
       tiers?: { label: string; description: string }[];
       becomeCtaTitle?: string;
       contactCta?: string;
+      /** Les vignettes « contreparties » du bloc Devenir partenaire. */
+      benefits?: BenefitItem[];
     };
     galerie: {
       heroKicker: string;
@@ -377,6 +508,13 @@ export interface SiteContent {
   faq: FaqItem[];
   timeline: TimelineEntry[];
   text: SiteText;
+  /**
+   * Référencement, favicon et image de partage.
+   *
+   * Optionnel côté type : un export JSON antérieur à cette section reste
+   * importable, et la fusion sur `defaultContent` remet les valeurs livrées.
+   */
+  seo?: SeoSettings;
 }
 
 /**

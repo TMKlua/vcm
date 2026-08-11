@@ -8,7 +8,10 @@
       "venue": "Gymnase Louis Boudou",
       "street": "Avenue de Florensac",
       "city": "Marseillan",
-      "postalCode": "34340"
+      "postalCode": "34340",
+      "latitude": 43.3632942,
+      "longitude": 3.5223033,
+      "mapLabel": "Volley Marseillan"
     },
     "contact": {
       "person": "Delphine Mary",
@@ -51,13 +54,13 @@
       "name": "Baby Volley",
       "category": "baby",
       "shortDescription": "Le volley en s'amusant dès 3 ans.",
-      "description": "Le Baby Volley du VCM accueille les tout-petits dès l'âge de 3 ans pour une découverte ludique et colorée du volley-ball. À travers des jeux adaptés et des exercices en petits groupes, les enfants développent leur coordination, leur équilibre et le sens du collectif. Une initiation idéale pour donner le goût du sport dès le plus jeune âge dans une ambiance bienveillante.",
+      "description": "Le Baby Volley du VCM accueille les tout-petits dès l'âge de 3 ans pour une découverte ludique du volley-ball. À travers des jeux adaptés et des exercices en petits groupes, les enfants développent leur coordination, leur équilibre et le sens du collectif. Une initiation idéale pour donner le goût du sport dès le plus jeune âge dans une ambiance bienveillante.",
       "objectives": [
-        "Développer la motricité et la coordination gesturelle",
+        "Développer la motricité et la coordination gestuelle",
         "Initier aux fondamentaux du jeu collectif",
         "Créer un environnement ludique et sécurisant"
       ],
-      "schedule": "Lundis et mercredis (horaires à confirmer)",
+      "schedule": "Tous les mercredis (16h30-17h30)",
       "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/80dd4879c62fdc97.jpg",
       "ageRange": "3 – 5 ans",
       "players": []
@@ -67,29 +70,94 @@
       "name": "EVB - Section Jeunes",
       "category": "jeunes",
       "shortDescription": "Du M11 au M21 : former, progresser et performer",
-      "description": "Le pôle jeunes du Volley Club Marseillanais regroupe toutes les catégories de formation : Poussins (filles et garçons), Benjamines, Minimes (filles), Cadettes (filles) et U18 (filles). Encadrés par des entraîneurs diplômés, les jeunes volleyeurs progressent techniquement et tactiquement tout en participant aux compétitions départementales et régionales. Le club s'attache à former des joueurs complets, autonomes et respectueux de l'esprit sportif.",
+      "description": "La section EVB/jeunes du Volley Club Marseillanais regroupe toutes les catégories de formation : EVB mixte (M9), Poussins/Poussines (M11), Benjamins/Benjamines (M13), Minimes Garçons/Filles (M15), Cadettes (M18) et Juniors filles (M21). Encadrés par des entraîneurs diplômés et des encadrants engagés, les jeunes volleyeurs progressent techniquement et tactiquement tout en participant aux compétitions départementales et régionales. Le club s'attache à former des joueurs complets, autonomes et respectueux de l'esprit sportif.",
       "objectives": [
-        "Maîtriser les fondamentaux techniques (service, manchette, passe, smash)",
+        "Maîtriser les fondamentaux techniques",
         "Participer aux championnats départementaux et régionaux",
         "Développer l'esprit d'équipe et la rigueur compétitive"
       ],
-      "schedule": "Lundis et mercredis (créneaux selon catégorie)",
+      "schedule": "Tous les lundis, mercredis et vendredis (créneaux selon catégorie)",
       "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/9c090e65cc2f3cd2.jpg",
       "ageRange": "6 – 21 ans",
-      "players": []
+      "players": [],
+      "subTeams": [
+        {
+          "id": "subteam-msofwuwk-gfegh",
+          "name": "École de Volley (M9)",
+          "ageRange": "6 - 8 ans",
+          "schedule": "Tous les vendredis (17h30-19h00)",
+          "description": "Chez les M9, les enfants découvrent le volley de manière ludique et progressive. Jeux, motricité et premiers échanges leur permettent de développer leurs premières qualités de volleyeur tout en prenant plaisir à jouer ensemble !",
+          "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/735b31a6995d951b.jpg",
+          "players": []
+        },
+        {
+          "id": "subteam-msoipjpd-8pbpu",
+          "name": "Poussins/Poussines (M11)",
+          "ageRange": "9 - 10 ans",
+          "schedule": "Tous les mercredis (17h00-18h30) et vendredis (17h30-19h00)",
+          "description": "Les M11 poursuivent leur découverte du volley en développant leurs premières techniques et leur esprit d’équipe. Une catégorie idéale pour apprendre, se challenger et commencer à goûter aux premières sensations de la compétition !",
+          "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/b3e9d0c00241e6b8.jpg",
+          "players": []
+        },
+        {
+          "id": "subteam-msoivz6h-zgjfv",
+          "name": "Benjamins/Benjamines (M13)",
+          "ageRange": "11 - 12 ans",
+          "schedule": "Tous les lundis (17h30-19h00) et vendredis (19h00-20h30)",
+          "description": "Chez les M13, les jeunes volleyeurs perfectionnent leur technique et apprennent à construire le jeu en équipe. Une étape essentielle pour gagner en autonomie, prendre confiance et relever de nouveaux défis sur le terrain !",
+          "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/c1b4aa53d35d30d6.jpg",
+          "players": []
+        },
+        {
+          "id": "subteam-msoj0mn7-f7y5d",
+          "name": "Minimes filles (M15)",
+          "ageRange": "13 - 14 ans",
+          "schedule": "Tous les mercredis (17h30-19h00) et vendredis (19h00-20h30)",
+          "description": "Les M15 Féminines continuent de franchir des étapes en développant leur technique, leur intelligence de jeu et leur esprit collectif. Ensemble, elles construisent leur expérience et repoussent chaque semaine leurs limites !",
+          "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/35d91248af09e52e.jpg",
+          "players": []
+        },
+        {
+          "id": "subteam-msoj52kd-tpy83",
+          "name": "Minimes garçons (M15)",
+          "ageRange": "13 - 14 ans",
+          "schedule": "Tous les mercredis (17h30-19h00) et vendredis (19h00-20h30)",
+          "description": "Les M15 Masculins entrent dans une nouvelle dimension du volley avec des exigences techniques et tactiques renforcées. Une catégorie où le collectif, l’engagement et l’envie de progresser font toute la différence !",
+          "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/997d8ef2e983a715.jpg",
+          "players": []
+        },
+        {
+          "id": "subteam-msoj9wbu-h8yfk",
+          "name": "Cadettes (M18)",
+          "ageRange": "15 - 17 ans",
+          "schedule": "Tous les lundis (19h00-20h30) et vendredis (19h00-20h30)",
+          "description": "Chez les M18 Féminines, les joueuses consolident leurs acquis et développent un volley toujours plus complet. Entre exigence, compétition et esprit d’équipe, chacune est accompagnée pour donner le meilleur d’elle-même !",
+          "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/fef3d8af48347bea.jpg",
+          "players": []
+        },
+        {
+          "id": "subteam-msojfkzo-1lq1y",
+          "name": "Juniors filles (M21)",
+          "ageRange": "18 - 20 ans",
+          "schedule": "Tous les mercredis (19h00-20h30) et vendredis (20h00-21h30)",
+          "description": "Les M21 Féminines représentent l’aboutissement du parcours de formation des jeunes joueuses au VCM. Une catégorie où l’expérience et la cohésion permettent de préparer l’avenir tout en prenant pleinement sa place dans le volley adulte !",
+          "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/ffc38cf385ef92f1.jpg",
+          "players": []
+        }
+      ]
     },
     {
       "slug": "loisir",
       "name": "Loisir 6×6 Compétition",
       "category": "loisir",
       "shortDescription": "Convivialité et compétition pour les adultes.",
-      "description": "Les équipes loisir 6×6 masculines (M1 et M2) du VCM permettent aux adultes de pratiquer le volley-ball dans une ambiance détendue et chaleureuse. Que l'on soit débutant ou joueur confirmé, l'accent est mis sur le plaisir du jeu, le partage et la bonne humeur. Les équipes participent aux compétitions de loisir du district de l'Hérault pour pimenter la saison.",
+      "description": "L’équipe Loisir 6×6 mixte du VCM s’adresse aux adultes ayant déjà une bonne expérience du volley-ball et souhaitant continuer à pratiquer dans un esprit compétitif. Les entraînements permettent de travailler la technique, les automatismes collectifs et la stratégie afin de préparer au mieux les rencontres.\n\nTout au long de la saison, notre équipe participent aux compétitions Loisir du Comité CD34, avec l’envie de se challenger, de progresser et de défendre les couleurs du VCM dans une ambiance conviviale et engagée.",
       "objectives": [
-        "Pratiquer le volley pour le plaisir et l'entretien physique",
-        "Favoriser la convivialité et l'intégration des nouveaux membres",
-        "Participer aux compétitions de loisir du district"
+        "Perfectionner sa technique et ses automatismes",
+        "Construire un collectif solide et soudé",
+        "Participer aux compétitions de loisir du comité de l’Hérault"
       ],
-      "schedule": "Mercredis soir",
+      "schedule": "Tous les lundis (20h30-22h30) et mercredis (20h30-23h00) + matchs la semaine",
       "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/f1d3054e272b822c.jpg",
       "ageRange": "20 ans et +",
       "players": []
@@ -99,13 +167,13 @@
       "name": "Loisir non compétition",
       "category": "loisir",
       "shortDescription": "Le volley pour adultes mais sans pression !",
-      "description": "Les équipes de compétition adultes du VCM évoluent dans les championnats régionaux et départementaux de volley-ball. Portées par des joueurs investis et un encadrement technique de qualité, elles incarnent les valeurs d'ambition et de rigueur du club. Chaque saison, l'objectif est de progresser au classement tout en renforçant la cohésion de groupe.",
+      "description": "L’équipe Loisir mixte du VCM permet aux adultes de pratiquer le volley-ball dans une ambiance conviviale, détendue et chaleureuse. Que vous soyez débutant ou que vous ayez déjà une expérience du volley, chacun peut évoluer à son rythme et profiter pleinement du plaisir de jouer en équipe.\n\nLes séances sont avant tout l’occasion de se dépenser, progresser et passer un bon moment sans la pression des compétitions. Une pratique idéale pour celles et ceux qui souhaitent conserver ou retrouver le plaisir du volley dans un esprit de convivialité et de bonne humeur.",
       "objectives": [
-        "Progresser dans les championnats régionaux et départementaux",
-        "Renforcer la cohésion et la performance collective",
-        "Former de jeunes joueurs issus du pôle jeunes à la compétition adulte"
+        "Pratiquer le volley dans une ambiance détendue et conviviale sans pression ni enjeu de compétition",
+        "Développer sa technique et ses automatismes tout en profitant des conseils et de l’expérience du groupe",
+        "Créer du lien, bouger et partager de bons moments autour d’une passion commune pour le volley-ball"
       ],
-      "schedule": "Entraînements lundis et mercredis, matchs le week-end",
+      "schedule": "Tous les lundis (20h30-22h30) et vendredis (20h30-23h00)",
       "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/c9b3f9a634313b9a.jpg",
       "ageRange": "20 ans et +",
       "players": []
@@ -115,13 +183,13 @@
       "name": "Soft Volley",
       "category": "soft",
       "shortDescription": "Le volley adapté et accessible pour tous !",
-      "description": "Le Soft Volley est une version adaptée du volley-ball, jouée avec un ballon plus léger et des règles simplifiées, idéale pour les personnes souhaitant (re)prendre une activité sportive sans contrainte physique intense. Au VCM, le Soft Volley est ouvert à tous les adultes, notamment ceux qui cherchent une activité conviviale et progressive. Il est souvent proposé en complément du programme Sport Santé.",
+      "description": "Le Soft Volley est une version adaptée du volley-ball, jouée avec un ballon plus léger et des règles simplifiées, idéale pour les personnes souhaitant (re)prendre une activité sportive sans contrainte physique intense. Au VCM, le Soft Volley est ouvert à tous les adultes, notamment ceux qui cherchent une activité conviviale et progressive. ",
       "objectives": [
         "Rendre le volley-ball accessible à tous les profils physiques",
         "Favoriser la mixité et l'inclusion au sein du club",
         "Offrir une activité sportive douce et régulière"
       ],
-      "schedule": "Créneaux à confirmer avec l'équipe dirigeante",
+      "schedule": "Tous les vendredis (20h30-22h00)",
       "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/ae02e44139d57dd2.jpg",
       "ageRange": "Adultes tout âge",
       "players": []
@@ -131,13 +199,13 @@
       "name": "Beach Volley",
       "category": "beach",
       "shortDescription": "Viens jouer les pieds dans le sable !",
-      "description": "Le VCM est un acteur incontournable du beach volley dans l'Hérault, en partenariat avec le Comité Départemental de Volley-Ball de l'Hérault. Le club organise chaque année les étapes du tournoi « Hérault Beach Volley Jeunes » ainsi que des étapes et la finale du Championnat Départemental de Beach Volley. Pratiqué sur les plages de Marseillan et ses alentours, le beach volley attire joueurs locaux et visiteurs dans une ambiance festive et sportive au cœur de la Méditerranée.",
+      "description": "Le VCM est un acteur incontournable du beach volley dans l'Hérault, en partenariat avec le Comité Départemental de Volley-Ball de l'Hérault (CD34). Le club organise chaque année une étape du tournoi « Hérault Beach Volley ». Pratiqué sur les plages de Marseillan et ses alentours, le beach volley permet aux joueurs licenciés de pratiquer la volley les pieds dans le sable dans une ambiance festive et sportive au bord de la mer.",
       "objectives": [
         "Organiser et accueillir les compétitions officielles du Comité Départemental de l'Hérault",
-        "Développer la pratique du beach volley pour les jeunes et les adultes",
-        "Profiter du cadre exceptionnel de l'étang de Thau et des plages de Marseillan"
+        "Développer la pratique du beach volley pour les jeunes",
+        "Profiter du cadre exceptionnel des plages de Marseillan et des alentours"
       ],
-      "schedule": "Saison de beach (printemps-été, mai à septembre)",
+      "schedule": "Saison de beach (Juin à Août)",
       "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/212de015aa6ea690.jpg",
       "ageRange": "Réservé aux licenciés",
       "players": []
@@ -382,33 +450,38 @@
   "timeline": [
     {
       "year": "1992",
-      "title": "Création du Volley Club Marseillanais",
-      "description": "Fondé par des passionnés de volley-ball de la région de Marseillan, le VCM voit le jour avec la volonté de faire vivre ce sport au cœur de l'Hérault, au bord de l'étang de Thau. Les premiers entraînements se tiennent au Gymnase Louis Boudou."
+      "title": "Naissance du Volley Club Marseillanais",
+      "description": "Fondé par des passionnés de volley-ball du village de Marseillan, le VCM voit le jour avec la volonté de faire vivre ce sport au cœur de l'Hérault, au bord de l'étang de Thau. Les premiers entraînements se tiennent au Gymnase Louis Boudou."
     },
     {
-      "year": "2002",
-      "title": "Développement du pôle jeunes",
-      "description": "Le club structure son académie jeunes avec la création des catégories Poussins, Benjamins et Minimes. Cette montée en puissance de la formation attire de nombreuses familles de Marseillan et des environs, posant les bases d'un vivier de joueurs locaux."
+      "year": "1998",
+      "title": "Développement de la section jeune",
+      "description": "Le club franchit une nouvelle étape avec la création de ses premières équipes jeunes.\nCette évolution marque le début d’une véritable volonté de former et d’accompagner les jeunes joueurs dans leur progression et cette montée en puissance attire de nombreuses familles de Marseillan et des environs."
     },
     {
-      "year": "2010",
-      "title": "Lancement du Beach Volley et partenariat Comité Hérault",
-      "description": "Le VCM développe sa section beach volley en partenariat avec le Comité Départemental de Volley-Ball de l'Hérault. Le club commence à organiser des étapes du circuit Hérault Beach Volley Jeunes et du Championnat Départemental de Beach Volley, profitant du cadre unique des plages de Marseillan."
+      "year": "2012",
+      "title": "Naissance du Baby Volley",
+      "description": "En 2012, le VCM crée son Baby Volley et ouvre ses portes aux enfants dès l’âge de 3 ans. \nLe club élargit ainsi l’accès à la pratique du volley tout en développant une approche ludique et adaptée aux plus petits."
     },
     {
       "year": "2015",
-      "title": "Création du programme Soft Volley & Sport Santé",
-      "description": "Soucieux d'ouvrir le volley-ball au plus grand nombre, le VCM lance un programme dédié au Soft Volley et au Sport Santé. Ces créneaux adaptés accueillent des personnes de tous âges et profils physiques, en partenariat avec des professionnels de santé locaux."
+      "title": "Structuration de l’école de volley",
+      "description": "En 2015, nouvelle étape pour le VCM avec le développement de son école de volley !\nVéritable tremplin pour les jeunes licenciés, elle permet à chacun d’apprendre, de progresser et surtout de prendre plaisir à grandir sur et en dehors du terrain."
     },
     {
-      "year": "2020",
-      "title": "Cap des 150 licenciés et rayonnement départemental",
-      "description": "Le club franchit la barre symbolique des 150 licenciés et voit ses équipes jeunes s'illustrer régulièrement dans les championnats départementaux. Le VCM est reconnu comme un acteur majeur du volley-ball héraultais, avec des sections compétition, loisir et santé bien structurées."
+      "year": "2021",
+      "title": "Passage à la vitesse supérieure",
+      "description": "Le club voit plus grand et fait ses premiers pas en compétitions régionales et en Coupe de France, une nouvelle aventure qui témoigne de la progression de ses équipes et de l’ambition grandissante du club."
     },
     {
-      "year": "2025",
-      "title": "Vision : un club pour tous, ouvert sur l'avenir",
-      "description": "Le Volley Club Marseillanais entre dans une nouvelle ère avec la refonte de son identité digitale et le renforcement de toutes ses sections. Du Baby Volley au Beach Volley en passant par le Sport Santé, le VCM affirme sa mission : rendre le volley accessible à tous, dans la convivialité et l'excellence sportive."
+      "year": "2022",
+      "title": "Création de la section Soft Volley (Sport Santé)",
+      "description": "En septembre 2022, le VCM diversifie son offre avec la création du Soft Volley, une pratique accessible axée sur le sport-santé et le bien-être. Le club affirme ainsi sa volonté de proposer le volley au plus grand nombre, dans un esprit convivial et adapté à chacun."
+    },
+    {
+      "year": "Aujourd’hui ",
+      "title": "Un club en plein essor",
+      "description": "Aujourd’hui, le VCM compte environ 100 licenciés, dont près de 80 jeunes de moins de 18 ans, confirmant son identité de club formateur. Du Baby Volley aux compétitions nationales, le club poursuit son développement en plaçant la formation, le plaisir et l’épanouissement de ses licenciés au cœur de son projet."
     }
   ],
   "text": {
@@ -419,14 +492,18 @@
       "subtitle": "Le volley pour tous, au bord de l'étang de Thau du Baby Volley dès 3 ans à la compétition.",
       "locationChip": "Marseillan · Étang de Thau",
       "ctaPrimary": "Rejoindre le club",
-      "ctaSecondary": "Découvrir le club"
+      "ctaSecondary": "Découvrir le club",
+      "image": "/images/hero/hero-1.jpg",
+      "scrollHint": "Défiler"
     },
     "intro": {
       "kicker": "Le Club",
       "title": "Le volley, au bord",
       "titleAccent": "de l'étang de Thau",
       "body": "Club convivial au bord de l'étang de Thau, le Volley Club Marseillanais fait vivre le volley pour tous les âges, du Baby Volley dès 3 ans à la compétition, en passant par le loisir et le sport santé (Soft Volley).",
-      "cta": "Notre histoire"
+      "cta": "Notre histoire",
+      "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/a2c959a421161e04.jpg",
+      "imageCaption": "Saison 2026-2027"
     },
     "stats": {
       "kicker": "En chiffres",
@@ -436,7 +513,8 @@
       "kicker": "Nos pratiques",
       "title": "Une équipe pour chacun",
       "subtitle": "Du baby volley dès 3 ans au sport santé (Soft Volley) en passant par la compétition et le beach, il y a une place pour vous au VCM.",
-      "cta": "Toutes nos équipes"
+      "cta": "Toutes nos équipes",
+      "ctaAll": "Voir toutes les équipes"
     },
     "events": {
       "kicker": "Agenda",
@@ -458,7 +536,9 @@
     "join": {
       "title": "Prêt à entrer sur le terrain ou au sein du club ?",
       "subtitle": "Rejoignez l'aventure du  Volley Club Marseillanais, du Baby Volley dès 3 ans à la compétition, pour tous les niveaux, toute l'année ou en tant qu'entraîneurs, bénévoles ou encadrants.",
-      "cta": "Rejoindre le club"
+      "cta": "Rejoindre le club",
+      "kicker": "Saison 2026-2027",
+      "ctaSecondary": "Nous contacter"
     },
     "contactQuick": {
       "kicker": "Contact",
@@ -467,7 +547,49 @@
     },
     "footer": {
       "tagline": "Joue. Smash. Gagne.",
-      "copyright": "Volley Club Marseillanais. Tous droits réservés."
+      "copyright": "Volley Club Marseillanais. Tous droits réservés.",
+      "navHeading": "Navigation",
+      "practicesHeading": "Nos pratiques",
+      "contactHeading": "Contact",
+      "legalLabel": ""
+    },
+    "labels": {
+      "navCta": "Rejoindre",
+      "navCtaLong": "Rejoindre le club"
+    },
+    "ui": {
+      "breadcrumbHome": "Accueil",
+      "teamObjectives": "Objectifs",
+      "teamSchedule": "Créneaux",
+      "teamRoster": "Effectif",
+      "teamSubTeams": "Sous-équipes",
+      "megaMenuTitle": "Rejoignez le club",
+      "megaMenuText": "Du Baby Volley à la compétition, une place pour chacun.",
+      "megaMenuCta": "S'inscrire",
+      "clubeoLabel": "Clubeo",
+      "skipLink": "Aller au contenu",
+      "mapDirections": "Itinéraire",
+      "newsFeatured": "À la une",
+      "teamCardCta": "Découvrir",
+      "socialFacebook": "Facebook",
+      "socialInstagram": "Instagram",
+      "socialWebsite": "Site officiel",
+      "form": {
+        "kicker": "Formulaire de contact",
+        "heading": "Écrivez-nous",
+        "note": "Ce formulaire ouvrira votre client de messagerie avec le message pré-rempli. Aucune donnée n'est envoyée directement par ce site.",
+        "nameLabel": "Nom complet",
+        "namePlaceholder": "Jean Dupont",
+        "emailLabel": "Email",
+        "emailPlaceholder": "jean@exemple.fr",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Bonjour, je souhaite en savoir plus sur les inscriptions…",
+        "submit": "Ouvrir ma messagerie",
+        "errorSummary": "Veuillez corriger les erreurs ci-dessous avant d'envoyer.",
+        "successTitle": "Message prêt !",
+        "successBody": "Envoyez-le pour contacter le VCM.",
+        "successAgain": "Envoyer un autre message"
+      }
     },
     "pages": {
       "histoire": {
@@ -488,33 +610,76 @@
         ],
         "timelineHeading": "Les grandes étapes",
         "visionTitle": "L'aventure continue",
-        "visionBody": "Depuis près de trente ans, le Volley Club Marseillanais aborde une nouvelle ère avec ambition et sérénité. La refonte de son identité digitale et le renforcement de toutes ses sections témoignent d'un club qui regarde vers l'avenir sans oublier ses racines.",
-        "cta": "Rejoindre l'aventure"
+        "visionBody": "Depuis plus de trente ans, le Volley Club Marseillanais aborde une nouvelle ère avec ambition et sérénité. La refonte de son identité digitale et le renforcement de toutes ses sections témoignent d'un club qui regarde vers l'avenir sans oublier ses racines.",
+        "cta": "Rejoindre l'aventure",
+        "introKicker": "Nés au bord de l'étang de Thau",
+        "timelineKicker": "Chronologie",
+        "timelineSubtitle": "De la fondation du club à aujourd'hui, retour sur les moments clés qui ont forgé l'identité du VCM.",
+        "visionKicker": "Vision actuelle",
+        "visionExtra": "Que vous soyez parent cherchant une activité pour votre enfant, adulte souhaitant (re)découvrir le volley en loisir, sportif en quête de compétition ou simplement curieux de bouger dans un cadre bienveillant, le VCM a une place pour vous. \nRejoignez-nous !",
+        "image": "https://xupnff3lpqpqd5zu.public.blob.vercel-storage.com/images/aadf49f80e86fc46.jpg"
       },
       "equipes": {
         "heroKicker": "Le club",
         "heroTitle": "Nos Équipes",
         "heroSubtitle": "Du Baby Volley dès 3 ans à la compétition régionale, en passant par le Beach Volley et le Sport Santé — le VCM propose une pratique adaptée à chaque âge, chaque profil et chaque ambition.",
-        "cta": "S'inscrire au club"
+        "cta": "S'inscrire au club",
+        "ctaKicker": "Rejoignez l'aventure",
+        "ctaTitle": "Prêt à jouer ?",
+        "ctaBody": "Quelle que soit votre discipline de prédilection, nos équipes vous accueillent à bras ouverts. Remplissez le formulaire d'inscription et nous vous recontacterons rapidement."
       },
       "sportSante": {
         "heroKicker": "Le club",
         "heroTitle": "Sport Santé & Soft Volley",
-        "heroSubtitle": "Une pratique accessible, chaleureuse et sans pression — pour prendre soin de soi tout en s'épanouissant collectivement, à tout âge.",
+        "heroSubtitle": "Une pratique accessible, chaleureuse et sans pression pour prendre soin de soi tout en s'épanouissant collectivement et à tout âge.",
         "introTitle": "Le volley autrement",
         "introBody": [
           "Le Soft Volley est une version adaptée du volley-ball, jouée avec un ballon plus léger et des règles simplifiées. Une pratique ludique et conviviale, particulièrement adaptée aux personnes non sportives, débutantes ou en reprise d'activité physique.",
-          "Le programme Sport Santé va encore plus loin : conçu pour les personnes souhaitant une activité physique adaptée dans un cadre médical ou de prévention, il est encadré de manière spécifique pour répondre aux besoins de chacun — qu'il s'agisse de rééducation, de maladie chronique ou simplement du désir de bouger avec bienveillance.",
-          "Ici, tous les âges sont bienvenus : il n'existe ni niveau minimum, ni pression de performance. L'objectif ? Se retrouver, bouger et sourire ensemble, au bord de l'étang de Thau."
+          "Le programme Sport Santé va encore plus loin : conçu pour les personnes souhaitant une activité physique adaptée dans un cadre médical ou de prévention, il est encadré de manière spécifique pour répondre aux besoins de chacun qu'il s'agisse de rééducation, de maladie chronique ou simplement du désir de bouger avec bienveillance.",
+          "Ici, tous les âges sont bienvenus : il n'existe ni niveau minimum, ni pression de performance. L'objectif ? Se retrouver, bouger et sourire ensemble"
         ],
         "benefitsHeading": "Les bénéfices",
         "inclusionTitle": "Une place pour chacun",
         "inclusionBody": [
-          "Au VCM, le Sport Santé et le Soft Volley reposent sur une conviction simple : le sport est fait pour tout le monde. Peu importe l'âge, la condition physique ou le passé sportif — notre programme s'adapte à vous, jamais l'inverse.",
-          "Les séances sont encadrées par des animateurs formés à l'activité physique adaptée (APA), en partenariat avec des professionnels de santé quand la situation le nécessite. Les règles sont simplifiées, le ballon plus léger, et l'ambiance reste celle que le VCM cultive depuis toujours : chaleureuse, inclusive et sans jugement.",
-          "Que vous soyez en rééducation, atteint d'une maladie chronique, en reprise après une longue période d'inactivité ou simplement curieux de bouger différemment — venez tel que vous êtes."
+          "Au VCM, le Sport Santé et le Soft Volley reposent sur une conviction simple : le sport est fait pour tout le monde. Peu importe l'âge, la condition physique ou le passé sportif, notre programme s'adapte à vous, jamais l'inverse.",
+          "Les règles sont simplifiées, le ballon plus léger, et l'ambiance reste celle que le VCM cultive depuis toujours : chaleureuse, inclusive et sans jugement.",
+          "Que vous soyez en rééducation, atteint d'une maladie chronique, en reprise après une longue période d'inactivité ou simplement curieux de bouger différemment, venez tel que vous êtes."
         ],
-        "cta": "S'inscrire"
+        "cta": "S'inscrire",
+        "introKicker": "Le volley pour tous",
+        "benefitsKicker": "Ce que vous y gagnez",
+        "benefitsIntro": "Sport Santé et Soft Volley ne se contentent pas d'entretenir le corps ils nourrissent aussi l'esprit et le lien humain.",
+        "inclusionKicker": "Accessibilité & inclusion",
+        "ctaKicker": "Venez essayer",
+        "ctaTitle": "Prêt à bouger ?",
+        "ctaBody": "Séances d'essai gratuites pendant tout le mois de septembre. Pas besoin d'équipement particulier :  juste tes baskets et l'envie de bouger durant 1h30. Contactez-nous pour planifier votre première séance de Soft Volley. ",
+        "ctaSecondary": "Nous contacter",
+        "benefits": [
+          {
+            "title": "Santé cardio-vasculaire",
+            "text": "Une activité douce qui entretient le cœur et le souffle, adaptée à votre rythme."
+          },
+          {
+            "title": "Plaisir & bonne humeur",
+            "text": "Le volley-ball, même en version douce, reste un sport collectif plein de joie et de rires."
+          },
+          {
+            "title": "Lien social",
+            "text": "Rejoindre le VCM, c'est intégrer une communauté chaleureuse, ouverte et bienveillante."
+          },
+          {
+            "title": "Bien-être global",
+            "text": "Corps et esprit bénéficient ensemble d'une pratique régulière, légère et motivante."
+          },
+          {
+            "title": "Sans pression · adapté",
+            "text": "Chacun avance à son rythme, en toute sérénité.\n\n"
+          },
+          {
+            "title": "Remise en forme",
+            "text": "Idéal pour reprendre une activité physique progressive après une pause ou un arrêt médical."
+          }
+        ]
       },
       "inscriptions": {
         "heroKicker": "Rejoindre",
@@ -524,7 +689,71 @@
         "documentsHeading": "Documents nécessaires",
         "linksHeading": "Liens utiles",
         "faqHeading": "Questions fréquentes",
-        "cta": "S'inscrire en ligne"
+        "cta": "S'inscrire en ligne",
+        "stepsKicker": "Mode d'emploi",
+        "stepsIntro": "En quatre étapes simples, devenez membre du Volley Club Marseillanais et intégrez une communauté sportive accueillante à Marseillan.",
+        "ffvolleyCta": "Site FFVolley",
+        "documentsKicker": "À préparer",
+        "documentsIntro": "Pour finaliser votre inscription, merci de préparer les pièces suivantes. En cas de doute, notre responsable club vous guidera pour compléter votre dossier.",
+        "contactHeading": "Contact",
+        "contactPersonLabel": "Responsable des inscriptions",
+        "scheduleHeading": "Horaires d'entraînement",
+        "tipHeading": "Bon à savoir",
+        "tipBody": "Une séance d'essai gratuite est proposée à tous les nouveaux membres. C'est l'occasion parfaite de découvrir l'ambiance du club avant de vous engager.",
+        "linksKicker": "Plateformes",
+        "linksIntro": "Toutes les ressources pour préparer votre inscription et rester connecté à la vie du club.",
+        "clubeoTitle": "Espace club (Clubeo)",
+        "clubeoBody": "Inscriptions en ligne, actualités et documents sur la plateforme officielle du VCM.",
+        "clubeoCta": "Accéder au Clubeo",
+        "licenceTitle": "Licence FFVolley",
+        "licenceBody": "Renseignements sur la licence fédérale, les catégories et les formulaires officiels.",
+        "contactCta": "Contacter le club",
+        "faqKicker": "Vos questions",
+        "faqIntro": "Vous ne trouvez pas la réponse à votre question ? Contactez-nous directement à",
+        "ctaKicker": "Rejoignez l'aventure",
+        "ctaTitle": "Prêt à jouer ?",
+        "ctaBody": "Quelle que soit votre section, le Volley Club Marseillanais vous accueille. Profitez d'une séance d'essai gratuite et rejoignez une communauté sportive unique au bord de l'étang de Thau.",
+        "ctaSecondary": "Nous contacter",
+        "steps": [
+          {
+            "title": "Prendre contact",
+            "description": "Contactez-nous par email, téléphone ou venez directement au Gymnase Louis Boudou lors des entraînements. Une séance d'essai gratuite est proposée à tous les nouveaux venus, quel que soit l'âge ou le niveau."
+          },
+          {
+            "title": "Constituer le dossier",
+            "description": "Rassemblez les documents nécessaires : certificat médical de non contre-indication à la pratique du volley-ball (ou questionnaire de santé selon votre situation), formulaire de licence FFVolley et une photo d'identité."
+          },
+          {
+            "title": "Choisir sa pratique",
+            "description": "Baby Volley, Pôle Jeunes, Loisir, Compétition, Sport Santé, Soft Volley ou Beach Volley — choisissez la pratique et le créneau qui vous correspond. Nous vous guiderons selon votre profil et vos disponibilités."
+          },
+          {
+            "title": "Régler la cotisation",
+            "description": "Les tarifs varient selon la catégorie et la saison. Contactez le club pour connaître les montants en vigueur. Le règlement peut se faire en plusieurs fois selon les modalités du club."
+          }
+        ],
+        "documents": [
+          {
+            "label": "Certificat médical de non contre-indication à la pratique du volley-ball",
+            "note": "Ou questionnaire de santé selon votre catégorie"
+          },
+          {
+            "label": "Formulaire de demande de licence FFVolley",
+            "note": "Disponible auprès du club ou sur ffvolley.org"
+          },
+          {
+            "label": "Photo d'identité",
+            "note": ""
+          },
+          {
+            "label": "Règlement de la cotisation",
+            "note": "Tarifs à confirmer auprès du club pour la saison en cours"
+          },
+          {
+            "label": "Autorisation parentale (pour les mineurs)",
+            "note": ""
+          }
+        ]
       },
       "partenaires": {
         "heroKicker": "Le club",
@@ -536,17 +765,47 @@
           "Le Volley Club Marseillanais, c'est plus de cent licenciés, des familles, des événements sportifs ouverts à tous et une communauté ancrée dans le territoire de l'étang de Thau. Associer votre nom au VCM, c'est soutenir le sport local et afficher vos valeurs.",
           "Nos formules sont adaptables selon votre structure et vos objectifs. Discutons ensemble de la meilleure façon de vous associer au Volley Club Marseillanais."
         ],
-        "cta": "Devenir partenaire"
+        "cta": "Devenir partenaire",
+        "wallKicker": "Ils nous soutiennent",
+        "wallIntro": "De la commune à nos sponsors locaux, chaque partenaire contribue à faire vivre le volleyball à Marseillan. Merci à eux.",
+        "becomeKicker": "Rejoignez-nous",
+        "tiers": [
+          {
+            "label": "Partenaire Principal",
+            "description": "Notre partenaire majeur, présent à nos côtés sur l'ensemble des événements du club."
+          },
+          {
+            "label": "Partenaires Officiels",
+            "description": "Des acteurs locaux engagés qui contribuent au développement du volleyball à Marseillan."
+          },
+          {
+            "label": "Institutions",
+            "description": "Les collectivités et fédérations qui nous accompagnent dans notre mission sportive."
+          }
+        ],
+        "becomeCtaTitle": "Construisons votre partenariat ensemble",
+        "contactCta": "Contactez-nous"
       },
       "galerie": {
         "heroKicker": "Le club",
         "heroTitle": "Galerie",
-        "heroSubtitle": "Matchs disputés, entraînements, tournois de beach volley et moments de partage : revivez en images les temps forts du Volley Club Marseillanais."
+        "heroSubtitle": "Matchs disputés, entraînements, tournois de beach volley et moments de partage : revivez en images les temps forts du Volley Club Marseillanais.",
+        "sectionKicker": "En images",
+        "sectionTitle": "Le VCM en mouvement",
+        "sectionBody": "Filtrez par catégorie et cliquez sur une photo pour l'agrandir. Toute l'énergie du club, du gymnase à la plage."
       },
       "actualites": {
         "heroKicker": "Le club",
         "heroTitle": "Actualités",
-        "heroSubtitle": "Les dernières nouvelles du Volley Club Marseillanais : résultats, événements, inscriptions et vie du club."
+        "heroSubtitle": "Les dernières nouvelles du Volley Club Marseillanais : résultats, événements, inscriptions et vie du club.",
+        "latestLabel": "Dernière actualité",
+        "allLabel": "Toutes les actualités",
+        "relatedHeading": "À lire aussi",
+        "backLabel": "Retour aux actualités",
+        "articleCta": "Rejoindre le club",
+        "notFoundKicker": "Oups",
+        "notFoundTitle": "Article introuvable",
+        "notFoundBody": "L'article que vous recherchez n'existe pas ou n'est plus disponible. Retrouvez toutes nos actualités sur la page dédiée."
       },
       "contact": {
         "heroKicker": "Le club",
@@ -554,7 +813,12 @@
         "heroSubtitle": "Une question sur les inscriptions, les entraînements ou la vie du club ? L'équipe du Volley Club Marseillanais est là pour vous répondre.",
         "infoHeading": "Trouvez-nous à Marseillan",
         "formHeading": "Écrivez-nous",
-        "mapHeading": "Gymnase Louis Boudou"
+        "mapHeading": "Gymnase Louis Boudou",
+        "contactsHeading": "Nos coordonnées",
+        "contactPersonLabel": "Contact",
+        "scheduleLabel": "Entraînements",
+        "socialsHeading": "Suivez-nous",
+        "mapKicker": "Localisation"
       }
     }
   }

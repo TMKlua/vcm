@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Partner } from "@/types";
+import { useContent } from "@/content/ContentContext";
 
-// Tier display labels in French
+// Tier display labels in French — repli si le contenu ne fournit rien.
 const TIER_BADGE: Record<Partner["tier"], string> = {
   principal: "Principal",
   officiel: "Officiel",
@@ -24,6 +25,7 @@ interface PartnerLogoProps {
 
 export default function PartnerLogo({ partner }: PartnerLogoProps) {
   const prefersReducedMotion = useReducedMotion();
+  const badges = useContent().content.text.ui?.partnerTierBadges;
 
   const tile = (
     <motion.div
@@ -67,7 +69,7 @@ export default function PartnerLogo({ partner }: PartnerLogoProps) {
             TIER_COLOR[partner.tier],
           ].join(" ")}
         >
-          {TIER_BADGE[partner.tier]}
+          {badges?.[partner.tier] || TIER_BADGE[partner.tier]}
         </span>
       </div>
 

@@ -11,7 +11,7 @@ import {
   useScroll,
 } from "framer-motion";
 import { ChevronDown, Menu } from "lucide-react";
-import { navLinks } from "@/data/nav";
+import { useNavLinks } from "@/data/useNavLinks";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
 import BrandLogo from "./BrandLogo";
@@ -19,14 +19,24 @@ import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 import type { NavLink as NavLinkType } from "@/types";
 
-/* The two top-level items that open a mega-menu. */
-const MEGA: Record<string, "club" | "teams"> = {
-  "Le Club": "club",
-  "Équipes": "teams",
+/* The two top-level items that open a mega-menu.
+   Keyed by the nav KEY, not by the label: renaming « Le Club » depuis /admin ne
+   doit pas faire disparaître son méga-menu. */
+const MEGA: Partial<Record<string, "club" | "teams">> = {
+  club: "club",
+  equipes: "teams",
 };
 
-/** Logo lockup — gradient disc + volleyball glyph + VCM wordmark. */
-function Logo({ onClick, clubName }: { onClick?: () => void; clubName: string }) {
+/** Logo lockup — gradient disc + volleyball glyph + wordmark (nom court du club). */
+function Logo({
+  onClick,
+  clubName,
+  wordmark,
+}: {
+  onClick?: () => void;
+  clubName: string;
+  wordmark: string;
+}) {
   return (
     <Link
       href="/"
@@ -36,7 +46,7 @@ function Logo({ onClick, clubName }: { onClick?: () => void; clubName: string })
     >
       <BrandLogo className="size-16 transition-transform duration-300 group-hover:scale-105" />
       <span className="font-display text-xl uppercase leading-none tracking-tight text-white">
-        VCM
+        {wordmark}
       </span>
     </Link>
   );
@@ -45,6 +55,7 @@ function Logo({ onClick, clubName }: { onClick?: () => void; clubName: string })
 export default function Navbar() {
   const { content } = useContent();
   const { club, teams, text } = content;
+  const navLinks = useNavLinks();
   const pathname = usePathname();
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
@@ -119,7 +130,7 @@ export default function Navbar() {
             scrolled ? "backdrop-blur-xl" : "backdrop-blur-0"
           }`}
         >
-          <Logo clubName={club.name} />
+          <Logo clubName={club.name} wordmark={club.shortName} />
 
           {/* Desktop nav */}
           <nav
@@ -127,34 +138,36 @@ export default function Navbar() {
             className="hidden items-center gap-1 lg:flex"
           >
             {navLinks.map((link) => {
-              const variant = MEGA[link.label];
+              // Identité stable du lien, indépendante de son intitulé éditable.
+              const id = link.key ?? link.href;
+              const variant = link.key ? MEGA[link.key] : undefined;
               const active = variant ? isParentActive(link) : isActive(link.href);
 
               if (variant) {
-                const isOpen = openMenu === link.label;
+                const isOpen = openMenu === id;
                 return (
                   <div
-                    key={link.label}
+                    key={id}
                     className="relative"
                     onMouseEnter={() => {
                       cancelClose();
-                      setOpenMenu(link.label);
+                      setOpenMenu(id);
                     }}
                     onMouseLeave={scheduleClose}
                   >
                     <button
                       ref={(el) => {
-                        triggerRefs.current[link.label] = el;
+                        triggerRefs.current[id] = el;
                       }}
                       type="button"
                       aria-haspopup="menu"
                       aria-expanded={isOpen}
                       onClick={() =>
-                        setOpenMenu((cur) => (cur === link.label ? null : link.label))
+                        setOpenMenu((cur) => (cur === id ? null : id))
                       }
                       onFocus={() => {
                         cancelClose();
-                        setOpenMenu(link.label);
+                        setOpenMenu(id);
                       }}
                       className={`group relative flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 ${
                         active ? "text-white" : "text-white/70 hover:text-white"
@@ -186,7 +199,7 @@ export default function Navbar() {
                         align={variant === "teams" ? "center" : "left"}
                         triggerRef={{
                           get current() {
-                            return triggerRefs.current[link.label];
+                            return triggerRefs.current[id];
                           },
                         }}
                       />

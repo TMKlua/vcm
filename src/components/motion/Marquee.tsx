@@ -12,6 +12,7 @@ import {
   wrap,
 } from "framer-motion";
 import { Volleyball } from "lucide-react";
+import { useContent } from "@/content/ContentContext";
 
 /**
  * Marquee — infinite horizontal scrolling band of words separated by a small
@@ -23,6 +24,7 @@ import { Volleyball } from "lucide-react";
  * - prefers-reduced-motion: renders a single static row, no loop, no scroll coupling.
  */
 
+/** Repli ultime si le contenu ne fournit aucun mot. */
 const DEFAULT_ITEMS = [
   "VOLLEY",
   "CLUB",
@@ -51,6 +53,7 @@ function MarqueeRow({ items }: { items: string[] }) {
 }
 
 interface MarqueeProps {
+  /** Mots affichés. Par défaut : `text.marquee`, éditable depuis /admin. */
   items?: string[];
   className?: string;
   /** Reverse the scroll direction. */
@@ -60,11 +63,14 @@ interface MarqueeProps {
 }
 
 export default function Marquee({
-  items = DEFAULT_ITEMS,
+  items,
   className,
   reverse = false,
   speed = 40,
 }: MarqueeProps) {
+  const fromContent = useContent().content.text.marquee;
+  const words =
+    items ?? (fromContent && fromContent.length > 0 ? fromContent : DEFAULT_ITEMS);
   const reduce = useReducedMotion();
 
   const baseX = useMotionValue(0);
@@ -98,7 +104,7 @@ export default function Marquee({
         className={`relative w-full overflow-hidden ${className ?? ""}`}
       >
         <div className="flex w-full items-center justify-center py-6 sm:py-8">
-          <MarqueeRow items={items} />
+          <MarqueeRow items={words} />
         </div>
       </div>
     );
@@ -113,10 +119,10 @@ export default function Marquee({
         className="flex w-max items-center py-6 sm:py-8 will-change-transform"
         style={{ x }}
       >
-        <MarqueeRow items={items} />
-        <MarqueeRow items={items} />
-        <MarqueeRow items={items} />
-        <MarqueeRow items={items} />
+        <MarqueeRow items={words} />
+        <MarqueeRow items={words} />
+        <MarqueeRow items={words} />
+        <MarqueeRow items={words} />
       </motion.div>
     </div>
   );

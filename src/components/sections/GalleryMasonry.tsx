@@ -7,14 +7,18 @@ import { gallery as defaultGallery } from "@/data/gallery";
 import { fadeUp, staggerParent } from "@/lib/motion";
 import Lightbox from "@/components/ui/Lightbox";
 import type { GalleryImage } from "@/types";
+import { useContent } from "@/content/ContentContext";
 
-const ALL = "Tout";
+/** Repli si le libellé du filtre « tout » a été vidé depuis /admin. */
+const ALL_FALLBACK = "Tout";
 
 interface GalleryMasonryProps {
   images?: GalleryImage[];
 }
 
 export default function GalleryMasonry({ images = defaultGallery }: GalleryMasonryProps) {
+  const ui = useContent().content.text.ui;
+  const ALL = ui?.galleryAll?.trim() || ALL_FALLBACK;
   const reduce = useReducedMotion();
 
   // Unique categories, in order of first appearance.
@@ -24,7 +28,7 @@ export default function GalleryMasonry({ images = defaultGallery }: GalleryMason
       if (!seen.includes(img.category)) seen.push(img.category);
     }
     return [ALL, ...seen];
-  }, [images]);
+  }, [images, ALL]);
 
   const [activeFilter, setActiveFilter] = useState<string>(ALL);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -36,7 +40,7 @@ export default function GalleryMasonry({ images = defaultGallery }: GalleryMason
       activeFilter === ALL
         ? images
         : images.filter((img) => img.category === activeFilter),
-    [activeFilter, images],
+    [activeFilter, images, ALL],
   );
 
   const handleFilter = (cat: string) => {

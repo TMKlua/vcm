@@ -52,4 +52,13 @@ export interface FaqItem { question: string; answer: string }
 
 export interface TimelineEntry { year: string; title: string; description: string }
 
-export interface NavLink { label: string; href: string; children?: NavLink[] }
+export interface NavLink {
+  label: string;
+  href: string;
+  children?: NavLink[];
+  /**
+   * Clé du libellé dans `text.nav`. La route reste en code, l'intitulé vient
+   * du contenu éditable : voir `useNavLinks`.
+   */
+  key?: keyof import("@/content/types").NavLabels;
+}

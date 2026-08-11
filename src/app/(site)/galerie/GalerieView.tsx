@@ -5,11 +5,13 @@ import Section from "@/components/layout/Section";
 import Reveal from "@/components/motion/Reveal";
 import GalleryMasonry from "@/components/sections/GalleryMasonry";
 import { useContent } from "@/content/ContentContext";
+import { useNavLabel } from "@/data/useNavLinks";
 
 export default function GalerieView() {
   const { content } = useContent();
   const { gallery } = content;
   const t = content.text.pages.galerie;
+  const breadcrumbLabel = useNavLabel("galerie", "Galerie");
 
   return (
     <>
@@ -20,7 +22,7 @@ export default function GalerieView() {
         subtitle={t.heroSubtitle}
         breadcrumb={[
           { label: content.text.ui?.breadcrumbHome ?? "Accueil", href: "/" },
-          { label: "Galerie", href: "/galerie" },
+          { label: breadcrumbLabel, href: "/galerie" },
         ]}
       />
 

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { news } from "@/data/news";
+import { getContent } from "@/content/store";
+import { iconsFor, metadataFor } from "@/lib/seo";
 import ArticleView from "./ArticleView";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -14,7 +16,12 @@ export function generateStaticParams() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Metadata — Next 16: params is a Promise. Uses build-time defaults (SEO).
+   Metadata — Next 16: params is a Promise.
+
+   L'article est cherché dans le contenu PUBLIÉ, pas dans les données du code :
+   un article écrit ou renommé depuis /admin porte donc son vrai titre dans
+   l'onglet du navigateur et dans les partages, au lieu de retomber sur
+   « Article introuvable ».
 ───────────────────────────────────────────────────────────────────────────── */
 export async function generateMetadata({
   params,
@@ -22,21 +29,34 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = news.find((n) => n.slug === slug);
+  const { content } = await getContent();
+  const article = content.news.find((n) => n.slug === slug);
 
   if (!article) {
     return {
-      title: "Article introuvable",
+      title: content.text.pages.actualites.notFoundTitle ?? "Article introuvable",
+      icons: iconsFor(content.seo),
     };
   }
 
+  const base = metadataFor(content, "actualites", `/actualites/${slug}`);
+
   return {
-    title: `${article.title}`,
+    ...base,
+    title: article.title,
     description: article.excerpt,
     openGraph: {
+      ...base.openGraph,
       title: article.title,
       description: article.excerpt,
       images: [{ url: article.image }],
+    },
+    twitter: {
+      ...base.twitter,
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: [article.image],
     },
   };
 }

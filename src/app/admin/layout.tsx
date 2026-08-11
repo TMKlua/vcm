@@ -15,8 +15,11 @@ export const metadata: Metadata = {
 export default function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // `min-h-dvh` et non `min-h-screen` : la page d'admin mesure exactement
+  // 100dvh, et sur mobile `100vh` est plus grand que `100dvh` — l'écart aurait
+  // suffi à réintroduire un défilement de la fenêtre.
   return (
-    <div className="min-h-screen bg-[#0a0418] text-[#ece4ff]">
+    <div className="min-h-dvh bg-[#0a0418] text-[#ece4ff]">
       <AdminAuth>{children}</AdminAuth>
     </div>
   );

@@ -124,14 +124,14 @@ function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-dvh overflow-hidden">
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 transform border-r border-white/10 bg-[#15082e] transition-transform lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 transform flex-col border-r border-white/10 bg-[#15082e] transition-transform lg:static lg:translate-x-0 ${
           navOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center gap-2 px-6 py-5">
+        <div className="flex shrink-0 items-center gap-2 px-6 py-5">
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#7c3aed] to-[#ff4dd2] text-sm font-bold text-white">
             V
           </span>
@@ -142,7 +142,7 @@ function Dashboard() {
             <p className="text-[11px] text-white/40">Gestion du contenu</p>
           </div>
         </div>
-        <nav className="space-y-1 px-3 pb-6">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-6">
           {SECTIONS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -175,9 +175,9 @@ function Dashboard() {
       )}
 
       {/* Main column */}
-      <div className="flex min-w-0 flex-1 flex-col">
-        {/* Header bar */}
-        <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-white/10 bg-[#0a0418]/90 px-4 py-3 backdrop-blur lg:px-8">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        {/* Header bar — hors du flux défilant, donc toujours visible. */}
+        <header className="z-20 flex shrink-0 items-center gap-3 border-b border-white/10 bg-[#0a0418]/90 px-4 py-3 backdrop-blur lg:px-8">
           <button
             type="button"
             aria-label="Ouvrir le menu"
@@ -260,7 +260,11 @@ function Dashboard() {
         </header>
 
         {/* Content */}
-        <main className="flex-1 px-4 py-8 lg:px-8">
+        {/* `relative` : les libellés `sr-only` des éditeurs sont en
+            `position:absolute` ; sans ancêtre positionné ils se résolvaient
+            contre le document et étiraient sa zone de défilement, ce qui
+            laissait la fenêtre défiler de quelques dizaines de pixels. */}
+        <main className="relative flex-1 overflow-y-auto px-4 py-8 lg:px-8">
           <div className="mx-auto max-w-3xl">
             {!ready ? (
               <p className="text-sm text-white/50">Chargement du contenu…</p>

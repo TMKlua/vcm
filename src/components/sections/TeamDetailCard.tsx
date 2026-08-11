@@ -17,7 +17,7 @@ import TiltCard from "@/components/ui/TiltCard";
 import Reveal from "@/components/motion/Reveal";
 import ParallaxImage from "@/components/motion/ParallaxImage";
 import type { Team } from "@/types";
-import type { Player, TeamContent } from "@/content/types";
+import type { Player, SubTeam, TeamContent } from "@/content/types";
 import { useContent } from "@/content/ContentContext";
 
 const categoryIcon: Record<Team["category"], LucideIcon> = {
@@ -94,15 +94,12 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
   const Icon = categoryIcon[team.category];
   const label = categoryLabel[team.category];
 
+  const subTeams = team.subTeams ?? [];
+
   return (
     <Reveal delay={0.05}>
-      <article
-        id={team.slug}
-        className={[
-          "scroll-mt-32 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16",
-          "items-center",
-        ].join(" ")}
-      >
+      <article id={team.slug} className="scroll-mt-32">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         {/* ── Image block ──────────────────────────────────────────── */}
         <div className={isEven ? "lg:order-first" : "lg:order-last"}>
           <TiltCard className="relative">
@@ -218,7 +215,82 @@ export default function TeamDetailCard({ team, index }: TeamDetailCardProps) {
             </div>
           )}
         </div>
+        </div>
+
+        {/* ── Sous-équipes ─────────────────────────────────────────── */}
+        {subTeams.length > 0 && (
+          <div className="mt-12 border-t border-white/[0.08] pt-10">
+            <h3 className="mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
+              {ui?.teamSubTeams ?? "Sous-équipes"}
+            </h3>
+            <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+              {subTeams.map((sub) => (
+                <li key={sub.id}>
+                  <SubTeamCard sub={sub} rosterLabel={ui?.teamRoster ?? "Effectif"} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </article>
     </Reveal>
+  );
+}
+
+/* ── Sous-équipe ─────────────────────────────────────────────────────────── */
+
+function SubTeamCard({ sub, rosterLabel }: { sub: SubTeam; rosterLabel: string }) {
+  return (
+    <div className="flex h-full flex-col gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition-colors duration-300 hover:border-violet-500/30 hover:bg-violet-700/[0.06] sm:flex-row sm:gap-5">
+      {/* Photo — masquée si la sous-équipe n'en a pas */}
+      {sub.image && (
+        <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-xl sm:aspect-square sm:w-32">
+          {/* Plain <img> : la source peut être une URL du blob ou un chemin local. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={sub.image}
+            alt={sub.name}
+            className="absolute inset-0 size-full object-cover object-center"
+          />
+        </div>
+      )}
+
+      <div className="flex min-w-0 flex-col gap-2">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h4 className="font-display text-base leading-tight text-white">{sub.name}</h4>
+          {sub.ageRange && (
+            <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[0.7rem] font-medium text-white/70">
+              {sub.ageRange}
+            </span>
+          )}
+        </div>
+
+        {sub.schedule && (
+          <p className="flex items-center gap-2 text-xs text-white/60">
+            <Clock className="size-3.5 shrink-0 text-fuchsia-vcm" aria-hidden />
+            {sub.schedule}
+          </p>
+        )}
+
+        {sub.description && (
+          <p className="text-sm leading-relaxed text-white/70">{sub.description}</p>
+        )}
+
+        {sub.players && sub.players.length > 0 && (
+          <div className="mt-1">
+            <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-white/50">
+              {rosterLabel}
+            </p>
+            <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+              {sub.players.map((player) => (
+                <li key={player.id}>
+                  <PlayerCard player={player} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

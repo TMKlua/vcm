@@ -10,7 +10,14 @@ import { timeline } from "@/data/timeline";
 
 import liveSnapshot from "./live-snapshot.json";
 import { deepMerge } from "./merge";
-import type { DeepPartial, SiteContent, SiteText, TeamContent, Player } from "./types";
+import type {
+  DeepPartial,
+  Player,
+  SiteContent,
+  SiteText,
+  SubTeam,
+  TeamContent,
+} from "./types";
 
 /* ──────────────────────────────────────────────────────────────────────────
  * Players — [À CONFIRMER]
@@ -57,6 +64,30 @@ const playersBySlug: Record<string, Player[]> = {
   "beach-volley": [
     { id: "beach-volley-p1", name: "Adrien Caron", role: "Beach – Défenseur" },
     { id: "beach-volley-p2", name: "Quentin Olivier", role: "Beach – Attaquant" },
+  ],
+};
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Sous-équipes livrées avec le site, par slug d'équipe.
+ *
+ * Elles sont appliquées APRÈS la fusion avec le contenu publié, et seulement
+ * aux équipes dont `subTeams` est absent. Une équipe dont l'admin a vidé la
+ * liste porte `subTeams: []` — présent mais vide — et n'est donc pas
+ * réalimentée : supprimer une sous-équipe reste définitif.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+const defaultSubTeams: Record<string, SubTeam[]> = {
+  jeunes: [
+    {
+      id: "jeunes-minimes-filles",
+      name: "Minimes Filles",
+      ageRange: "13 – 14 ans",
+      schedule: "Lundis et mercredis", // [À CONFIRMER]
+      description:
+        "Les Minimes Filles disputent le championnat départemental de l'Hérault. Un groupe soudé qui travaille les fondamentaux techniques tout en prenant goût à la compétition.", // [À CONFIRMER]
+      image: "",
+      players: [],
+    },
   ],
 };
 
@@ -153,6 +184,7 @@ const text: SiteText = {
     teamObjectives: "Objectifs",
     teamSchedule: "Créneaux",
     teamRoster: "Effectif",
+    teamSubTeams: "Sous-équipes",
     megaMenuTitle: "Rejoignez le club",
     megaMenuText: "Du Baby Volley à la compétition, une place pour chacun.",
     megaMenuCta: "S'inscrire",
@@ -466,7 +498,19 @@ const baseContent: SiteContent = {
  * PAR-DESSUS ces valeurs (`readContent`), donc les modifications faites depuis
  * /admin restent prioritaires.
  */
-export const defaultContent: SiteContent = deepMerge(
+const mergedContent: SiteContent = deepMerge(
   baseContent,
   liveSnapshot as unknown as DeepPartial<SiteContent>,
 );
+
+export const defaultContent: SiteContent = {
+  ...mergedContent,
+  // Les tableaux sont remplacés en bloc par la fusion, donc le contenu publié
+  // — qui ignore encore les sous-équipes — écrase `teams` sans elles. On les
+  // réapplique ici, uniquement là où la clé n'a jamais été renseignée.
+  teams: mergedContent.teams.map((team) =>
+    team.subTeams === undefined && defaultSubTeams[team.slug]
+      ? { ...team, subTeams: defaultSubTeams[team.slug] }
+      : team,
+  ),
+};

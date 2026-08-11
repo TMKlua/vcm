@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Plus, ChevronDown } from "lucide-react";
-import type { Player, TeamContent } from "@/content/types";
+import type { Player, SubTeam, TeamContent } from "@/content/types";
 import type { Team } from "@/types";
 import { useAdminDraft } from "../useAdminDraft";
 import { Button, Card, Field, SectionTitle, TextArea, TextInput } from "../ui";
@@ -37,6 +37,9 @@ export default function TeamsEditor() {
   }
   function patchPlayers(i: number, players: Player[]) {
     patch(i, { players });
+  }
+  function patchSubTeams(i: number, subTeams: SubTeam[]) {
+    patch(i, { subTeams });
   }
 
   return (
@@ -73,6 +76,11 @@ export default function TeamsEditor() {
                   <span className="shrink-0 rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-white/50">
                     {team.players?.length ?? 0} joueur(s)
                   </span>
+                  {(team.subTeams?.length ?? 0) > 0 && (
+                    <span className="shrink-0 rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-white/50">
+                      {team.subTeams!.length} sous-équipe(s)
+                    </span>
+                  )}
                 </button>
                 <ItemControls
                   index={i}
@@ -202,6 +210,13 @@ export default function TeamsEditor() {
                     players={team.players ?? []}
                     onChange={(players) => patchPlayers(i, players)}
                   />
+
+                  {/* Sub-teams sub-editor */}
+                  <SubTeamsEditor
+                    teamIndex={i}
+                    subTeams={team.subTeams ?? []}
+                    onChange={(subTeams) => patchSubTeams(i, subTeams)}
+                  />
                 </div>
               )}
             </div>
@@ -226,6 +241,7 @@ export default function TeamsEditor() {
             schedule: "",
             image: "",
             players: [],
+            subTeams: [],
           };
           commit([...teams, next]);
           setOpenSlug(slug);
@@ -237,17 +253,176 @@ export default function TeamsEditor() {
   );
 }
 
+/* ── Sub-teams sub-editor ────────────────────────────────────────────────── */
+
+/**
+ * Sous-équipes d'une équipe : ajout, ordre, suppression, et pour chacune son
+ * propre effectif. Tous les champs sauf le nom sont facultatifs — une
+ * sous-équipe peut se limiter à un nom et un créneau.
+ */
+function SubTeamsEditor({
+  teamIndex,
+  subTeams,
+  onChange,
+}: {
+  teamIndex: number;
+  subTeams: SubTeam[];
+  onChange: (subTeams: SubTeam[]) => void;
+}) {
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  function patch(i: number, partial: Partial<SubTeam>) {
+    onChange(subTeams.map((st, idx) => (idx === i ? { ...st, ...partial } : st)));
+  }
+
+  return (
+    <div className="space-y-3 rounded-xl border border-white/10 bg-[#0a0418]/50 p-4">
+      <h4 className="text-xs font-semibold uppercase tracking-wide text-fuchsia-400">
+        Sous-équipes ({subTeams.length})
+      </h4>
+      <p className="text-xs text-white/40">
+        Une formation rattachée à cette équipe (ex. « Minimes Filles »). Elles
+        s&rsquo;affichent sous la fiche de l&rsquo;équipe sur la page Équipes.
+      </p>
+
+      {subTeams.length === 0 && (
+        <p className="text-xs text-white/40">Aucune sous-équipe pour cette équipe.</p>
+      )}
+
+      <div className="space-y-3">
+        {subTeams.map((sub, i) => {
+          const open = openId === sub.id;
+          return (
+            <Card key={sub.id} className="space-y-3 !p-4">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setOpenId(open ? null : sub.id)}
+                  aria-expanded={open}
+                  className="flex min-w-0 flex-1 items-center gap-2 text-left focus:outline-none"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 shrink-0 text-white/50 transition-transform ${open ? "rotate-180" : ""}`}
+                    aria-hidden
+                  />
+                  <span className="truncate text-sm font-medium text-white/80">
+                    {sub.name || `Sous-équipe #${i + 1}`}
+                  </span>
+                  <span className="shrink-0 rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-white/50">
+                    {sub.players?.length ?? 0} joueur(s)
+                  </span>
+                </button>
+                <ItemControls
+                  index={i}
+                  count={subTeams.length}
+                  label={sub.name || `Sous-équipe #${i + 1}`}
+                  onMoveUp={() => onChange(moveItem(subTeams, i, i - 1))}
+                  onMoveDown={() => onChange(moveItem(subTeams, i, i + 1))}
+                  onRemove={() => onChange(subTeams.filter((_, idx) => idx !== i))}
+                />
+              </div>
+
+              {open && (
+                <div className="space-y-3 border-t border-white/10 pt-3">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field label="Nom" htmlFor={`st-name-${teamIndex}-${i}`}>
+                      <TextInput
+                        id={`st-name-${teamIndex}-${i}`}
+                        value={sub.name}
+                        onChange={(e) => patch(i, { name: e.target.value })}
+                      />
+                    </Field>
+                    <Field label="Tranche d'âge" htmlFor={`st-age-${teamIndex}-${i}`}>
+                      <TextInput
+                        id={`st-age-${teamIndex}-${i}`}
+                        value={sub.ageRange ?? ""}
+                        placeholder="ex. 13 – 14 ans"
+                        onChange={(e) => patch(i, { ageRange: e.target.value })}
+                      />
+                    </Field>
+                  </div>
+
+                  <Field label="Créneaux" htmlFor={`st-sched-${teamIndex}-${i}`}>
+                    <TextInput
+                      id={`st-sched-${teamIndex}-${i}`}
+                      value={sub.schedule ?? ""}
+                      placeholder="ex. Lundis et mercredis 18h"
+                      onChange={(e) => patch(i, { schedule: e.target.value })}
+                    />
+                  </Field>
+
+                  <Field label="Description" htmlFor={`st-desc-${teamIndex}-${i}`}>
+                    <TextArea
+                      id={`st-desc-${teamIndex}-${i}`}
+                      rows={3}
+                      value={sub.description ?? ""}
+                      onChange={(e) => patch(i, { description: e.target.value })}
+                    />
+                  </Field>
+
+                  <ImageInput
+                    label="Photo de la sous-équipe"
+                    value={sub.image ?? ""}
+                    onChange={(src) => patch(i, { image: src })}
+                    help="Facultatif. Sans photo, la fiche s'affiche en pleine largeur."
+                  />
+
+                  <PlayersEditor
+                    teamIndex={teamIndex}
+                    idPrefix={`st${i}`}
+                    title={`Effectif de ${sub.name || "la sous-équipe"}`}
+                    players={sub.players ?? []}
+                    onChange={(players) => patch(i, { players })}
+                  />
+                </div>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+
+      <Button
+        variant="secondary"
+        onClick={() => {
+          const id = genId("subteam");
+          onChange([
+            ...subTeams,
+            {
+              id,
+              name: "Nouvelle sous-équipe",
+              ageRange: "",
+              schedule: "",
+              description: "",
+              image: "",
+              players: [],
+            },
+          ]);
+          setOpenId(id);
+        }}
+      >
+        <Plus className="h-4 w-4" /> Ajouter une sous-équipe
+      </Button>
+    </div>
+  );
+}
+
 /* ── Players sub-editor ──────────────────────────────────────────────────── */
 
 function PlayersEditor({
   teamIndex,
   players,
   onChange,
+  idPrefix = "",
+  title,
 }: {
   teamIndex: number;
   players: Player[];
   onChange: (players: Player[]) => void;
+  /** Distingue les champs d'une sous-équipe de ceux de l'équipe parente. */
+  idPrefix?: string;
+  title?: string;
 }) {
+  const key = idPrefix ? `${idPrefix}-${teamIndex}` : `${teamIndex}`;
   function patch(i: number, partial: Partial<Player>) {
     onChange(players.map((p, idx) => (idx === i ? { ...p, ...partial } : p)));
   }
@@ -255,11 +430,13 @@ function PlayersEditor({
   return (
     <div className="space-y-3 rounded-xl border border-white/10 bg-[#0a0418]/50 p-4">
       <h4 className="text-xs font-semibold uppercase tracking-wide text-fuchsia-400">
-        Effectif ({players.length})
+        {title ?? "Effectif"} ({players.length})
       </h4>
 
       {players.length === 0 && (
-        <p className="text-xs text-white/40">Aucun joueur pour cette équipe.</p>
+        <p className="text-xs text-white/40">
+          Aucun joueur pour le moment.
+        </p>
       )}
 
       <div className="space-y-3">
@@ -279,23 +456,23 @@ function PlayersEditor({
               />
             </div>
             <div className="grid gap-3 sm:grid-cols-[1fr_1fr_6rem]">
-              <Field label="Nom" htmlFor={`pl-name-${teamIndex}-${i}`}>
+              <Field label="Nom" htmlFor={`pl-name-${key}-${i}`}>
                 <TextInput
-                  id={`pl-name-${teamIndex}-${i}`}
+                  id={`pl-name-${key}-${i}`}
                   value={player.name}
                   onChange={(e) => patch(i, { name: e.target.value })}
                 />
               </Field>
-              <Field label="Rôle / poste" htmlFor={`pl-role-${teamIndex}-${i}`}>
+              <Field label="Rôle / poste" htmlFor={`pl-role-${key}-${i}`}>
                 <TextInput
-                  id={`pl-role-${teamIndex}-${i}`}
+                  id={`pl-role-${key}-${i}`}
                   value={player.role}
                   onChange={(e) => patch(i, { role: e.target.value })}
                 />
               </Field>
-              <Field label="N°" htmlFor={`pl-num-${teamIndex}-${i}`}>
+              <Field label="N°" htmlFor={`pl-num-${key}-${i}`}>
                 <TextInput
-                  id={`pl-num-${teamIndex}-${i}`}
+                  id={`pl-num-${key}-${i}`}
                   value={player.number ?? ""}
                   onChange={(e) => patch(i, { number: e.target.value })}
                 />

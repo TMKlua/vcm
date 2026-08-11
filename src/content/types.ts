@@ -28,9 +28,34 @@ export interface Player {
   image?: string;
 }
 
-/** The existing `Team` type extended with an optional roster of players. */
+/**
+ * Une sous-équipe : une formation rattachée à une équipe (ex. « Minimes Filles »
+ * sous le Pôle Jeunes). Tout est optionnel sauf l'identifiant et le nom — une
+ * sous-équipe peut n'être qu'un nom et un créneau.
+ */
+export interface SubTeam {
+  id: string;
+  name: string;
+  /** Tranche d'âge affichée à côté du nom. */
+  ageRange?: string;
+  /** Créneaux propres à cette sous-équipe. */
+  schedule?: string;
+  description?: string;
+  image?: string;
+  /** Effectif propre à la sous-équipe. */
+  players?: Player[];
+}
+
+/**
+ * Le type `Team` étendu de son effectif et de ses sous-équipes.
+ *
+ * `subTeams` absent (`undefined`) et `subTeams: []` ne veulent pas dire la même
+ * chose : le premier signifie « jamais renseigné » et reçoit l'exemple livré
+ * avec le site, le second « vidé depuis /admin » et reste vide.
+ */
 export type TeamContent = Team & {
   players?: Player[];
+  subTeams?: SubTeam[];
 };
 
 /**
@@ -162,6 +187,8 @@ export interface SiteText {
     teamObjectives?: string;
     teamSchedule?: string;
     teamRoster?: string;
+    /** Titre du bloc des sous-équipes sur /equipes. */
+    teamSubTeams?: string;
     /** Encart promotionnel du méga-menu. */
     megaMenuTitle?: string;
     megaMenuText?: string;

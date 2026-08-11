@@ -390,6 +390,7 @@ export default function TextEditor() {
         <Str path="text.ui.teamObjectives" label="Fiche équipe — « Objectifs »" value={t.ui?.teamObjectives ?? ""} update={update} />
         <Str path="text.ui.teamSchedule" label="Fiche équipe — « Créneaux »" value={t.ui?.teamSchedule ?? ""} update={update} />
         <Str path="text.ui.teamRoster" label="Fiche équipe — « Effectif »" value={t.ui?.teamRoster ?? ""} update={update} />
+        <Str path="text.ui.teamSubTeams" label="Fiche équipe — « Sous-équipes »" value={t.ui?.teamSubTeams ?? ""} update={update} />
         <Str path="text.ui.socialFacebook" label="Bouton Facebook" value={t.ui?.socialFacebook ?? ""} update={update} />
         <Str path="text.ui.socialInstagram" label="Bouton Instagram" value={t.ui?.socialInstagram ?? ""} update={update} />
         <Str path="text.ui.socialWebsite" label="Bouton site officiel" value={t.ui?.socialWebsite ?? ""} update={update} />

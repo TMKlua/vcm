@@ -73,7 +73,7 @@ const fallbackContreparties = [
   },
   {
     title: "Audience qualifiée",
-    text: "Accès à une communauté de licenciés, familles et supporters — un public local, familial et engagé, fidèle à son club.",
+    text: "Accès à une communauté de licenciés, familles et supporters - un public local, familial et engagé, fidèle à son club.",
   },
   {
     title: "Logo sur les équipements",

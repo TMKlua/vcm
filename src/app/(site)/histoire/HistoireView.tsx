@@ -198,7 +198,7 @@ export default function HistoireView() {
                 <p>{t.visionBody}</p>
                 <p>
                   {t.visionExtra ??
-                    "Que vous soyez parent cherchant une activité pour votre enfant, adulte souhaitant (re)découvrir le volley en loisir, sportif en quête de compétition ou simplement curieux de bouger dans un cadre bienveillant — le VCM a une place pour vous. Rejoignez-nous !"}
+                    "Que vous soyez parent cherchant une activité pour votre enfant, adulte souhaitant (re)découvrir le volley en loisir, sportif en quête de compétition ou simplement curieux de bouger dans un cadre bienveillant - le VCM a une place pour vous. Rejoignez-nous !"}
                 </p>
               </div>
             </Reveal>

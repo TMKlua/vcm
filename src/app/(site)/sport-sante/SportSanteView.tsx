@@ -236,7 +236,7 @@ export default function SportSanteView() {
           <Reveal delay={0.15}>
             <p className="mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/70">
               {t.benefitsIntro ??
-                "Sport Santé et Soft Volley ne se contentent pas d’entretenir le corps — ils nourrissent aussi l’esprit et le lien humain."}
+                "Sport Santé et Soft Volley ne se contentent pas d’entretenir le corps - ils nourrissent aussi l’esprit et le lien humain."}
             </p>
           </Reveal>
         </div>
@@ -417,7 +417,7 @@ export default function SportSanteView() {
             <Reveal delay={0.18}>
               <p className="mt-6 text-[0.95rem] leading-relaxed text-white/70">
                 {t.ctaBody ??
-                  "Une séance d’essai gratuite vous attend. Pas besoin d’équipement particulier — juste l’envie de vous faire du bien. Contactez-nous pour planifier votre première visite au Gymnase Louis Boudou de Marseillan."}
+                  "Une séance d’essai gratuite vous attend. Pas besoin d’équipement particulier - juste l’envie de vous faire du bien. Contactez-nous pour planifier votre première visite au Gymnase Louis Boudou de Marseillan."}
               </p>
             </Reveal>
 

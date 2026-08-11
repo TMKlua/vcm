@@ -35,7 +35,7 @@ export default function BrandLogo({ className = "size-10" }: { className?: strin
       <img
         ref={imgRef}
         src={club.logo}
-        alt={`${club.name} — logo`}
+        alt={`${club.name} - logo`}
         // `overflow-hidden` keeps a failed load from spilling alt text across
         // the header before the effect above swaps in the fallback.
         className={`${className} shrink-0 overflow-hidden rounded-full object-contain`}

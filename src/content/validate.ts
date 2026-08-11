@@ -55,7 +55,7 @@ export function validateContent(raw: unknown): ValidationResult {
     );
     return {
       ok: false,
-      error: `Contenu invalide — sections manquantes : ${missing.join(", ")}.`,
+      error: `Contenu invalide - sections manquantes : ${missing.join(", ")}.`,
     };
   }
 

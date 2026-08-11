@@ -61,7 +61,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      aria-label={`${club.name} — accueil`}
+      aria-label={`${club.name} - accueil`}
       className="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden bg-ink"
     >
       {/* ── Layer 1: parallax background photo ──────────────────────────── */}

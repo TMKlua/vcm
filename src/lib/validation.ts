@@ -15,7 +15,7 @@ export function validateContact(v: ContactValues): ContactErrors {
 }
 
 export function buildMailto(to: string, v: ContactValues): string {
-  const subject = encodeURIComponent(`Contact site VCM — ${v.name}`);
-  const body = encodeURIComponent(`${v.message}\n\n— ${v.name} (${v.email})`);
+  const subject = encodeURIComponent(`Contact site VCM - ${v.name}`);
+  const body = encodeURIComponent(`${v.message}\n\n- ${v.name} (${v.email})`);
   return `mailto:${to}?subject=${subject}&body=${body}`;
 }

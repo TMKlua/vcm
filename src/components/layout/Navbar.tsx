@@ -41,7 +41,7 @@ function Logo({
     <Link
       href="/"
       onClick={onClick}
-      aria-label={`${clubName} — accueil`}
+      aria-label={`${clubName} - accueil`}
       className="group flex shrink-0 items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
     >
       <BrandLogo className="size-16 transition-transform duration-300 group-hover:scale-105" />

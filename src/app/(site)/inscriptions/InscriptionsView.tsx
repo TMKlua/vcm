@@ -42,7 +42,7 @@ const fallbackSteps = [
   {
     title: "Choisir sa pratique",
     description:
-      "Baby Volley, Pôle Jeunes, Loisir, Compétition, Sport Santé, Soft Volley ou Beach Volley — choisissez la pratique et le créneau qui vous correspond. Nous vous guiderons selon votre profil et vos disponibilités.",
+      "Baby Volley, Pôle Jeunes, Loisir, Compétition, Sport Santé, Soft Volley ou Beach Volley - choisissez la pratique et le créneau qui vous correspond. Nous vous guiderons selon votre profil et vos disponibilités.",
   },
   {
     title: "Régler la cotisation",

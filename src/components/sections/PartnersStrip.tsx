@@ -178,7 +178,7 @@ export default function PartnersStrip() {
                           href={partner.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          aria-label={`${partner.name} — site officiel (nouvel onglet)`}
+                          aria-label={`${partner.name} - site officiel (nouvel onglet)`}
                           className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink rounded-xl"
                         >
                           {logoEl}

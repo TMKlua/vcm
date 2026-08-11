@@ -79,7 +79,7 @@ export default function ClubMap({
       className={`relative overflow-hidden rounded-3xl border border-white/10 bg-night shadow-2xl shadow-black/40 ${className}`}
     >
       <iframe
-        title={`Carte Google Maps — ${pinLabel}, ${formatAddress(address)}`}
+        title={`Carte Google Maps - ${pinLabel}, ${formatAddress(address)}`}
         src={mapEmbedSrc(address, pinLabel)}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"

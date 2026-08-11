@@ -105,7 +105,7 @@ function Dashboard() {
   async function handleSave() {
     const result = await save();
     if (result.ok) {
-      pushToast("Publié — visible par tout le monde, sur tous les appareils.");
+      pushToast("Publié - visible par tout le monde, sur tous les appareils.");
     } else {
       pushToast(result.error, "error");
     }

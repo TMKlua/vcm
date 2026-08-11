@@ -25,7 +25,7 @@ export type SeoPageKey = keyof NonNullable<SeoSettings["pages"]>;
  * jamais pu être changé depuis l'admin sans les déplacer.
  * ────────────────────────────────────────────────────────────────────────── */
 
-const FALLBACK_TITLE = "Volley Club Marseillanais — Club de volley à Marseillan";
+const FALLBACK_TITLE = "Volley Club Marseillanais - Club de volley à Marseillan";
 const FALLBACK_TEMPLATE = "%s · Volley Club Marseillanais";
 const FALLBACK_OG_IMAGE = "/og-image.jpg";
 const FALLBACK_FAVICON = "/icon.png";

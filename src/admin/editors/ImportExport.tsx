@@ -83,7 +83,7 @@ export default function ImportExport({
     );
     if (ok) {
       resetAll();
-      onToast("Contenu d'usine chargé — cliquez sur « Publier » pour l'appliquer.");
+      onToast("Contenu d'usine chargé - cliquez sur « Publier » pour l'appliquer.");
     }
   }
 

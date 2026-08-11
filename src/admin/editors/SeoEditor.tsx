@@ -89,7 +89,7 @@ export default function SeoEditor() {
           />
         </Field>
         <Field
-          label="Titre de l'onglet — accueil"
+          label="Titre de l'onglet - accueil"
           htmlFor="seo-defaultTitle"
           hint="Environ 60 caractères maximum pour être affiché en entier par Google."
         >

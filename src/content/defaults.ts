@@ -108,7 +108,7 @@ const text: SiteText = {
     titleLine1: "Joue. Smash.",
     titleLine2: "Gagne.",
     subtitle:
-      "Le volley pour tous, au bord de l'étang de Thau — du Baby Volley dès 3 ans à la compétition.",
+      "Le volley pour tous, au bord de l'étang de Thau - du Baby Volley dès 3 ans à la compétition.",
     locationChip: `${club.address.city} · Étang de Thau`,
     ctaPrimary: "Rejoindre le club",
     ctaSecondary: "Découvrir le club",
@@ -132,7 +132,7 @@ const text: SiteText = {
     kicker: "Nos pratiques",
     title: "Une équipe pour chacun",
     subtitle:
-      "Du baby volley dès 3 ans au sport santé en passant par la compétition et le beach — il y a une place pour vous au VCM.",
+      "Du baby volley dès 3 ans au sport santé en passant par la compétition et le beach - il y a une place pour vous au VCM.",
     cta: "Toutes nos équipes",
     ctaAll: "Voir toutes les équipes",
   },
@@ -140,14 +140,14 @@ const text: SiteText = {
     kicker: "Agenda",
     title: "Les prochains rendez-vous",
     subtitle:
-      "Tournois, événements, journées portes ouvertes — ne manquez rien de la saison VCM.",
+      "Tournois, événements, journées portes ouvertes - ne manquez rien de la saison VCM.",
     cta: "Toutes les actualités",
   },
   gallery: {
     kicker: "Galerie",
     title: "En images",
     subtitle:
-      "Matchs, entraînements, beach, événements — la vie du VCM en photos.",
+      "Matchs, entraînements, beach, événements - la vie du VCM en photos.",
     cta: "Voir la galerie",
   },
   partners: {
@@ -158,7 +158,7 @@ const text: SiteText = {
   join: {
     title: "Prêt à entrer sur le terrain ?",
     subtitle:
-      "Rejoignez le Volley Club Marseillanais — du Baby Volley dès 3 ans à la compétition, pour tous les niveaux, toute l'année.",
+      "Rejoignez le Volley Club Marseillanais - du Baby Volley dès 3 ans à la compétition, pour tous les niveaux, toute l'année.",
     cta: "Rejoindre le club",
     kicker: "Saison 2025–2026",
     ctaSecondary: "Nous contacter",
@@ -263,8 +263,8 @@ const text: SiteText = {
       heroSubtitle:
         "Depuis les premières passes au Gymnase Louis Boudou jusqu'aux plages de Marseillan, une aventure humaine et sportive ancrée dans le cœur de l'Hérault.",
       introParagraphs: [
-        "Tout a commencé avec quelques passionnés déterminés à faire vivre le volley-ball dans ce coin de l'Hérault baigné par l'étang de Thau. Le Volley Club Marseillanais — le VCM — est né de cette conviction simple : le sport, pratiqué dans la convivialité, transforme les individus et soude les communautés.", // [À CONFIRMER]
-        "Dès ses premières saisons, le club a posé ses valeurs : ouverture à tous les âges, exigence sportive et esprit de famille. Les entraînements sous les poutres du Gymnase Louis Boudou résonnaient autant de rires que de smashes — une atmosphère que le club a su préserver au fil des années, même en grandissant.",
+        "Tout a commencé avec quelques passionnés déterminés à faire vivre le volley-ball dans ce coin de l'Hérault baigné par l'étang de Thau. Le Volley Club Marseillanais - le VCM - est né de cette conviction simple : le sport, pratiqué dans la convivialité, transforme les individus et soude les communautés.", // [À CONFIRMER]
+        "Dès ses premières saisons, le club a posé ses valeurs : ouverture à tous les âges, exigence sportive et esprit de famille. Les entraînements sous les poutres du Gymnase Louis Boudou résonnaient autant de rires que de smashes - une atmosphère que le club a su préserver au fil des années, même en grandissant.",
         "Aujourd'hui, le VCM, c'est du Baby Volley dès 3 ans jusqu'à la compétition régionale, un programme Beach Volley sur les plages de Marseillan en partenariat avec le Comité Départemental de l'Hérault, et des créneaux Sport Santé pensés pour le bien-être de toutes et tous. Une diversité qui fait la fierté du club.", // [À CONFIRMER]
         `${club.description} Chaque nouveau licencié qui pousse la porte du gymnase porte en lui la même étincelle que les fondateurs : l'amour du jeu et l'envie de le partager.`,
       ],
@@ -282,13 +282,13 @@ const text: SiteText = {
         "De la fondation du club à aujourd'hui, retour sur les moments clés qui ont forgé l'identité du VCM.",
       visionKicker: "Vision actuelle",
       visionExtra:
-        "Que vous soyez parent cherchant une activité pour votre enfant, adulte souhaitant (re)découvrir le volley en loisir, sportif en quête de compétition ou simplement curieux de bouger dans un cadre bienveillant — le VCM a une place pour vous. Rejoignez-nous !",
+        "Que vous soyez parent cherchant une activité pour votre enfant, adulte souhaitant (re)découvrir le volley en loisir, sportif en quête de compétition ou simplement curieux de bouger dans un cadre bienveillant - le VCM a une place pour vous. Rejoignez-nous !",
     },
     equipes: {
       heroKicker: "Le club",
       heroTitle: "Nos Équipes",
       heroSubtitle:
-        "Du Baby Volley dès 3 ans à la compétition régionale, en passant par le Beach Volley et le Sport Santé — le VCM propose une pratique adaptée à chaque âge, chaque profil et chaque ambition.",
+        "Du Baby Volley dès 3 ans à la compétition régionale, en passant par le Beach Volley et le Sport Santé - le VCM propose une pratique adaptée à chaque âge, chaque profil et chaque ambition.",
       cta: "S'inscrire au club",
       ctaKicker: "Rejoignez l'aventure",
       ctaTitle: "Prêt à jouer ?",
@@ -299,30 +299,30 @@ const text: SiteText = {
       heroKicker: "Le club",
       heroTitle: "Sport Santé & Soft Volley",
       heroSubtitle:
-        "Une pratique accessible, chaleureuse et sans pression — pour prendre soin de soi tout en s'épanouissant collectivement, à tout âge.",
+        "Une pratique accessible, chaleureuse et sans pression - pour prendre soin de soi tout en s'épanouissant collectivement, à tout âge.",
       introTitle: "Le volley autrement",
       introBody: [
         "Le Soft Volley est une version adaptée du volley-ball, jouée avec un ballon plus léger et des règles simplifiées. Une pratique ludique et conviviale, particulièrement adaptée aux personnes non sportives, débutantes ou en reprise d'activité physique.",
-        "Le programme Sport Santé va encore plus loin : conçu pour les personnes souhaitant une activité physique adaptée dans un cadre médical ou de prévention, il est encadré de manière spécifique pour répondre aux besoins de chacun — qu'il s'agisse de rééducation, de maladie chronique ou simplement du désir de bouger avec bienveillance.",
+        "Le programme Sport Santé va encore plus loin : conçu pour les personnes souhaitant une activité physique adaptée dans un cadre médical ou de prévention, il est encadré de manière spécifique pour répondre aux besoins de chacun - qu'il s'agisse de rééducation, de maladie chronique ou simplement du désir de bouger avec bienveillance.",
         "Ici, tous les âges sont bienvenus : il n'existe ni niveau minimum, ni pression de performance. L'objectif ? Se retrouver, bouger et sourire ensemble, au bord de l'étang de Thau.",
       ],
       benefitsHeading: "Les bénéfices",
       inclusionTitle: "Une place pour chacun",
       inclusionBody: [
-        "Au VCM, le Sport Santé et le Soft Volley reposent sur une conviction simple : le sport est fait pour tout le monde. Peu importe l'âge, la condition physique ou le passé sportif — notre programme s'adapte à vous, jamais l'inverse.",
+        "Au VCM, le Sport Santé et le Soft Volley reposent sur une conviction simple : le sport est fait pour tout le monde. Peu importe l'âge, la condition physique ou le passé sportif - notre programme s'adapte à vous, jamais l'inverse.",
         "Les séances sont encadrées par des animateurs formés à l'activité physique adaptée (APA), en partenariat avec des professionnels de santé quand la situation le nécessite. Les règles sont simplifiées, le ballon plus léger, et l'ambiance reste celle que le VCM cultive depuis toujours : chaleureuse, inclusive et sans jugement.",
-        "Que vous soyez en rééducation, atteint d'une maladie chronique, en reprise après une longue période d'inactivité ou simplement curieux de bouger différemment — venez tel que vous êtes.",
+        "Que vous soyez en rééducation, atteint d'une maladie chronique, en reprise après une longue période d'inactivité ou simplement curieux de bouger différemment - venez tel que vous êtes.",
       ],
       cta: "S'inscrire",
       introKicker: "Le volley pour tous",
       benefitsKicker: "Ce que vous y gagnez",
       benefitsIntro:
-        "Sport Santé et Soft Volley ne se contentent pas d'entretenir le corps — ils nourrissent aussi l'esprit et le lien humain.",
+        "Sport Santé et Soft Volley ne se contentent pas d'entretenir le corps - ils nourrissent aussi l'esprit et le lien humain.",
       inclusionKicker: "Accessibilité & inclusion",
       ctaKicker: "Venez essayer",
       ctaTitle: "Prêt à bouger ?",
       ctaBody:
-        "Une séance d'essai gratuite vous attend. Pas besoin d'équipement particulier — juste l'envie de vous faire du bien. Contactez-nous pour planifier votre première visite au Gymnase Louis Boudou de Marseillan.",
+        "Une séance d'essai gratuite vous attend. Pas besoin d'équipement particulier - juste l'envie de vous faire du bien. Contactez-nous pour planifier votre première visite au Gymnase Louis Boudou de Marseillan.",
       ctaSecondary: "Nous contacter",
       benefits: [
         {
@@ -359,7 +359,7 @@ const text: SiteText = {
       heroKicker: "Rejoindre",
       heroTitle: "Inscriptions",
       heroSubtitle:
-        "Rejoindre le VCM en quatre étapes simples. Séance d'essai gratuite pour tous — du Baby Volley au Sport Santé, il y a une place pour vous.",
+        "Rejoindre le VCM en quatre étapes simples. Séance d'essai gratuite pour tous - du Baby Volley au Sport Santé, il y a une place pour vous.",
       stepsHeading: "Comment rejoindre le club",
       documentsHeading: "Documents nécessaires",
       linksHeading: "Liens utiles",
@@ -411,7 +411,7 @@ const text: SiteText = {
         {
           title: "Choisir sa pratique",
           description:
-            "Baby Volley, Pôle Jeunes, Loisir, Compétition, Sport Santé, Soft Volley ou Beach Volley — choisissez la pratique et le créneau qui vous correspond. Nous vous guiderons selon votre profil et vos disponibilités.",
+            "Baby Volley, Pôle Jeunes, Loisir, Compétition, Sport Santé, Soft Volley ou Beach Volley - choisissez la pratique et le créneau qui vous correspond. Nous vous guiderons selon votre profil et vos disponibilités.",
         },
         {
           title: "Régler la cotisation",
@@ -443,7 +443,7 @@ const text: SiteText = {
       heroKicker: "Le club",
       heroTitle: "Nos Partenaires",
       heroSubtitle:
-        "Grâce à l'engagement de nos partenaires et institutions, le Volley Club Marseillanais peut offrir à tous — enfants, adultes, sportifs confirmés — un cadre de pratique de qualité au bord de l'étang de Thau.",
+        "Grâce à l'engagement de nos partenaires et institutions, le Volley Club Marseillanais peut offrir à tous - enfants, adultes, sportifs confirmés - un cadre de pratique de qualité au bord de l'étang de Thau.",
       wallHeading: "Le VCM s'appuie sur vous",
       becomeTitle: "Devenez partenaire du VCM",
       becomeBody: [
@@ -485,7 +485,7 @@ const text: SiteText = {
         },
         {
           title: "Audience qualifiée",
-          text: "Accès à une communauté de licenciés, familles et supporters — un public local, familial et engagé, fidèle à son club.",
+          text: "Accès à une communauté de licenciés, familles et supporters - un public local, familial et engagé, fidèle à son club.",
         },
         {
           title: "Logo sur les équipements",
@@ -551,10 +551,10 @@ const text: SiteText = {
 
 const seo: SeoSettings = {
   siteName: club.name,
-  defaultTitle: "Volley Club Marseillanais — Club de volley à Marseillan",
+  defaultTitle: "Volley Club Marseillanais - Club de volley à Marseillan",
   titleTemplate: "%s · Volley Club Marseillanais",
   description:
-    "Club de volley-ball convivial et compétitif à Marseillan, au bord de l'étang de Thau. Baby volley dès 3 ans, jeunes, loisir, compétition, beach volley et sport santé — toutes les pratiques, tous les âges.",
+    "Club de volley-ball convivial et compétitif à Marseillan, au bord de l'étang de Thau. Baby volley dès 3 ans, jeunes, loisir, compétition, beach volley et sport santé - toutes les pratiques, tous les âges.",
   keywords: [
     "volley club Marseillan",
     "VCM volleyball",
@@ -572,7 +572,7 @@ const seo: SeoSettings = {
   appleIcon: "/apple-icon.png",
   pages: {
     home: {
-      title: "Volley Club Marseillanais — Club de volley à Marseillan",
+      title: "Volley Club Marseillanais - Club de volley à Marseillan",
       description:
         "Le Volley Club Marseillanais réunit passionnés et compétiteurs à Marseillan. Découvrez nos équipes, nos événements, notre galerie et rejoignez le club.",
     },

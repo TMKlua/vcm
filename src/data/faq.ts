@@ -4,7 +4,7 @@ export const faq: FaqItem[] = [
   {
     question: "Comment s'inscrire au Volley Club Marseillanais ?",
     answer:
-      "Pour vous inscrire, contactez le club par email à volleymarseillan@gmail.com ou par téléphone au 06 81 82 26 60. Vous pouvez également passer directement au Gymnase Louis Boudou lors des entraînements (lundis et mercredis) ou vous rendre sur notre site clubeo pour les démarches en ligne.",
+      "Pour vous inscrire, contactez le club par email à volleymarseillan@gmail.com ou par téléphone au 06 81 82 26 60. Vous pouvez également passer directement au Gymnase Louis Boudou lors des entraînements (lundis et mercredis), ou télécharger le dossier d'inscription sur le Google Drive du club.",
   },
   {
     question: "Quels documents sont nécessaires pour l'inscription ?",

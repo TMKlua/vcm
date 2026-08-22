@@ -213,13 +213,6 @@ export default function ClubEditor() {
               onChange={(e) => update("club.socials.website", e.target.value)}
             />
           </Field>
-          <Field label="Clubeo" htmlFor="club-clubeo">
-            <TextInput
-              id="club-clubeo"
-              value={club.socials.clubeo ?? ""}
-              onChange={(e) => update("club.socials.clubeo", e.target.value)}
-            />
-          </Field>
         </div>
       </Card>
     </div>

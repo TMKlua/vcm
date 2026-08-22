@@ -23,8 +23,7 @@
     "socials": {
       "facebook": "https://www.facebook.com/volleyclub.marseillanais/",
       "instagram": "https://www.instagram.com/volleyclubmarseillanais/",
-      "website": "https://www.volleymarseillan.com/",
-      "clubeo": "https://vcm-volley-club-marseillanais.clubeo.com/"
+      "website": "https://www.volleymarseillan.com/"
     }
   },
   "stats": [
@@ -416,7 +415,7 @@
   "faq": [
     {
       "question": "Comment s'inscrire au Volley Club Marseillanais ?",
-      "answer": "Pour vous inscrire, contactez le club par email à volleymarseillan@gmail.com ou par téléphone au 06 81 82 26 60. Vous pouvez également passer directement au Gymnase Louis Boudou lors des entraînements (lundis et mercredis) ou vous rendre sur notre site clubeo pour les démarches en ligne."
+      "answer": "Pour vous inscrire, contactez le club par email à volleymarseillan@gmail.com ou par téléphone au 06 81 82 26 60. Vous pouvez également passer directement au Gymnase Louis Boudou lors des entraînements (lundis et mercredis), ou télécharger le dossier d'inscription sur le Google Drive du club."
     },
     {
       "question": "Quels documents sont nécessaires pour l'inscription ?",
@@ -566,7 +565,6 @@
       "megaMenuTitle": "Rejoignez le club",
       "megaMenuText": "Du Baby Volley à la compétition, une place pour chacun.",
       "megaMenuCta": "S'inscrire",
-      "clubeoLabel": "Clubeo",
       "skipLink": "Aller au contenu",
       "mapDirections": "Itinéraire",
       "newsFeatured": "À la une",
@@ -702,9 +700,6 @@
         "tipBody": "Une séance d'essai gratuite est proposée à tous les nouveaux membres. C'est l'occasion parfaite de découvrir l'ambiance du club avant de vous engager.",
         "linksKicker": "Plateformes",
         "linksIntro": "Toutes les ressources pour préparer votre inscription et rester connecté à la vie du club.",
-        "clubeoTitle": "Espace club (Clubeo)",
-        "clubeoBody": "Inscriptions en ligne, actualités et documents sur la plateforme officielle du VCM.",
-        "clubeoCta": "Accéder au Clubeo",
         "licenceTitle": "Licence FFVolley",
         "licenceBody": "Renseignements sur la licence fédérale, les catégories et les formulaires officiels.",
         "contactCta": "Contacter le club",
@@ -753,7 +748,11 @@
             "label": "Autorisation parentale (pour les mineurs)",
             "note": ""
           }
-        ]
+        ],
+        "dossierTitle": "Dossier d'inscription",
+        "dossierBody": "Tous les formulaires à télécharger, à remplir puis à remettre au club.",
+        "dossierCta": "Télécharger le dossier",
+        "dossierUrl": "https://drive.google.com/drive/folders/1EI80_lDsRrtzG7OWjuZfKqTUWJCUFuWC"
       },
       "partenaires": {
         "heroKicker": "Le club",

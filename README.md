@@ -139,7 +139,7 @@ grep -rn "À CONFIRMER" src
 - **`src/data/news.ts`** — Contenu des articles (certains sont rédigés à titre d'exemple).
 - **`src/data/events.ts`** — Dates, lieux et descriptions des événements.
 - **`src/app/inscriptions/page.tsx`** — Tarifs, modalités de règlement, procédure d'inscription.
-- **`src/app/histoire/page.tsx`** — Texte historique (année de création 1996, etc.).
+- **`src/app/histoire/page.tsx`** — Texte historique (année de création 1992, etc.).
 - **`src/app/partenaires/page.tsx`** — Détail des offres de partenariat.
 - **Lien FFVolley** (`src/app/inscriptions/page.tsx`) — Vérifier l'URL de la plateforme de licence FFVolley.
 

@@ -209,19 +209,6 @@ export default function ContactQuick() {
                     <InstagramIcon className="size-4" />
                   </a>
                 )}
-
-                {/* Clubeo */}
-                {club.socials.clubeo && (
-                  <a
-                    href={club.socials.clubeo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="VCM sur Clubeo (nouvel onglet)"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white/70 transition-all duration-200 hover:border-fuchsia-vcm/40 hover:bg-fuchsia-vcm/10 hover:text-fuchsia-vcm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-                  >
-                    {text.ui?.clubeoLabel ?? "Clubeo"}
-                  </a>
-                )}
               </div>
             </Reveal>
 

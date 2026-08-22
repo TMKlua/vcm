@@ -20,7 +20,7 @@ export interface ClubInfo {
   contact: { person: string; phone: string; email: string };
   schedule: string;
   logo?: string;
-  socials: { facebook?: string; instagram?: string; website?: string; clubeo?: string };
+  socials: { facebook?: string; instagram?: string; website?: string };
 }
 
 export interface Stat { value: number; suffix?: string; label: string }

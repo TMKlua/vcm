@@ -178,7 +178,7 @@ const text: SiteText = {
     aboutLine: `${club.name}, au bord de l'étang de Thau.`,
     contactPersonLabel: "Contact",
   },
-  marquee: ["VOLLEY", "CLUB", "MARSEILLANAIS", "ÉTANG DE THAU", "DEPUIS 1996"],
+  marquee: ["VOLLEY", "CLUB", "MARSEILLANAIS", "ÉTANG DE THAU", "DEPUIS 1992"],
   nav: {
     home: "Accueil",
     club: "Le Club",
@@ -204,7 +204,6 @@ const text: SiteText = {
     megaMenuTitle: "Rejoignez le club",
     megaMenuText: "Du Baby Volley à la compétition, une place pour chacun.",
     megaMenuCta: "S'inscrire",
-    clubeoLabel: "Clubeo",
     skipLink: "Aller au contenu",
     mapDirections: "Itinéraire",
     newsFeatured: "À la une",
@@ -275,7 +274,7 @@ const text: SiteText = {
       cta: "Rejoindre l'aventure",
       image: "/images/gallery/2.jpg",
       imageCaption: `${club.address.city} · ${club.address.venue}`,
-      introBadge: "Depuis 1996", // [À CONFIRMER]
+      introBadge: "Depuis 1992",
       introKicker: "Nés au bord de l'étang de Thau",
       timelineKicker: "Chronologie",
       timelineSubtitle:
@@ -381,10 +380,12 @@ const text: SiteText = {
       linksKicker: "Plateformes",
       linksIntro:
         "Toutes les ressources pour préparer votre inscription et rester connecté à la vie du club.",
-      clubeoTitle: "Espace club (Clubeo)",
-      clubeoBody:
-        "Inscriptions en ligne, actualités et documents sur la plateforme officielle du VCM.",
-      clubeoCta: "Accéder au Clubeo",
+      dossierTitle: "Dossier d'inscription",
+      dossierBody:
+        "Tous les formulaires à télécharger, à remplir puis à remettre au club.",
+      dossierCta: "Télécharger le dossier",
+      dossierUrl:
+        "https://drive.google.com/drive/folders/1EI80_lDsRrtzG7OWjuZfKqTUWJCUFuWC",
       licenceTitle: "Licence FFVolley",
       licenceBody:
         "Renseignements sur la licence fédérale, les catégories et les formulaires officiels.",

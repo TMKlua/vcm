@@ -51,6 +51,15 @@ const fallbackSteps = [
   },
 ];
 
+/**
+ * Dossier d'inscription du club, hébergé sur Google Drive.
+ *
+ * Repli seulement : l'adresse est éditable depuis /admin
+ * (`text.pages.inscriptions.dossierUrl`).
+ */
+const DEFAULT_DOSSIER_URL =
+  "https://drive.google.com/drive/folders/1EI80_lDsRrtzG7OWjuZfKqTUWJCUFuWC";
+
 const fallbackDocuments = [
   {
     label: "Certificat médical de non contre-indication à la pratique du volley-ball",
@@ -84,6 +93,7 @@ export default function InscriptionsView() {
   // Étapes et documents éditables ; repli sur les listes livrées avec le site.
   const stepItems = t.steps?.length ? t.steps : fallbackSteps;
   const documentItems = t.documents?.length ? t.documents : fallbackDocuments;
+  const dossierUrl = t.dossierUrl?.trim() || DEFAULT_DOSSIER_URL;
 
   return (
     <>
@@ -334,7 +344,7 @@ export default function InscriptionsView() {
         {/* Link cards */}
         <StaggerGroup className="grid grid-cols-1 gap-5 sm:grid-cols-3">
 
-          {/* Clubeo */}
+          {/* Dossier d'inscription — Google Drive */}
           <StaggerItem>
             <div className="group relative flex flex-col gap-5 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-7 transition-all duration-300 hover:border-violet-500/30 hover:bg-violet-700/[0.06]">
               <div className="flex size-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-violet-700/30 to-fuchsia-vcm/20">
@@ -342,18 +352,18 @@ export default function InscriptionsView() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <h3 className="font-display text-base leading-tight text-white">
-                  {t.clubeoTitle ?? "Espace club (Clubeo)"}
+                  {t.dossierTitle ?? "Dossier d'inscription"}
                 </h3>
                 <p className="text-sm leading-relaxed text-white/70">
-                  {t.clubeoBody ??
-                    "Inscriptions en ligne, actualités et documents sur la plateforme officielle du VCM."}
+                  {t.dossierBody ??
+                    "Tous les formulaires à télécharger, à remplir puis à remettre au club."}
                 </p>
               </div>
               <MagneticButton
-                href={club.socials.clubeo!}
+                href={dossierUrl}
                 className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-fuchsia-vcm transition-colors hover:text-white"
               >
-                {t.clubeoCta ?? "Accéder au Clubeo"}
+                {t.dossierCta ?? "Télécharger le dossier"}
                 <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
               </MagneticButton>
               <div
@@ -532,7 +542,7 @@ export default function InscriptionsView() {
             <Reveal delay={0.28}>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <MagneticButton
-                  href={club.socials.clubeo!}
+                  href={dossierUrl}
                   className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-violet-700 via-magenta to-fuchsia-vcm px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white shadow-xl shadow-magenta/35 transition-shadow duration-300 hover:shadow-magenta/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 focus-visible:ring-offset-2 focus-visible:ring-offset-night"
                 >
                   {t.cta}

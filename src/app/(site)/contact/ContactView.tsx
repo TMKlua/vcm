@@ -253,18 +253,6 @@ export default function ContactView() {
                     <Globe className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" aria-hidden />
                     {content.text.ui?.socialWebsite ?? "Site officiel"}
                   </a>
-
-                  {/* Clubeo */}
-                  <a
-                    href={socials.clubeo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Page Clubeo du Volley Club Marseillanais"
-                    className="group flex items-center gap-2 rounded-xl border border-white/10 bg-night/60 px-4 py-2.5 text-xs font-medium text-white/60 transition-all duration-200 hover:border-violet-500/40 hover:bg-violet-700/15 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60"
-                  >
-                    <Globe className="size-4 text-white/50 group-hover:text-fuchsia-vcm transition-colors" aria-hidden />
-                    {content.text.ui?.clubeoLabel ?? "Clubeo"}
-                  </a>
                 </div>
               </div>
             </Reveal>

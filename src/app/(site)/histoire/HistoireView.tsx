@@ -44,7 +44,7 @@ export default function HistoireView() {
                   className="h-px w-8 bg-gradient-to-r from-violet-700 to-fuchsia-vcm"
                 />
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-fuchsia-vcm">
-                  {t.introBadge ?? "Depuis 1996"}
+                  {t.introBadge ?? "Depuis 1992"}
                 </span>
               </div>
             </Reveal>

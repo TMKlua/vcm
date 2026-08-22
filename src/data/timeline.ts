@@ -2,7 +2,7 @@ import type { TimelineEntry } from "@/types";
 
 export const timeline: TimelineEntry[] = [
   {
-    year: "1996", // [À CONFIRMER]
+    year: "1992",
     title: "Création du Volley Club Marseillanais",
     description:
       "Fondé par des passionnés de volley-ball de la région de Marseillan, le VCM voit le jour avec la volonté de faire vivre ce sport au cœur de l'Hérault, au bord de l'étang de Thau. Les premiers entraînements se tiennent au Gymnase Louis Boudou.", // [À CONFIRMER]

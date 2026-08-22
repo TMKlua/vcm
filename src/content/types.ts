@@ -265,8 +265,6 @@ export interface SiteText {
     megaMenuTitle?: string;
     megaMenuText?: string;
     megaMenuCta?: string;
-    /** Libellé du lien Clubeo. */
-    clubeoLabel?: string;
     /** Lien d'évitement en haut de page. */
     skipLink?: string;
     /** Bouton d'itinéraire sous la carte. */
@@ -347,7 +345,7 @@ export interface SiteText {
       image?: string;
       /** Badge posé sur la photo (ex. « Marseillan · Gymnase … »). */
       imageCaption?: string;
-      /** Pastille au-dessus du titre d'intro (ex. « Depuis 1996 »). */
+      /** Pastille au-dessus du titre d'intro (ex. « Depuis 1992 »). */
       introBadge?: string;
       introKicker?: string;
       timelineKicker?: string;
@@ -420,9 +418,12 @@ export interface SiteText {
       tipBody?: string;
       linksKicker?: string;
       linksIntro?: string;
-      clubeoTitle?: string;
-      clubeoBody?: string;
-      clubeoCta?: string;
+      /** Carte « Dossier d'inscription » du bloc Liens utiles. */
+      dossierTitle?: string;
+      dossierBody?: string;
+      dossierCta?: string;
+      /** Adresse du dossier d'inscription (dossier Google Drive du club). */
+      dossierUrl?: string;
       licenceTitle?: string;
       licenceBody?: string;
       contactCta?: string;

@@ -30,7 +30,7 @@ const DEFAULT_ITEMS = [
   "CLUB",
   "MARSEILLANAIS",
   "ÉTANG DE THAU",
-  "DEPUIS 1996",
+  "DEPUIS 1992",
 ];
 
 /** One row of words separated by a volleyball icon. Rendered multiple times to loop. */

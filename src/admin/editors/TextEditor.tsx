@@ -458,7 +458,6 @@ export default function TextEditor() {
         <Str path="text.ui.socialFacebook" label="Bouton Facebook" value={t.ui?.socialFacebook ?? ""} update={update} />
         <Str path="text.ui.socialInstagram" label="Bouton Instagram" value={t.ui?.socialInstagram ?? ""} update={update} />
         <Str path="text.ui.socialWebsite" label="Bouton site officiel" value={t.ui?.socialWebsite ?? ""} update={update} />
-        <Str path="text.ui.clubeoLabel" label="Bouton Clubeo" value={t.ui?.clubeoLabel ?? ""} update={update} />
       </Accordion>
 
       <Accordion title="Formulaire de contact">
@@ -608,9 +607,10 @@ export default function TextEditor() {
         <Multi path="text.pages.inscriptions.tipBody" label="Encart essai - texte" value={t.pages.inscriptions.tipBody ?? ""} update={update} />
         <Str path="text.pages.inscriptions.linksKicker" label="Kicker liens" value={t.pages.inscriptions.linksKicker ?? ""} update={update} />
         <Multi path="text.pages.inscriptions.linksIntro" label="Intro liens" value={t.pages.inscriptions.linksIntro ?? ""} update={update} />
-        <Str path="text.pages.inscriptions.clubeoTitle" label="Carte Clubeo - titre" value={t.pages.inscriptions.clubeoTitle ?? ""} update={update} />
-        <Multi path="text.pages.inscriptions.clubeoBody" label="Carte Clubeo - texte" value={t.pages.inscriptions.clubeoBody ?? ""} update={update} />
-        <Str path="text.pages.inscriptions.clubeoCta" label="Carte Clubeo - lien" value={t.pages.inscriptions.clubeoCta ?? ""} update={update} />
+        <Str path="text.pages.inscriptions.dossierTitle" label="Carte dossier - titre" value={t.pages.inscriptions.dossierTitle ?? ""} update={update} />
+        <Multi path="text.pages.inscriptions.dossierBody" label="Carte dossier - texte" value={t.pages.inscriptions.dossierBody ?? ""} update={update} />
+        <Str path="text.pages.inscriptions.dossierCta" label="Carte dossier - lien" value={t.pages.inscriptions.dossierCta ?? ""} update={update} />
+        <Str path="text.pages.inscriptions.dossierUrl" label="Carte dossier - adresse (Google Drive)" value={t.pages.inscriptions.dossierUrl ?? ""} update={update} />
         <Str path="text.pages.inscriptions.licenceTitle" label="Carte FFVolley - titre" value={t.pages.inscriptions.licenceTitle ?? ""} update={update} />
         <Multi path="text.pages.inscriptions.licenceBody" label="Carte FFVolley - texte" value={t.pages.inscriptions.licenceBody ?? ""} update={update} />
         <Str path="text.pages.inscriptions.ffvolleyCta" label="Carte FFVolley - lien" value={t.pages.inscriptions.ffvolleyCta ?? ""} update={update} />

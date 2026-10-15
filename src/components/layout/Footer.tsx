@@ -27,6 +27,16 @@ function InstagramGlyph({ className }: { className?: string }) {
   );
 }
 
+/** Symbole THOMAX Studio (losange + triangle doré), pour le crédit du pied de page. */
+function ThomaxMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden className={className}>
+      <rect x="8" y="8" width="16" height="16" rx="1.5" fill="none" stroke="currentColor" strokeWidth={1.8} transform="rotate(45 16 16)" />
+      <path d="M11 18 L16 12 L21 18 Z" fill="#D4AF37" />
+    </svg>
+  );
+}
+
 const FOOTER_TEAM_SLUGS = ["baby-volley", "jeunes", "loisir", "competition", "beach-volley"];
 
 export default function Footer() {
@@ -209,6 +219,22 @@ export default function Footer() {
             >
               {text.footer.legalLabel ?? "Mentions légales"}
             </Link>
+            {(text.footer.legalLabel ?? "Mentions légales") && (
+              <span aria-hidden className="h-3 w-px bg-white/15" />
+            )}
+            <a
+              href="https://www.thomax-studio.fr"
+              target="_blank"
+              rel="noopener"
+              aria-label="Site conçu et développé par THOMAX Studio (nouvel onglet)"
+              className="group inline-flex items-center gap-2 outline-none transition-colors hover:text-white focus-visible:text-fuchsia-vcm"
+            >
+              <span>Conçu par</span>
+              <ThomaxMark className="size-3.5 transition-transform duration-500 group-hover:rotate-90" />
+              <span className="tracking-[0.2em] text-white/80 transition-colors group-hover:text-white">
+                THOMAX <span className="text-white/60 group-hover:text-white/80">STUDIO</span>
+              </span>
+            </a>
           </div>
         </div>
       </div>

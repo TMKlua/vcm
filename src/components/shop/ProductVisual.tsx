@@ -136,7 +136,7 @@ export default function ProductVisual({
         }}
       >
         <Flocage name={flocage?.name} number={flocage?.number} ink={color.ink} spot={spot} dark={isDark(color.hex)} />
-        <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/30 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur">
+        <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white/85">
           Aperçu du marquage au dos
         </span>
       </div>

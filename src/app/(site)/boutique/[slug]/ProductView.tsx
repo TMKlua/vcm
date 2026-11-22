@@ -171,7 +171,7 @@ export default function ProductView({ slug }: { slug: string }) {
                   </span>
                 )}
                 {canFlip && (
-                  <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 rounded-full border border-white/15 bg-ink/70 p-1 backdrop-blur" role="group" aria-label="Vue de l'article">
+                  <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 rounded-full border border-white/15 bg-ink/90 p-1" role="group" aria-label="Vue de l'article">
                     {(["front", "back"] as const).map((v) => (
                       <button
                         key={v}

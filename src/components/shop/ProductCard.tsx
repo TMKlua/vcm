@@ -92,7 +92,7 @@ export default function ProductCard({ product }: { product: Product }) {
             {needsChoice ? (
               <Link
                 href={`/boutique/${product.slug}`}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-white/90 px-4 py-3 text-xs font-bold uppercase tracking-wide text-encre backdrop-blur outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-white/95 px-4 py-3 text-xs font-bold uppercase tracking-wide text-encre outline-none transition-colors hover:bg-white focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
               >
                 Choisir ma taille
                 <ArrowUpRight className="size-4" aria-hidden />

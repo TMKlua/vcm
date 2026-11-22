@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
   AnimatePresence,
@@ -37,6 +37,24 @@ import { CATEGORIES, ORDER_CONTACT, ORDER_DEADLINE, products, type ShopCategory 
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/**
+ * Vrai sur ordinateur (souris), faux sur téléphone et tablette. Les effets
+ * continus du hero (lévitation, halo qui pulse, parallaxe) ne tournent que
+ * sur ordinateur : sur iPhone ils saturaient l'affichage.
+ */
+const FINE = "(hover: hover) and (pointer: fine)";
+function useFinePointer(): boolean {
+  return useSyncExternalStore(
+    (cb) => {
+      const m = window.matchMedia(FINE);
+      m.addEventListener("change", cb);
+      return () => m.removeEventListener("change", cb);
+    },
+    () => window.matchMedia(FINE).matches,
+    () => false,
+  );
+}
+
 type Sort = "featured" | "asc" | "desc";
 
 /** Kicker maison : trait dégradé + petites capitales fuchsia. */
@@ -69,7 +87,9 @@ function FloatingItem({
   mx: ReturnType<typeof useSpring>;
   my: ReturnType<typeof useSpring>;
 }) {
-  const reduce = useReducedMotion();
+  const fine = useFinePointer();
+  const reducedMotion = useReducedMotion();
+  const reduce = !fine || Boolean(reducedMotion);
   const x = useTransform(mx, (v) => v * item.depth);
   const y = useTransform(my, (v) => v * item.depth);
   return (
@@ -91,9 +111,11 @@ function FloatingItem({
               }
         }
       >
-        <Link href={`/boutique/${item.slug}`} tabIndex={-1} aria-hidden className="block drop-shadow-[0_30px_40px_rgba(0,0,0,0.6)]">
+        {/* Ombre en box-shadow (dessinée une fois) et non en filtre drop-shadow,
+            que le navigateur recalculait à chaque image de l'animation. */}
+        <Link href={`/boutique/${item.slug}`} tabIndex={-1} aria-hidden className="block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={item.src} alt="" className="aspect-[4/5] w-full rounded-2xl border-4 border-white/90 object-cover" />
+          <img src={item.src} alt="" decoding="async" className="aspect-[4/5] w-full rounded-2xl border-4 border-white/90 object-cover shadow-[0_30px_40px_-10px_rgba(0,0,0,0.6)]" />
         </Link>
       </motion.div>
     </motion.div>
@@ -101,7 +123,9 @@ function FloatingItem({
 }
 
 function ShopHero({ breadcrumbLabel, homeLabel }: { breadcrumbLabel: string; homeLabel: string }) {
-  const reduce = useReducedMotion();
+  const fine = useFinePointer();
+  const reducedMotion = useReducedMotion();
+  const reduce = !fine || Boolean(reducedMotion);
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
   const mx = useSpring(rawX, { stiffness: 60, damping: 18 });
@@ -201,7 +225,7 @@ function ShopHero({ breadcrumbLabel, homeLabel }: { breadcrumbLabel: string; hom
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1, duration: 0.6, ease: EASE }}
-            className="absolute right-[4%] top-[6%] z-40 rotate-6 rounded-2xl border border-white/15 bg-night/80 px-4 py-3 text-center backdrop-blur-md"
+            className="absolute right-[4%] top-[6%] z-40 rotate-6 rounded-2xl border border-white/15 bg-night/95 px-4 py-3 text-center"
           >
             <p className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-fuchsia-vcm">Commandes avant le</p>
             <p className="font-display text-2xl text-white">{ORDER_DEADLINE}</p>
@@ -246,7 +270,7 @@ function Catalogue() {
       </div>
 
       {/* Barre de filtres collante */}
-      <div className="sticky top-[7.25rem] z-20 -mx-2 mb-10 rounded-full border border-white/10 bg-night/80 p-1.5 backdrop-blur-xl sm:mx-0">
+      <div className="sticky top-[7.25rem] z-20 -mx-2 mb-10 rounded-full border border-white/10 bg-night/95 p-1.5 sm:mx-0 lg:bg-night/80 lg:backdrop-blur-xl">
         <div className="flex items-center gap-2">
           <div className="flex flex-1 gap-1 overflow-x-auto [scrollbar-width:none]" role="tablist" aria-label="Rayons de la boutique">
             {CATEGORIES.map((c) => {

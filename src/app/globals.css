@@ -40,3 +40,27 @@ h1, h2, h3, .font-display {
     scroll-behavior: auto !important;
   }
 }
+
+/* Guirlande de Noël (components/seasonal/ChristmasTheme.tsx) : ampoules qui scintillent. */
+@keyframes vcm-twinkle {
+  0%, 100% { opacity: 1; filter: brightness(1.15); }
+  50% { opacity: 0.35; filter: brightness(0.7); }
+}
+.vcm-bulb {
+  animation: vcm-twinkle 2.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vcm-bulb { animation: none; }
+}
+
+/* Boules suspendues et bonnet de Noël : balancement doux. */
+@keyframes vcm-swing {
+  0%, 100% { rotate: -7deg; }
+  50% { rotate: 7deg; }
+}
+.vcm-swing {
+  animation: vcm-swing 3.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vcm-swing { animation: none; }
+}

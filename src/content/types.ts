@@ -99,6 +99,7 @@ export interface NavLabels {
   actualites?: string;
   galerie?: string;
   partenaires?: string;
+  boutique?: string;
   inscriptions?: string;
   contact?: string;
 }
@@ -141,6 +142,7 @@ export interface SeoSettings {
     sportSante?: SeoPageMeta;
     inscriptions?: SeoPageMeta;
     partenaires?: SeoPageMeta;
+    boutique?: SeoPageMeta;
     galerie?: SeoPageMeta;
     actualites?: SeoPageMeta;
     contact?: SeoPageMeta;

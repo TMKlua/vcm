@@ -4,6 +4,7 @@ import ScrollProgress from "@/components/layout/ScrollProgress";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/ui/SkipLink";
+import ChristmasTheme from "@/components/seasonal/ChristmasTheme";
 
 /**
  * Public site chrome.
@@ -24,6 +25,8 @@ export default function SiteLayout({
       <SkipLink />
       <Loader />
       <ScrollProgress />
+      {/* Habillage saisonnier (neige, guirlande) : réglage dans src/data/seasonal.ts */}
+      <ChristmasTheme />
       <SmoothScroll>
         <Navbar />
         <main id="contenu" tabIndex={-1} className="outline-none">

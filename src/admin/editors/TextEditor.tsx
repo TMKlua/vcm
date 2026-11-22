@@ -398,6 +398,7 @@ export default function TextEditor() {
         <Str path="text.nav.actualites" label="Actualités" value={t.nav?.actualites ?? ""} update={update} />
         <Str path="text.nav.galerie" label="Galerie" value={t.nav?.galerie ?? ""} update={update} />
         <Str path="text.nav.partenaires" label="Partenaires" value={t.nav?.partenaires ?? ""} update={update} />
+        <Str path="text.nav.boutique" label="Boutique" value={t.nav?.boutique ?? ""} update={update} />
         <Str path="text.nav.inscriptions" label="Inscriptions" value={t.nav?.inscriptions ?? ""} update={update} />
         <Str path="text.nav.contact" label="Contact" value={t.nav?.contact ?? ""} update={update} />
       </Accordion>

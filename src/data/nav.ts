@@ -22,6 +22,7 @@ export const navLinks: NavLink[] = [
   { key: "actualites", label: "Actualités", href: "/actualites" },
   { key: "galerie", label: "Galerie", href: "/galerie" },
   { key: "partenaires", label: "Partenaires", href: "/partenaires" },
+  { key: "boutique", label: "Boutique", href: "/boutique" },
   { key: "inscriptions", label: "Inscriptions", href: "/inscriptions" },
   { key: "contact", label: "Contact", href: "/contact" },
 ];

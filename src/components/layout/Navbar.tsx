@@ -7,7 +7,7 @@ import {
   AnimatePresence,
   motion,
   useMotionValueEvent,
-  useReducedMotion,
+ 
   useScroll,
 } from "framer-motion";
 import { ChevronDown, Menu } from "lucide-react";
@@ -15,6 +15,7 @@ import { useNavLinks } from "@/data/useNavLinks";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
 import BrandLogo from "./BrandLogo";
+import { SantaHat } from "@/components/seasonal/ChristmasTheme";
 import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 import type { NavLink as NavLinkType } from "@/types";
@@ -44,7 +45,10 @@ function Logo({
       aria-label={`${clubName} - accueil`}
       className="group flex shrink-0 items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70"
     >
-      <BrandLogo className="size-16 transition-transform duration-300 group-hover:scale-105" />
+      <span className="relative shrink-0">
+        <BrandLogo className="size-16 transition-transform duration-300 group-hover:scale-105" />
+        <SantaHat size={64} />
+      </span>
       <span className="font-display text-xl uppercase leading-none tracking-tight text-white">
         {wordmark}
       </span>
@@ -57,7 +61,6 @@ export default function Navbar() {
   const { club, teams, text } = content;
   const navLinks = useNavLinks();
   const pathname = usePathname();
-  const reduce = useReducedMotion();
   const { scrollY } = useScroll();
 
   const [scrolled, setScrolled] = useState(false);
@@ -106,29 +109,22 @@ export default function Navbar() {
       <motion.header
         initial={false}
         className="fixed inset-x-0 top-0 z-40 flex justify-center"
-        animate={reduce ? undefined : { paddingTop: scrolled ? 12 : 0 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        style={reduce ? { paddingTop: scrolled ? 12 : 0 } : undefined}
+        style={{ paddingTop: 12 }}
       >
         <motion.div
           initial={false}
           animate={{
-            maxWidth: scrolled ? 1120 : 1400,
-            backgroundColor: scrolled
-              ? "rgba(21, 8, 46, 0.7)"
-              : "rgba(21, 8, 46, 0)",
-            borderColor: scrolled
-              ? "rgba(255,255,255,0.10)"
-              : "rgba(255,255,255,0)",
-            borderRadius: scrolled ? 9999 : 0,
-            boxShadow: scrolled
-              ? "0 12px 40px -12px rgba(0,0,0,0.6)"
-              : "0 0px 0px 0px rgba(0,0,0,0)",
+            // 1200 et non plus 1120 : avec l'onglet Boutique, « Le Club » passait sur deux lignes.
+            maxWidth: scrolled ? 1200 : 1400,
+            // Pilule dès le haut de page (fond, bordure, coins arrondis) :
+            // seule la largeur change au défilement.
+            backgroundColor: "rgba(21, 8, 46, 0.7)",
+            borderColor: "rgba(255,255,255,0.10)",
+            borderRadius: 9999,
+            boxShadow: "0 12px 40px -12px rgba(0,0,0,0.6)",
           }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className={`mx-3 flex w-full items-center justify-between gap-4 border px-4 py-3 backdrop-blur-xl sm:px-5 lg:mx-4 ${
-            scrolled ? "backdrop-blur-xl" : "backdrop-blur-0"
-          }`}
+          className="mx-3 flex w-full items-center justify-between gap-4 border px-4 py-3 backdrop-blur-xl sm:px-5 lg:mx-4"
         >
           <Logo clubName={club.name} wordmark={club.shortName} />
 
@@ -169,7 +165,7 @@ export default function Navbar() {
                         cancelClose();
                         setOpenMenu(id);
                       }}
-                      className={`group relative flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 ${
+                      className={`group relative flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2 text-[0.8rem] font-medium xl:px-3.5 xl:text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 ${
                         active ? "text-white" : "text-white/70 hover:text-white"
                       }`}
                     >
@@ -213,7 +209,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   aria-current={active ? "page" : undefined}
-                  className={`group relative rounded-full px-3.5 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 ${
+                  className={`group relative whitespace-nowrap rounded-full px-2 py-2 text-[0.8rem] font-medium xl:px-3.5 xl:text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-fuchsia-vcm/70 ${
                     active ? "text-white" : "text-white/70 hover:text-white"
                   }`}
                 >

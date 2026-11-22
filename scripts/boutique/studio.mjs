@@ -36,7 +36,7 @@ const K = 2;
 /** Photos Unsplash utilisées (licence Unsplash : usage commercial libre). */
 export const SOURCES = {
   tee_dos: "r39LjPOTBFg", // tee-shirt noir uni porté, de dos, fond blanc
-  tee_porte: "SeeiNC9snZg", // tee-shirt noir uni porté (fond remplacé par le studio)
+  tee_porte: "sKGxVtKAGx0", // tee-shirt noir uni porté, de face, même studio que le dos
   sweat: "ssjtw8mOJd0", // sweat à capuche violet porté, fond clair
   sweat_dos: "XN6M-7brjEg", // sweat à capuche kaki porté, de dos (recadré, fond remplacé)
   sac: "K6Ea5LNOdbg", // sac à dos noir, studio
@@ -683,9 +683,21 @@ async function main() {
 
   /* Tee-shirt noir porté, face et dos, sur le fond studio (comme le sweat) */
   {
+    // Face : même studio et même photographe que le dos. Le tee-shirt ample
+    // touche les bords : on élargit la toile, le fond studio comble les côtés.
     const worn = await load(src("tee_porte"));
-    const front = onStudio(worn, await cutoutMask("tee_porte", worn), sc({ cx: 845, base: 1e6, rx: 1 }));
-    await save(stamp(front, logo, sc({ cx: 1020, cy: 1215, d: 135, mode: "patch", disp: 6, sx: 0.95 })), box([840, 1420, 1160]), "tee-shirt-personnalisable--noir");
+    const wornMask = await cutoutMask("tee_porte", worn);
+    const pad = 420 * K;
+    const wide = { d: new Float32Array((worn.w + 2 * pad) * worn.h * 3), w: worn.w + 2 * pad, h: worn.h };
+    const wideMask = new Float32Array(wide.w * wide.h);
+    for (let y = 0; y < worn.h; y++) for (let x = 0; x < worn.w; x++) {
+      const i = y * worn.w + x, j = y * wide.w + x + pad;
+      wideMask[j] = wornMask[i];
+      for (let c = 0; c < 3; c++) wide.d[j * 3 + c] = worn.d[i * 3 + c];
+    }
+    const front = onStudio(wide, wideMask, { cx: 0, base: 1e6, rx: 1 });
+    const chest = stamp(front, logo, { ...sc({ cx: 1085 + 420, cy: 640, d: 190, mode: "patch", disp: 6, sx: 0.96 }) });
+    await save(chest, box([810 + 420, 1200, 2360]), "tee-shirt-personnalisable--noir");
     // Dos vierge : le site y incruste en direct le prénom et le numéro saisis
     // (zone réglée dans BACK_PRINT, components/shop/ProductVisual.tsx).
     const back = await load(src("tee_dos"));

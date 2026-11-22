@@ -6,7 +6,7 @@ Les photos de `public/images/boutique/` reproduisent les articles du catalogue e
 |---|---|
 | Sweat à capuche (face, porté) | `ssjtw8mOJd0` |
 | Sweat à capuche (dos, porté, recadré, fond remplacé) | `XN6M-7brjEg` |
-| Tee-shirt porté (face, fond remplacé par le studio) | `SeeiNC9snZg` |
+| Tee-shirt porté (face, même studio que le dos) | `sKGxVtKAGx0` |
 | Tee-shirt porté (dos) | `r39LjPOTBFg` |
 | Sac à dos | `K6Ea5LNOdbg` |
 | Gourde sport (turquoise, passée en blanc) | `5juxThkBbZM` |

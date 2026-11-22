@@ -20,8 +20,13 @@ type Form = { firstName: string; lastName: string; email: string; phone: string;
 
 function validate(f: Form): Partial<Record<keyof Form, string>> {
   const e: Partial<Record<keyof Form, string>> = {};
-  if (!f.firstName.trim()) e.firstName = "Prénom requis";
-  if (!f.lastName.trim()) e.lastName = "Nom requis";
+  // Mêmes règles que HelloAsso, pour prévenir avant la redirection.
+  const name = (v: string, label: string) =>
+    !v.trim() ? `${label} requis` : v.trim().length < 2 ? `${label} trop court` : /\d/.test(v) ? `${label} sans chiffres` : undefined;
+  const fn = name(f.firstName, "Prénom");
+  const ln = name(f.lastName, "Nom");
+  if (fn) e.firstName = fn;
+  if (ln) e.lastName = ln;
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) e.email = "E-mail invalide";
   if (f.phone && !/^[+\d][\d\s.]{8,}$/.test(f.phone)) e.phone = "Téléphone invalide";
   return e;

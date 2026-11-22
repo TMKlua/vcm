@@ -64,7 +64,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, redirectUrl: intent.redirectUrl, id: intent.id });
   } catch (err) {
     console.error("[helloasso] création du paiement impossible", err);
-    const detail = err instanceof HelloAssoError && err.status < 500 ? " Vérifiez vos coordonnées puis réessayez." : "";
-    return NextResponse.json({ error: `Le paiement n'a pas pu être lancé.${detail}` }, { status: 502 });
+    // HelloAsso explique en français ce qui ne va pas (prénom trop court,
+    // chiffres dans le nom, nom fictif comme « Test »…) : on le relaie.
+    const reasons = err instanceof HelloAssoError && err.status === 400 ? payerErrors(err.body) : [];
+    if (reasons.length) return NextResponse.json({ error: reasons.join(" ") }, { status: 400 });
+    return NextResponse.json({ error: "Le paiement n'a pas pu être lancé. Réessayez dans un instant." }, { status: 502 });
+  }
+}
+
+/** Messages de HelloAsso sur les coordonnées, rendus lisibles pour l'acheteur. */
+function payerErrors(body: string): string[] {
+  try {
+    const { errors } = JSON.parse(body) as { errors?: { message?: string }[] };
+    return (errors ?? [])
+      .map((e) => e.message ?? "")
+      .filter((m) => /prénom|nom|e-?mail|mail/i.test(m))
+      .map((m) =>
+        m
+          .replace("Le champ prénom est invalide", "Prénom refusé par HelloAsso : indiquez votre vrai prénom.")
+          .replace("Le champ nom est invalide", "Nom refusé par HelloAsso : indiquez votre vrai nom.")
+          .replace(/([^.])$/, "$1."),
+      );
+  } catch {
+    return [];
   }
 }

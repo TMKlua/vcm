@@ -14,7 +14,7 @@ import Portal from "@/components/shop/Portal";
 import ProductVisual from "@/components/shop/ProductVisual";
 import { useContent } from "@/content/ContentContext";
 import { useNavLabel } from "@/data/useNavLinks";
-import { findProduct, formatPrice, ORDER_CONTACT, ORDER_DEADLINE, products, unitPrice } from "@/data/shop";
+import { findProduct, formatPrice, ORDER_CONTACT, ORDER_DEADLINE, ORDER_DELIVERY, products, unitPrice } from "@/data/shop";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -395,7 +395,7 @@ export default function ProductView({ slug }: { slug: string }) {
                 </motion.button>
               </div>
               <p className="mt-3 text-xs text-white/60">
-                Commandes jusqu&apos;au {ORDER_DEADLINE} · Retrait gratuit au gymnase Louis Boudou · Paiement sécurisé en ligne
+                Commandes jusqu&apos;au {ORDER_DEADLINE} · {ORDER_DELIVERY} · Retrait gratuit au gymnase Louis Boudou · Paiement sécurisé en ligne
               </p>
 
               <div className="mt-10 border-t border-white/10">
@@ -419,7 +419,7 @@ export default function ProductView({ slug }: { slug: string }) {
                   </ul>
                 </Disclosure>
                 <Disclosure title="Retrait et livraison">
-                  Commande groupée du club, ouverte jusqu&apos;au {ORDER_DEADLINE}. Les articles sont remis au complexe
+                  Commande groupée du club, ouverte jusqu&apos;au {ORDER_DEADLINE} pour être livrée avant Noël. Les articles sont remis au complexe
                   sportif Louis Boudou aux heures d&apos;entraînement, ou en main propre par le coach pour les licenciés.
                   Renseignements auprès de {ORDER_CONTACT}.
                 </Disclosure>

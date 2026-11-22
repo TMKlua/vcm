@@ -8,7 +8,7 @@ import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import BlackFridayBanner from "@/components/shop/BlackFridayBanner";
 import { useNavLabel } from "@/data/useNavLinks";
-import { findProduct, formatPrice, ORDER_DEADLINE } from "@/data/shop";
+import { findProduct, formatPrice, ORDER_DEADLINE, ORDER_DELIVERY } from "@/data/shop";
 
 /** Article du moment : mis en vedette, face et dos au survol. */
 const FEATURED = { slug: "sweat-capuche-vcm", color: 1 };
@@ -80,7 +80,7 @@ export default function ShopTeaser() {
             <Reveal delay={0.18}>
               <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-fuchsia-vcm/30 bg-fuchsia-vcm/10 px-4 py-2 text-sm font-medium text-white">
                 <CalendarClock className="size-4 text-fuchsia-vcm" aria-hidden />
-                Commandes jusqu&apos;au {ORDER_DEADLINE}
+                Commandes jusqu&apos;au {ORDER_DEADLINE} · {ORDER_DELIVERY}
               </p>
             </Reveal>
 

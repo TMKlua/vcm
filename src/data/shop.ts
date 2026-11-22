@@ -113,6 +113,8 @@ export const CATEGORIES: { key: ShopCategory | "all"; label: string }[] = [
 
 /** Date limite de commande et contact, d'après le catalogue du club. */
 export const ORDER_DEADLINE = "30/11/2026";
+/** Engagement du club : commande groupée close le 30/11, articles remis avant Noël. */
+export const ORDER_DELIVERY = "Livré avant Noël";
 export const ORDER_CONTACT = "Delphine";
 
 /** Catalogue au prix normal. L'offre en cours s'applique plus bas. */

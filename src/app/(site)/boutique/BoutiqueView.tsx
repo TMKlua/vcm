@@ -33,7 +33,7 @@ import BlackFridayBanner from "@/components/shop/BlackFridayBanner";
 import ProductCard from "@/components/shop/ProductCard";
 import { useContent } from "@/content/ContentContext";
 import { useNavLabel } from "@/data/useNavLinks";
-import { CATEGORIES, ORDER_CONTACT, ORDER_DEADLINE, products, type ShopCategory } from "@/data/shop";
+import { CATEGORIES, ORDER_CONTACT, ORDER_DEADLINE, ORDER_DELIVERY, products, type ShopCategory } from "@/data/shop";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -195,7 +195,7 @@ function ShopHero({ breadcrumbLabel, homeLabel }: { breadcrumbLabel: string; hom
             <ul className="mt-10 grid max-w-xl grid-cols-1 gap-3 text-sm text-white/70 sm:grid-cols-3">
               {[
                 { Icon: ShieldCheck, text: "Paiement en ligne sécurisé" },
-                { Icon: MapPin, text: "Retrait gratuit au gymnase" },
+                { Icon: MapPin, text: `Retrait gratuit · ${ORDER_DELIVERY.toLowerCase()}` },
                 { Icon: CalendarClock, text: `Commandes jusqu'au ${ORDER_DEADLINE}` },
               ].map(({ Icon, text }) => (
                 <li key={text} className="flex items-center gap-2">
@@ -229,6 +229,7 @@ function ShopHero({ breadcrumbLabel, homeLabel }: { breadcrumbLabel: string; hom
           >
             <p className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-fuchsia-vcm">Commandes avant le</p>
             <p className="font-display text-2xl text-white">{ORDER_DEADLINE}</p>
+            <p className="mt-0.5 text-[0.65rem] font-semibold text-white/80">🎄 {ORDER_DELIVERY}</p>
           </motion.div>
         </div>
       </div>
@@ -340,7 +341,7 @@ function Catalogue() {
 const STEPS = [
   { Icon: ShoppingBag, title: "Je commande", text: `Je choisis mes articles, ma taille et mon prénom + numéro, avant le ${ORDER_DEADLINE}.` },
   { Icon: CreditCard, title: "Je paie en ligne", text: "Paiement sécurisé directement sur le site du club. Reçu par e-mail." },
-  { Icon: PackageCheck, title: "Je récupère", text: "Au gymnase Louis Boudou ou à l'entraînement, une fois la commande groupée livrée au club." },
+  { Icon: PackageCheck, title: "Je récupère", text: `${ORDER_DELIVERY}, au gymnase Louis Boudou ou à l'entraînement, dès que la commande groupée arrive au club.` },
 ];
 
 function HowItWorks() {

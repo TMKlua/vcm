@@ -7,10 +7,29 @@ import { CHRISTMAS } from "@/data/seasonal";
 
 /* ── Neige en profondeur ────────────────────────────────────────────────── */
 
+/** Flocon pré-dessiné (cœur lumineux, bord estompé), réutilisé à chaque image. */
+function flakeSprite(px: number): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = c.height = Math.max(2, Math.ceil(px * 2));
+  const g = c.getContext("2d")!;
+  const r = c.width / 2;
+  const grad = g.createRadialGradient(r * 0.7, r * 0.7, 0, r, r, r);
+  grad.addColorStop(0, "rgba(255,255,255,1)");
+  grad.addColorStop(0.6, "rgba(240,236,255,0.7)");
+  grad.addColorStop(1, "rgba(230,224,255,0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, c.width, c.height);
+  return c;
+}
+
 /**
  * Flocons sur trois plans : loin (petits, lents, pâles), milieu, près (gros,
- * rapides, légèrement flous). Le vent suit doucement la souris, plus fort sur
- * les plans proches : un vrai effet de profondeur.
+ * rapides). Le vent suit doucement la souris, plus fort sur les plans proches.
+ *
+ * Pensé pour les téléphones : flocons pré-dessinés (aucun dégradé recalculé
+ * par image), moins de flocons et une résolution plafonnée sur écran tactile,
+ * vitesse indexée sur le temps (identique à 60 et 120 Hz), et la barre
+ * d'adresse de Safari qui se replie ne relance plus la neige.
  */
 function Snow() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -19,63 +38,78 @@ function Snow() {
     const canvas = ref.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
-    let w = 0, h = 0, raf = 0, wind = 0, windTarget = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    type Flake = { x: number; y: number; z: number; r: number; vy: number; phase: number };
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+    const dpr = Math.min(window.devicePixelRatio || 1, touch ? 1.5 : 2);
+    let w = 0, h = 0, raf = 0, last = 0, wind = 0, windTarget = 0;
+    type Flake = { x: number; y: number; z: number; r: number; vy: number; phase: number; a: number; sprite: HTMLCanvasElement };
     let flakes: Flake[] = [];
+    // Quelques tailles de flocons, dessinées une fois pour toutes.
+    const SIZES = [1, 1.6, 2.4, 3.4, 4.6, 6.2];
+    const sprites = SIZES.map((r) => flakeSprite(r * dpr));
 
     const make = (anywhere: boolean): Flake => {
       const z = Math.random(); // 0 = loin, 1 = près
+      const r = (0.7 + z * z * 3.4) * (z > 0.85 ? 1.6 : 1);
+      const k = SIZES.findIndex((s) => s >= r);
       return {
         x: Math.random() * w,
         y: anywhere ? Math.random() * h : -12,
         z,
-        r: 0.7 + z * z * 3.4,
+        r: SIZES[k === -1 ? SIZES.length - 1 : k],
         vy: 0.2 + z * 1.1,
         phase: Math.random() * Math.PI * 2,
+        a: 0.25 + z * 0.6,
+        sprite: sprites[k === -1 ? sprites.length - 1 : k],
       };
     };
 
-    const resize = () => {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+    const fit = () => {
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.min(140, Math.round((w * h) / 11000));
+    };
+
+    const resize = () => {
+      const nw = window.innerWidth, nh = window.innerHeight;
+      if (nw === w) {
+        // Seule la hauteur change (barre d'adresse mobile) : on garde les flocons.
+        if (nh !== h) { h = nh; fit(); }
+        return;
+      }
+      w = nw;
+      h = nh;
+      fit();
+      const n = Math.min(touch ? 45 : 110, Math.round((w * h) / (touch ? 16000 : 12000)));
       flakes = Array.from({ length: n }, () => make(true)).sort((a, b) => a.z - b.z);
     };
 
     const onMove = (e: PointerEvent) => {
-      windTarget = (e.clientX / w - 0.5) * 1.6;
+      if (e.pointerType === "mouse") windTarget = (e.clientX / w - 0.5) * 1.6;
     };
 
-    const tick = () => {
-      wind += (windTarget - wind) * 0.02;
+    const tick = (t: number) => {
+      // Pas de temps en images à 60 Hz, borné après une pause.
+      const dt = last ? Math.min(3, (t - last) / 16.67) : 1;
+      last = t;
+      wind += (windTarget - wind) * 0.02 * dt;
       ctx.clearRect(0, 0, w, h);
       for (const f of flakes) {
-        f.phase += 0.008 + f.z * 0.01;
-        f.y += f.vy;
-        f.x += Math.sin(f.phase) * (0.2 + f.z * 0.4) + wind * (0.3 + f.z);
+        f.phase += (0.008 + f.z * 0.01) * dt;
+        f.y += f.vy * dt;
+        f.x += (Math.sin(f.phase) * (0.2 + f.z * 0.4) + wind * (0.3 + f.z)) * dt;
         if (f.y > h + 12) Object.assign(f, make(false));
         if (f.x < -12) f.x = w + 12;
         if (f.x > w + 12) f.x = -12;
-        // Flocon en volume : cœur lumineux, bord qui s'estompe.
-        const g = ctx.createRadialGradient(f.x - f.r * 0.3, f.y - f.r * 0.3, 0, f.x, f.y, f.r);
-        const a = 0.25 + f.z * 0.6;
-        g.addColorStop(0, `rgba(255,255,255,${a})`);
-        g.addColorStop(0.6, `rgba(240,236,255,${a * 0.7})`);
-        g.addColorStop(1, "rgba(230,224,255,0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r * (f.z > 0.85 ? 1.6 : 1), 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = f.a;
+        ctx.drawImage(f.sprite, f.x - f.r, f.y - f.r, f.r * 2, f.r * 2);
       }
+      ctx.globalAlpha = 1;
       raf = requestAnimationFrame(tick);
     };
 
     const onVisibility = () => {
       cancelAnimationFrame(raf);
+      last = 0;
       if (!document.hidden) raf = requestAnimationFrame(tick);
     };
 
@@ -92,7 +126,7 @@ function Snow() {
     };
   }, []);
 
-  return <canvas ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-[45] h-screen w-screen" />;
+  return <canvas ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-[45] size-full" />;
 }
 
 /* ── Guirlande ──────────────────────────────────────────────────────────── */
@@ -279,14 +313,17 @@ export function SantaHat({ size = 64 }: { size?: number }) {
         <path d={brim} fill="none" stroke="#1a0b3a" strokeOpacity="0.45" strokeWidth="12" filter="url(#hat-soft)" transform="translate(1.5 5)" />
       </g>
 
-      <g filter="url(#hat-drop)">
-        {/* Pointe qui retombe sur le côté, avec le pompon : seule partie animée,
-            elle pivote au pli (14, -36). Dessinée sous le dôme pour cacher la jointure. */}
-        <g>
+      {/* Pointe qui retombe sur le côté, avec le pompon : seule partie animée,
+          elle pivote au pli (14, -36). Dessinée sous le dôme pour cacher la
+          jointure. Pas de filtre sur cette partie (recalculé à chaque image,
+          trop coûteux sur mobile) : son ombre est une copie sombre décalée. */}
+      <g>
           {!still && (
             <animateTransform attributeName="transform" type="rotate" values="-4 14 -36; 7 14 -36; -4 14 -36" dur="2.2s" repeatCount="indefinite" calcMode="spline" keyTimes="0; 0.5; 1" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
           )}
           {/* Base large, glissée sous le dôme : aucune coupure quand la pointe pivote en (14, -36). */}
+          <path d="M -4 -41 C 12 -47, 32 -45, 43 -31 C 46 -26, 47.5 -20, 47 -15 L 40 -13 C 38 -24, 30 -31, 18 -31 C 10 -31, 2 -29, -6 -26 Z" fill="#000" opacity="0.28" transform="translate(0.8 2)" />
+          <circle cx="44.8" cy="-8" r="7" fill="#000" opacity="0.25" />
           <path d="M -4 -41 C 12 -47, 32 -45, 43 -31 C 46 -26, 47.5 -20, 47 -15 L 40 -13 C 38 -24, 30 -31, 18 -31 C 10 -31, 2 -29, -6 -26 Z" fill="url(#hat-tip)" />
           <path d="M 18 -42 C 30 -42, 40 -34, 45 -20 C 38 -30, 30 -36, 20 -38 Z" fill="#ffffff" opacity="0.18" />
           {/* Pompon : balancement propre, accroché au bout de la pointe (44, -16) */}
@@ -297,7 +334,8 @@ export function SantaHat({ size = 64 }: { size?: number }) {
             <circle cx="44" cy="-10" r="7" fill="url(#hat-pompom)" />
             <circle cx="41.5" cy="-13" r="2.2" fill="#ffffff" opacity="0.95" />
           </g>
-        </g>
+      </g>
+      <g filter="url(#hat-drop)">
         {/* Corps du bonnet, fixe : dôme en velours posé sur le logo */}
         {/* Le bas du dôme suit l'arc du logo (sous la fourrure) : aucun rouge ne dépasse dessous. */}
         <path

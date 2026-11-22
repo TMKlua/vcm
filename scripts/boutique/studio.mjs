@@ -713,7 +713,7 @@ async function main() {
     await save(out, box([800, 1360, 1500]), "sac-a-dos-vcm--noir");
   }
 
-  /* Gourde sport à bouchon clapet : turquoise → blanc, logo et « VCM » cintrés.
+  /* Gourde sport à bouchon clapet : turquoise → blanc, grand logo cintré.
      Positions relevées sur une photo de 1200 px de large. */
   {
     const im = await load(src("gourde_sport"));
@@ -730,9 +730,8 @@ async function main() {
       const v = 175 + 75 * Math.min(1, L[i] * 1.6);
       for (let c = 0; c < 3; c++) white.d[i * 3 + c] = white.d[i * 3 + c] * (1 - a) + v * a;
     }
-    // Grand écusson et « VCM » en gros dessous (la devise a été retirée).
-    let out = stamp(white, logo, sc({ cx: 617, cy: 790, d: 330, mode: "ink", cyl: 163, disp: 0 }));
-    out = stamp(out, await textArt("vcm"), sc({ cx: 617, cy: 1075, d: 240, mode: "ink", cyl: 163, disp: 0 }));
+    // Grand écusson seul, centré sur le corps de la gourde.
+    const out = stamp(white, logo, sc({ cx: 617, cy: 900, d: 330, mode: "ink", cyl: 163, disp: 0 }));
     // Le fond est généré : on agrandit la toile pour cadrer large, sans couper le bouchon.
     const pad = 300 * K;
     const big = { d: new Float32Array((im.w + 2 * pad) * (im.h + pad) * 3), w: im.w + 2 * pad, h: im.h + pad };

@@ -42,14 +42,17 @@ h1, h2, h3, .font-display {
 }
 
 /* Guirlande de Noël (components/seasonal/ChristmasTheme.tsx) : ampoules qui scintillent. */
+/* Opacité seule : animée par le GPU, sans repeindre la page à chaque image. */
 @keyframes vcm-twinkle {
-  0%, 100% { opacity: 1; filter: brightness(1.15); }
-  50% { opacity: 0.35; filter: brightness(0.7); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 .vcm-bulb {
   animation: vcm-twinkle 2.4s ease-in-out infinite;
 }
-@media (prefers-reduced-motion: reduce) {
+/* Sur mobile et en mouvement réduit, ampoules allumées fixes : la guirlande
+   passe derrière la barre floutée, qui sinon recalculerait son flou en continu. */
+@media (prefers-reduced-motion: reduce), (max-width: 1023px), (pointer: coarse) {
   .vcm-bulb { animation: none; }
 }
 

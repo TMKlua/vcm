@@ -1,3 +1,4 @@
+import type { PackTier } from "@/data/partnerPacks";
 import type {
   ClubInfo,
   Stat,
@@ -457,6 +458,8 @@ export interface SiteText {
       becomeKicker?: string;
       /** Intitulés des trois niveaux de partenariat. */
       tiers?: { label: string; description: string }[];
+      /** Intitulé et légende de chaque pack partenaire (voir src/data/partnerPacks.ts). */
+      packs?: Partial<Record<PackTier, { label: string; description: string }>>;
       becomeCtaTitle?: string;
       contactCta?: string;
       /** Les vignettes « contreparties » du bloc Devenir partenaire. */

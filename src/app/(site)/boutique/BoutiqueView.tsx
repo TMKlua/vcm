@@ -177,7 +177,7 @@ function ShopHero({ breadcrumbLabel, homeLabel }: { breadcrumbLabel: string; hom
           <Reveal delay={0.3}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">
               Soutenez votre club au quotidien et sur les terrains avec la collection officielle du Volley Club
-              Marseillanais : sweats, tee-shirt personnalisé, sac, gourde et tote bag aux couleurs du VCM.
+              Marseillanais : sweats, tee-shirt personnalisé, chaussettes, sac, gourde et tote bag aux couleurs du VCM.
             </p>
           </Reveal>
           <Reveal delay={0.4}>

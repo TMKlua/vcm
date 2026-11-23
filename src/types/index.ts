@@ -44,7 +44,7 @@ export interface NewsArticle {
 
 export interface ClubEvent { id: string; title: string; date: string; location: string; description: string; image: string }
 
-export interface Partner { name: string; logo: string; url?: string; tier: "principal" | "officiel" | "institutionnel" }
+export interface Partner { name: string; logo: string; url?: string; tier: "digital" | "gymnase" | "evenement" | "match" | "principal" | "officiel" | "institutionnel" }
 
 export interface GalleryImage { src: string; alt: string; width: number; height: number; category: string }
 

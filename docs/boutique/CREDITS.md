@@ -17,3 +17,5 @@ Le porte-clés décapsuleur n'a pas de photo source : c'est un rendu 3D studio d
 Les identifiants courts s'ouvrent avec `https://unsplash.com/photos/<identifiant>`, ceux qui commencent par `photo-` avec `https://images.unsplash.com/<identifiant>`.
 
 Les personnes qui apparaissent sur ces photos ne sont **pas** membres du club. Avant une mise en ligne publique, il vaut mieux les remplacer par un vrai shooting avec des licenciés et les articles reçus du fournisseur.
+
+- Chaussettes VCM : maquette fournie par le club (2026-11-23), détourée (rembg) et posée sur le fond studio par `scripts/boutique/chaussettes-studio.mjs`.

@@ -20,13 +20,14 @@ import MagneticButton from "@/components/ui/MagneticButton";
 import PartnerLogo from "@/components/ui/PartnerLogo";
 import { useContent } from "@/content/ContentContext";
 import { useNavLabel } from "@/data/useNavLinks";
+import { packText, PACK_TIERS } from "@/data/partnerPacks";
+import type { Partner } from "@/types";
 
 // ── Tier configuration ────────────────────────────────────────────────────────
 
-type Tier = "principal" | "officiel" | "institutionnel";
-
+// Anciens niveaux, conservés pour les partenaires publiés avant les packs.
 const TIER_GROUPS: {
-  tier: Tier;
+  tier: "principal" | "officiel" | "institutionnel";
   label: string;
   description: string;
   gridClass: string;
@@ -97,11 +98,24 @@ export default function PartenairesView() {
   const t = content.text.pages.partenaires;
   const breadcrumbLabel = useNavLabel("partenaires", "Partenaires");
   // Intitulés des niveaux éditables ; les classes de grille restent en code.
-  const tierGroups = TIER_GROUPS.map((g, i) => ({
+  const legacyGroups = TIER_GROUPS.map((g, i) => ({
     ...g,
     label: t.tiers?.[i]?.label ?? g.label,
     description: t.tiers?.[i]?.description ?? g.description,
   }));
+  // Packs (plaquette du club) : intitulé et légende éditables dans /admin › Partenaires.
+  const packGroups: { tier: Partner["tier"]; label: string; description: string; gridClass: string }[] =
+    PACK_TIERS.map((tier) => ({
+      tier,
+      ...packText(t.packs, tier),
+      gridClass: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6",
+    }));
+  // Packs d'abord, les institutions en dernier.
+  const tierGroups = [
+    ...legacyGroups.filter((g) => g.tier !== "institutionnel"),
+    ...packGroups,
+    ...legacyGroups.filter((g) => g.tier === "institutionnel"),
+  ];
   const contreparties = t.benefits?.length ? t.benefits : fallbackContreparties;
   const ui = content.text.ui;
 

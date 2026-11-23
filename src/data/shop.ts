@@ -173,6 +173,20 @@ const catalogue: Product[] = [
     details: ["Isotherme", "Bouchon sport sécurisé", "Emblème officiel du club", "Coloris blanc"],
   },
   {
+    slug: "chaussettes-vcm",
+    name: "Chaussettes VCM",
+    tagline: "Le club jusqu'au bout des orteils",
+    kind: "socks",
+    category: "textile",
+    price: 8,
+    badge: "Nouveau",
+    colors: [shot("chaussettes-vcm", "blanc")],
+    sizes: ["Taille unique"],
+    description:
+      "Du smash sur le parquet au style en dehors du terrain, affichez fièrement le logo du Volley Club Marseillanais jusqu'au bout des orteils ! Simples, blanches et prêtes pour tous vos matchs.",
+    details: ["Logo du club imprimé", "Coloris blanc", "Taille unique"],
+  },
+  {
     slug: "tote-bag-vcm",
     name: "Tote bag coton VCM",
     tagline: "Beige ou noir",

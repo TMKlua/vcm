@@ -4,9 +4,10 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Partner } from "@/types";
 import { useContent } from "@/content/ContentContext";
+import { isPackTier, packText } from "@/data/partnerPacks";
 
 // Tier display labels in French — repli si le contenu ne fournit rien.
-const TIER_BADGE: Record<Partner["tier"], string> = {
+const TIER_BADGE: Partial<Record<Partner["tier"], string>> = {
   principal: "Principal",
   officiel: "Officiel",
   institutionnel: "Institutionnel",
@@ -14,6 +15,10 @@ const TIER_BADGE: Record<Partner["tier"], string> = {
 
 // Subtle tier accent colour (text class)
 const TIER_COLOR: Record<Partner["tier"], string> = {
+  match: "text-fuchsia-vcm",
+  evenement: "text-fuchsia-vcm",
+  gymnase: "text-violet-500",
+  digital: "text-violet-500",
   principal: "text-fuchsia-vcm",
   officiel: "text-violet-500",
   institutionnel: "text-white/70",
@@ -25,7 +30,10 @@ interface PartnerLogoProps {
 
 export default function PartnerLogo({ partner }: PartnerLogoProps) {
   const prefersReducedMotion = useReducedMotion();
-  const badges = useContent().content.text.ui?.partnerTierBadges;
+  const { text } = useContent().content;
+  const badge = isPackTier(partner.tier)
+    ? packText(text.pages.partenaires.packs, partner.tier).label
+    : text.ui?.partnerTierBadges?.[partner.tier] || TIER_BADGE[partner.tier];
 
   const tile = (
     <motion.div
@@ -69,7 +77,7 @@ export default function PartnerLogo({ partner }: PartnerLogoProps) {
             TIER_COLOR[partner.tier],
           ].join(" ")}
         >
-          {badges?.[partner.tier] || TIER_BADGE[partner.tier]}
+          {badge}
         </span>
       </div>
 

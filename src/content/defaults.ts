@@ -1,3 +1,4 @@
+import { DEFAULT_PACKS } from "@/data/partnerPacks";
 import { club } from "@/data/club";
 import { stats } from "@/data/stats";
 import { teams } from "@/data/teams";
@@ -456,6 +457,7 @@ const text: SiteText = {
       wallIntro:
         "De la commune à nos sponsors locaux, chaque partenaire contribue à faire vivre le volleyball à Marseillan. Merci à eux.",
       becomeKicker: "Rejoignez-nous",
+      packs: DEFAULT_PACKS,
       tiers: [
         {
           label: "Partenaire Principal",

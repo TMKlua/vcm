@@ -7,6 +7,8 @@ import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useContent } from "@/content/ContentContext";
+import { isPackTier, packText, PACK_TIERS } from "@/data/partnerPacks";
+import type { Partner } from "@/types";
 
 /**
  * PartnersStrip — partners/sponsors section.
@@ -26,12 +28,8 @@ const TIER_LABELS: Record<string, string> = {
   officiel: "Partenaires officiels",
 };
 
-// Group partners by tier for display
-const tierOrder: Array<"institutionnel" | "principal" | "officiel"> = [
-  "institutionnel",
-  "principal",
-  "officiel",
-];
+// Group partners by tier for display : institutions, anciens niveaux, puis packs.
+const tierOrder: Partner["tier"][] = ["institutionnel", "principal", "officiel", ...PACK_TIERS];
 
 export default function PartnersStrip() {
   const { content } = useContent();
@@ -121,7 +119,9 @@ export default function PartnersStrip() {
                 {/* Tier label */}
                 <Reveal delay={0.05}>
                   <p className="mb-6 text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-white/70">
-                    {text.ui?.partnerTierTitles?.[tier] || TIER_LABELS[tier]}
+                    {isPackTier(tier)
+                      ? packText(text.pages.partenaires.packs, tier).label
+                      : text.ui?.partnerTierTitles?.[tier] || TIER_LABELS[tier]}
                   </p>
                 </Reveal>
 
